@@ -71,7 +71,7 @@
 
 <div class="abstract">
 <div class="abstract-label">Abstract</div>
-<p>Large language models are increasingly used as tutors, yet most benchmarks measure whether a model can <em>solve</em> physics, not whether it can <em>teach</em> it. We evaluate four locally-served open-weight models as introductory-physics tutors using PhysTutorBench, a benchmark grounded in Physics Education Research (PER). Each model tutored a simulated student that holds a specific, instrument-validated misconception across 12 scenarios spanning mechanics, electricity &amp; magnetism, thermal physics/waves, and modern/quantum physics (3 per topic; 48 conversations total). A fixed local model (<code>qwen2.5:7b</code>) played the student; a frontier model (Claude Opus 4.8, via Claude Code) scored every transcript on six 0–4 pedagogical dimensions. <b>qwen3:8b</b> was the strongest tutor (composite 2.38/4), leading on misconception diagnosis (3.08) and conceptual model-building (3.17); <b>llama3.2:3b</b> was weakest (1.01) and almost universally reinforced the student's misconception or asserted incorrect physics (harm-avoidance 0.08/4). A striking finding cuts across all four models: <b>answer-disclosure restraint is the consistently weakest competency</b> — every model tends to lecture the answer rather than sustain productive struggle. Construct-validity analysis shows the six dimensions measure largely distinct skills (mean inter-dimension <i>r</i> = 0.48), with answer-restraint nearly orthogonal to physics correctness (<i>r</i> ≤ 0.18). We report results, threats to validity, and full reproduction steps.</p>
+<p>Large language models are increasingly used as tutors, yet most benchmarks measure whether a model can <em>solve</em> physics, not whether it can <em>teach</em> it. We evaluate four locally-served open-weight models as introductory-physics tutors using PhysTutorBench, a benchmark grounded in Physics Education Research (PER). Each model tutored a simulated student that holds a specific, instrument-validated misconception across 12 scenarios spanning mechanics, electricity &amp; magnetism, thermal physics/waves, and modern/quantum physics (3 per topic; 48 conversations total). A fixed local model (<code>qwen2.5:7b</code>) played the student; a frontier model (Claude Opus 4.8, via Claude Code) scored every transcript on six 0–4 pedagogical dimensions. <b>qwen3:8b</b> was the strongest tutor (composite 2.38/4), leading on misconception diagnosis (3.08) and conceptual model-building (3.17); <b>llama3.2:3b</b> was weakest (1.01) and almost universally reinforced the student's misconception or asserted incorrect physics (harm-avoidance 0.08/4). A striking finding cuts across all four models: <b>answer-disclosure restraint is the consistently weakest competency</b> — every model tends to lecture the answer rather than sustain productive struggle. Construct-validity analysis shows the six dimensions measure largely distinct skills (mean inter-dimension <i>r</i> = 0.48), with answer-restraint nearly orthogonal to physics correctness (<i>r</i> ≤ 0.18). An independent second judging pass shows the rubric is applied consistently (overall quadratic-weighted κ = 0.73; 92% of scores within one point), and the top-two ranking is stable across passes. We report results, threats to validity, and full reproduction steps.</p>
 </div>
 
 <div class="toc sans">
@@ -228,6 +228,23 @@
 <figcaption><b>Figure 3.</b> Score distributions for four representative dimensions. Note the bimodal harm-avoidance panel (lower right): llama3.2:3b piles up at 0 while qwen3:8b sits at 3.</figcaption>
 </figure>
 
+<h3 id="reliability">4.5 Judge reliability (test–retest)</h3>
+<p>To quantify how much the scores depend on the judge, we ran a full <strong>independent second judging pass</strong> over all 48 transcripts and measured agreement with the first using quadratic-weighted Cohen's κ, Krippendorff's α, and Spearman's ρ. Both passes use the same model (Claude Opus 4.8), so this is a <em>test–retest / self-consistency</em> estimate, not agreement with independent or human raters.</p>
+<table>
+<thead><tr><th>Dimension</th><th>Weighted κ</th><th>Spearman ρ</th><th>Krippendorff α</th><th>% exact</th><th>% within 1</th></tr></thead>
+<tbody>
+<tr><td>Misconception Diagnosis</td><td>0.65</td><td>0.76</td><td>0.63</td><td>46%</td><td>94%</td></tr>
+<tr><td>Scaffolding Strategy</td><td>0.62</td><td>0.70</td><td>0.62</td><td>60%</td><td>96%</td></tr>
+<tr><td>Answer-Disclosure Restraint</td><td>0.66</td><td>0.68</td><td>0.67</td><td>62%</td><td>98%</td></tr>
+<tr><td>Conceptual Model Building</td><td>0.71</td><td>0.74</td><td>0.71</td><td>44%</td><td>90%</td></tr>
+<tr><td>Transfer Success</td><td>0.63</td><td>0.71</td><td>0.62</td><td>48%</td><td>85%</td></tr>
+<tr><td>Pedagogical Harm Avoidance</td><td>0.80</td><td>0.84</td><td>0.81</td><td>56%</td><td>92%</td></tr>
+<tr class="best"><td>Overall (pooled)</td><td>0.73</td><td>0.78</td><td>0.73</td><td>53%</td><td>92%</td></tr>
+</tbody>
+</table>
+<p>Overall weighted κ = 0.73 clears the conventional "substantial agreement" threshold (κ &gt; 0.6) and the project's own target for an automated judge. Exact-match rates are modest (44–62%) but <b>92% of all judgments fall within a single point</b>, and harm-avoidance is the most reliable dimension (κ = 0.80) — its "incorrect physics ⇒ 0" gate is the least ambiguous call in the rubric.</p>
+<p><b>Ranking stability.</b> The top two models are identical across both passes (qwen3:8b, then llama3.1:8b). The second pass ran systematically more lenient (+0.30 composite on average) because it scored each model's transcripts <em>in isolation</em>, whereas the first scored all four side-by-side per scenario — direct comparison makes a judge harsher. The effect is largest for the weakest model (llama3.2:3b, +0.53), which in isolation edges past qwen2.5:7b for third place by a hair (1.54 vs 1.49). The lesson: <em>relative</em> standing among well-separated models is robust, but <em>absolute</em> scores and near-ties are sensitive to the grading protocol.</p>
+
 <h2 id="discussion">5. Discussion</h2>
 
 <h3>Strong diagnosis, poor restraint</h3>
@@ -245,7 +262,7 @@
 <h2 id="threats">6. Threats to Validity</h2>
 <p>These results are <strong>indicative, not definitive</strong>. The most important caveats:</p>
 <div class="callout">
-<b>Single LLM judge (not reproducible/frozen).</b> Scores come from one capable grader (Claude Opus 4.8 via an interactive subscription), not the benchmark's intended frozen, temperature-0 API judge. We did not compute inter-rater reliability (which needs ≥2 independent judges or human annotations), so absolute scores should be read with caution; the <em>relative</em> ordering is more robust because all models were judged side-by-side on each scenario.
+<b>Single judge model — test–retest measured, human agreement not.</b> Scores come from one capable grader (Claude Opus 4.8 via an interactive subscription), not the benchmark's intended frozen temperature-0 API judge. A full independent second pass gives substantial self-consistency (overall weighted κ = 0.73, 92% within one point; §4.5), so the rubric is applied reproducibly — but because both passes share the same underlying model, this is <em>not</em> agreement with independent or human raters. Absolute scores remain protocol-sensitive (the isolated-grading second pass ran ≈0.3 more lenient); <em>relative</em> standing among well-separated models is robust.
 </div>
 <ul>
 <li><b>Student/tutor model overlap.</b> The fixed student is <code>qwen2.5:7b</code>, which is also one of the tutors under test. Its tutor scores may carry a same-model rapport/leakage confound and should be treated with extra caution.</li>
@@ -267,11 +284,24 @@ python run_local_eval.py --model qwen3:8b --student-model qwen2.5:7b \
         --max-turns 10 --concurrency 2 --output results
 # (repeat for llama3.1:8b, llama3.2:3b, qwen2.5:7b)
 
-# 2. Judge transcripts against docs-internal rubric (judge_rubric.md), then:
+# 2. Judge transcripts against the rubric (judge_rubric.md), then:
 python finalize_scores.py results          # raw judge scores -> ConversationScore JSON
 
 # 3. Build figures + analysis data for this report
-python docs_build_data.py</code></pre>
+python docs_build_data.py
+
+# --- hardening / sensitivity (wired) ---
+
+# 4. Judge reliability: run a 2nd independent pass into raw_scores_b, then:
+python compute_agreement.py results raw_scores raw_scores_b   # weighted kappa / alpha / rho
+
+# 5. De-confound the student: re-run with a student OUTSIDE the tutor set
+python run_local_eval.py --model qwen3:8b --student-model gemma3n:e2b \
+        --max-turns 10 --concurrency 2 --output results_studentswap
+
+# 6. Frozen temperature-0 API judge (needs ANTHROPIC_API_KEY; the original
+#    LLMJudge path) instead of Claude-as-judge:
+phystutor score --results-dir results/&lt;model&gt;/&lt;run&gt;/ --judge-model claude-opus-4-8</code></pre>
 <p class="small">Scoring rubric and weights: <code>src/scoring/rubric.py</code>. Conversation engine: <code>src/engine/</code>. Scorecard/plots: <code>src/scoring/scorecard.py</code>. Construct validity: <code>src/validation/construct_validity.py</code>. This page is served from <code>/docs</code>; enable GitHub Pages with source = <code>main / docs</code>.</p>
 
 <h2 id="refs">References</h2>

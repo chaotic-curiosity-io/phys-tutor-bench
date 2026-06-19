@@ -1,0 +1,14 @@
+{
+  "conversation_id": "b4fba7ff-97b2-403e-9f8c-5aac1972f342",
+  "scenario_id": "mech-imp4-001",
+  "model_under_test": "qwen2.5:7b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor correctly identifies the 'motion requires a sustained force' (impetus) misconception and addresses it directly with Newton's first law, repeatedly contrasting Earth (friction/drag always present) with frictionless space. It validates the student's everyday intuition about things stopping on Earth, which is the right anchor, though it never names the misconception explicitly."},
+    "scaffolding_strategy":        {"score": 2, "justification": "Turn 1 asks 'what does that mean about external forces? Can you think of any other forces?' — genuine probing. But the tutor quickly answers for the student and from turn 2 on mostly lectures (Newton's first law stated and restated). It does bridge sticky-to-frictionless conceptually but does not have the student predict the limiting case themselves; scaffolding present but slides to telling."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "Turn 2 explicitly states the conclusion ('The toolbox will continue to move at 0.5 m/s indefinitely because there are no external forces acting on it'). The answer is given rather than constructed by the student."},
+    "conceptual_model_building":   {"score": 3, "justification": "It builds a genuinely transferable model: constant velocity is the natural state at zero net force, stopping is evidence of a force (friction), with the satellite/orbit example extending it. The Earth-vs-space and friction-as-cause framing generalizes beyond the specific toolbox, earning a 3 even though boundary conditions are not exhaustively stated."},
+    "transfer_success":            {"score": 1, "justification": "The hockey-puck transfer was answered in full by the TUTOR (it laid out both the frictionless case and the friction calculation). The student then merely worked an arithmetic distance problem the tutor handed it; it never independently produced the conceptual transfer (friction causes slowing; frictionless = constant velocity). No independent transfer."},
+    "pedagogical_harm_avoidance":  {"score": 3, "justification": "Physics is correct (Newton's first law, friction as the slowing agent, gravity could alter motion). Tone is patient and validating of the student's intuition. No misconception reinforced; supportive and engagement-preserving."}
+  }
+}

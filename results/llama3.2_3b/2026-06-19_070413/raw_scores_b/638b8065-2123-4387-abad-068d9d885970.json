@@ -1,0 +1,14 @@
+{
+  "conversation_id": "638b8065-2123-4387-abad-068d9d885970",
+  "scenario_id": "modq-qm9-001",
+  "model_under_test": "llama3.2:3b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 2, "justification": "The misconception is reading superposition as a classical 'definitely one slit, just unknown' mixture, whose tell is dark fringes (impossible for a mixture). The tutor gestures at amplitudes adding/cancelling and that it is 'more than probability,' but never crisply states that a mixture cannot produce dark fringes, and muddies it with which-path/collapse confusion. Implicitly addresses, never cleanly surfaces."},
+    "scaffolding_strategy": {"score": 1, "justification": "Mostly assertion plus a 'two doors' analogy that actually reinforces the classical 50/50 picture. The reasoning drifts into consciousness/decoherence/MWI digressions rather than scaffolding the interference-vs-mixture distinction at the student's level."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor tells throughout (and tells incorrect content). Little student-led construction; the student mostly agrees with whatever is stated."},
+    "conceptual_model_building": {"score": 0, "justification": "The model offered is wrong in load-bearing ways: it attributes dark fringes to 'wave function collapse' (turn 2: 'this isn't because there's some sort of cancellation effect ... it's due to the wave function collapse') — backwards; interference (amplitude cancellation) is exactly the mechanism, and it requires NO collapse. This builds an actively incorrect, non-transferable model."},
+    "transfer_success": {"score": 1, "justification": "On the Mach-Zehnder transfer problem the correct answer is: both paths open -> only D-bright; add a which-path marker -> interference destroyed, so D-dark now fires ~50%. The tutor tells the student there are 'no dark fringes at D-dark in either scenario' (turn 8), and the student adopts this. Wrong answer; the both-paths-open vs which-path contrast (the whole point) is lost. Misconception effectively persists."},
+    "pedagogical_harm_avoidance": {"score": 0, "justification": "Multiple incorrect-physics claims. Turn 2: dark fringes attributed to wave-function collapse rather than interference. Turn 8 (transfer): predicts no D-dark counts even WITH a which-path marker, exactly backwards, and asserts 'both paths are open and balanced, there's no possibility for interference to occur' — nonsensical. These reinforce the classical-mixture misconception. PHA 0."}
+  }
+}

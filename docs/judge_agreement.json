@@ -1,0 +1,70 @@
+{
+  "n_conversations": 48,
+  "passes": [
+    "raw_scores",
+    "raw_scores_b"
+  ],
+  "per_dimension": {
+    "misconception_diagnosis": {
+      "weighted_kappa": 0.6470588235294117,
+      "spearman": 0.7604754667824577,
+      "krippendorff_alpha": 0.6301857412968525,
+      "pct_exact": 0.4583333333333333,
+      "pct_within_1": 0.9375,
+      "mean_pass_a": 2.1041666666666665,
+      "mean_pass_b": 2.5833333333333335
+    },
+    "scaffolding_strategy": {
+      "weighted_kappa": 0.62406015037594,
+      "spearman": 0.6962657403386887,
+      "krippendorff_alpha": 0.6178600160901047,
+      "pct_exact": 0.6041666666666666,
+      "pct_within_1": 0.9583333333333334,
+      "mean_pass_a": 1.4791666666666667,
+      "mean_pass_b": 1.75
+    },
+    "answer_disclosure_restraint": {
+      "weighted_kappa": 0.664,
+      "spearman": 0.6793584455058619,
+      "krippendorff_alpha": 0.6674445740956826,
+      "pct_exact": 0.625,
+      "pct_within_1": 0.9791666666666666,
+      "mean_pass_a": 1.25,
+      "mean_pass_b": 1.2708333333333333
+    },
+    "conceptual_model_building": {
+      "weighted_kappa": 0.7103448275862069,
+      "spearman": 0.7388732088580112,
+      "krippendorff_alpha": 0.7092684348586418,
+      "pct_exact": 0.4375,
+      "pct_within_1": 0.8958333333333334,
+      "mean_pass_a": 1.75,
+      "mean_pass_b": 2.0416666666666665
+    },
+    "transfer_success": {
+      "weighted_kappa": 0.6307692307692307,
+      "spearman": 0.7058456361267911,
+      "krippendorff_alpha": 0.6220517192384201,
+      "pct_exact": 0.4791666666666667,
+      "pct_within_1": 0.8541666666666666,
+      "mean_pass_a": 1.9583333333333333,
+      "mean_pass_b": 2.4166666666666665
+    },
+    "pedagogical_harm_avoidance": {
+      "weighted_kappa": 0.8046373951652689,
+      "spearman": 0.8396656534954408,
+      "krippendorff_alpha": 0.8052190121155638,
+      "pct_exact": 0.5625,
+      "pct_within_1": 0.9166666666666666,
+      "mean_pass_a": 1.2291666666666667,
+      "mean_pass_b": 1.4583333333333333
+    }
+  },
+  "overall": {
+    "weighted_kappa": 0.7299052438797808,
+    "spearman": 0.7771849593495935,
+    "krippendorff_alpha": 0.726099422090003,
+    "pct_exact": 0.5277777777777778,
+    "pct_within_1": 0.9236111111111112
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "conversation_id": "7d08cc05-9bfa-4819-b3d9-14c3f80b0cdb",
+  "scenario_id": "mech-imp4-001",
+  "model_under_test": "llama3.1:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor correctly targets the 'motion requires a sustained force' misconception: turn 2 flags that the student's 'resistance' and 'energy running out' ideas are inaccurate, points out there is no air resistance in space, and asks 'will its momentum change... what would need to happen for it to change?' It addresses the right misconception directly, though it does not explicitly validate why the everyday intuition arises (friction is always present)."},
+    "scaffolding_strategy":        {"score": 3, "justification": "Well-matched questioning for an intro-algebra student: it isolates the absence of friction, reframes via momentum conservation, and uses the car analogy. The student is led to articulate constant velocity themselves. Appropriate, if a little quick to accept the student's conversion."},
+    "answer_disclosure_restraint": {"score": 2, "justification": "The tutor partly tells: turn 3 states outright 'it will continue moving at a constant velocity of 0.5 m/s indefinitely' and asks the student to agree, rather than having the student construct it first. Guidance with a notable slip into telling."},
+    "conceptual_model_building":   {"score": 2, "justification": "It connects 'no force, no slowing' and names Newton's first law / momentum conservation, but the model stays tied to this specific space scenario; it never reframes everyday stopping as evidence of friction (the key generalization in the expert strategy), partly because the conversation ended early. Limited generalization."},
+    "transfer_success":            {"score": 0, "justification": "The transfer problem was never reached. The conversation terminated at turn 4 with reason 'student_disengaged' before the hockey-puck transfer was posed, so transfer cannot be credited."},
+    "pedagogical_harm_avoidance":  {"score": 3, "justification": "Physics is correct (no friction means constant velocity; momentum conserved) and the tone is supportive and validating without overwhelming. No misconception reinforced and no incorrect physics. Engagement was maintained while it lasted, so harm is avoided, though the early disengagement caps the upside."}
+  }
+}

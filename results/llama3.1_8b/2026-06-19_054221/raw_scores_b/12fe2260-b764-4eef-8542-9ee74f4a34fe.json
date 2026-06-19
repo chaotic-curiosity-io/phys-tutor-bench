@@ -1,0 +1,14 @@
+{
+  "conversation_id": "12fe2260-b764-4eef-8542-9ee74f4a34fe",
+  "scenario_id": "thwv-th3-001",
+  "model_under_test": "llama3.1:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor correctly identifies the 'metal is inherently cold' misconception and addresses it directly: turn 1 uses the warm-day metal-spoon counterexample to challenge inherent coldness, and turn 2 redirects to 'are you changing its temperature, or detecting a change in how heat flows?' It targets thermal conductivity / heat-transfer-rate as the real issue. Not a 4 because it does not explicitly invoke thermal equilibrium up front as the reason both objects share a temperature."},
+    "scaffolding_strategy":        {"score": 3, "justification": "Strong prediction-observation-explanation style questioning well-matched to the student: the sun-warmed-spoon counterexample creates cognitive conflict, then guides toward rate-of-heat-flow. The student constructs the conductivity explanation in their own words by turn 2-3. Appropriate, responsive scaffolding."},
+    "answer_disclosure_restraint": {"score": 3, "justification": "The tutor consistently guides rather than tells in the core exchange; the student articulates 'it's the rate at which my body loses heat, not the metal being colder' largely on their own. It confirms rather than pre-empts. Later experiment suggestions are expository but the conceptual answer was constructed by the student."},
+    "conceptual_model_building":   {"score": 3, "justification": "Builds a transferable model — 'feels cold' tracks rate of heat transfer (conductivity), not temperature; objects sharing an environment reach the same temperature — and extends it to radiators, insulated windows, and cookware. Generalizes well. Not a 4 because some later claims about conductivity/area are muddled rather than sharpening boundary conditions."},
+    "transfer_success":            {"score": 4, "justification": "On the metal-vs-plastic ice-tray transfer the student correctly states both trays are at the same (freezer) temperature and that the metal feels colder because its high thermal conductivity pulls heat from the hand faster — exactly the success criteria, applied independently."},
+    "pedagogical_harm_avoidance":  {"score": 2, "justification": "Core physics is correct and the tone is supportive, so no harm to the target concept. However it is held to 2 rather than 3 by several incorrect side claims in the extension material: turn 5 says 'thicker metals typically have lower thermal conductivity per unit area' (conductivity is a material property, not thickness-dependent) and turn 9 claims wrapping a plastic tray in aluminum foil would 'make it feel colder.' These minor errors muddy an otherwise sound lesson."}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "conversation_id": "c10833d3-6689-4506-807d-a3c4e9720891",
+  "scenario_id": "mech-grav1-001",
+  "model_under_test": "qwen3:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 3, "justification": "Turn 1 explicitly engages the GRAV1 'heavier falls faster' misconception and the key root (mass cancels because F=mg and a=F/m so a=g), directly addressing why more gravitational force does not win. It channels the student's own competing intuition. It does not foreground the dual role of mass (more force AND more inertia) as crisply as a 4 would, so 3."},
+    "scaffolding_strategy": {"score": 2, "justification": "Turn 1-2 show the mass-cancellation derivation and a calculation the student requested, with some genuine guiding. But the conversation quickly becomes the student driving with new questions and the tutor delivering full expository answers (terminal velocity, drag formula, satellites, radiation pressure) — informative but not calibrated scaffolding toward the core misconception."},
+    "answer_disclosure_restraint": {"score": 0, "justification": "Turn 1 immediately gives the complete answer ('all objects fall with the same acceleration... they land at the same time') with the full a=g derivation and the kinematic time calculation. No productive struggle preserved."},
+    "conceptual_model_building": {"score": 3, "justification": "Builds a transferable model (a=g independent of mass; air resistance as the separate real-world factor depending on shape/area) and validates the student's correct air-resistance intuition. Generalizes beyond the case, but mass-twice-cancellation (Galileo's taped-objects argument) is never used and boundary conditions are a bit muddled (e.g., 'no gravity in deep space' tangent), so 3."},
+    "transfer_success": {"score": 4, "justification": "The transfer (hammer vs feather on the airless Moon, then contrast with Earth) is posed at turn 7. The student does not get a separate visible answer turn for it, but the immediately preceding exchanges show the student correctly applying the concept (vacuum -> same time regardless of mass; Earth -> air resistance makes feather lag) in multiple analogous cases (lead/foam, bowling/tennis ball, BB/feather), demonstrating independent, correct transfer of the principle."},
+    "pedagogical_harm_avoidance": {"score": 3, "justification": "Physics is correct (a=g, drag depends on shape/area/speed, terminal velocity). The tutor is encouraging and validates the student's curiosity and correct intuitions, maintaining strong engagement. Some over-long tangents but no harm; supportive, so 3."}
+  }
+}
