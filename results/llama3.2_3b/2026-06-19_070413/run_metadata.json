@@ -1,0 +1,8 @@
+{
+  "model_under_test": "llama3.2:3b",
+  "student_model": "qwen2.5:7b",
+  "max_turns": 10,
+  "n_scenarios": 12,
+  "timestamp": "2026-06-19_070413",
+  "ollama_base": "http://localhost:11434"
+}

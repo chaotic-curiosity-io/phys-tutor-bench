@@ -1,0 +1,38 @@
+{
+  "id": "thwv-wv1-001",
+  "topic_area": "thermal_waves",
+  "subtopic": "wave_properties",
+  "level": "intro_algebra",
+  "problem_context": "A long horizontal rope is tied to a wall at the far end. A student holds the near end and flicks it once, sending a single pulse traveling down the rope toward the wall. A small piece of red tape is tied to the rope about halfway along. The teacher asks: as the pulse passes the tape, where does the tape end up, and does the rope material travel down to the wall with the pulse?",
+  "student_initial_response": "Wait, so the pulse moves toward the wall... doesn't it kind of carry the rope along with it? Like, doesn't the red tape get dragged toward the wall a little as the wave goes by? I always thought a wave pushes the stuff it's in forward, like how a wave at the beach pushes the water and the surfers toward shore. So wouldn't the tape move down the rope too?",
+  "misconception_tags": ["WV1_wave_matter_transport"],
+  "misconception_source": "MWCS",
+  "misconception_description": "Student believes that waves transport matter along with energy. The medium itself moves with the wave.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["a wave moves from one place to another", "waves carry energy", "a rope can be shaken to make a wave"],
+    "struggles_with": ["separating the motion of the wave pattern from the motion of the medium particles", "recognizing that medium particles oscillate about a fixed point and return", "interpreting beach-wave experience without the role of breaking and wind-driven currents"],
+    "affect": "uncertain_and_wrong",
+    "response_style": "question_asker"
+  },
+  "transfer_problem": "Fans at a stadium do 'the wave': each person stands up and then sits back down in sequence, so a hump of standing people sweeps all the way around the stadium. After the wave has gone completely around, has any single fan physically traveled around the stadium with it? What actually moved around the stadium?",
+  "transfer_success_criteria": "Student recognizes that no fan travels around the stadium; each person stays at their own seat and only moves up and down, while the pattern (the disturbance) and the energy it carries propagate around the ring. Mapping this back to the rope, the student concludes the red tape returns to its original position and only the pulse and its energy move toward the wall, not the rope material itself.",
+  "expert_strategy": {
+    "diagnosis": "WV1 — the student believes the medium is carried along with the wave, generalizing from the visual of ocean surf pushing surfers shoreward. Root cause is conflating the propagating disturbance and its energy with bulk transport of matter; the beach example is misleading because shoreward motion there comes from breaking waves and currents, not the wave's ideal transverse oscillation.",
+    "recommended_approach": "bridging_analogy via a relatable transverse example, with focused attention on a single medium particle",
+    "scaffolding_sequence": [
+      "Engage the student's question and focus attention on one tracked particle: ask what specifically the red tape does as the pulse arrives and after it leaves.",
+      "Elicit a prediction, then describe or demonstrate that the tape rises and falls and returns to its starting spot rather than sliding toward the wall.",
+      "Distinguish two motions explicitly: the pulse pattern moves along the rope, while each bit of rope only moves up and down (transverse to the travel direction).",
+      "Bridge with the stadium 'wave': no person travels around, yet the wave clearly goes around, separating pattern and energy transport from matter transport.",
+      "Revisit the beach intuition and reframe it: surfers move shoreward because waves break and wind and currents push water, not because an ideal wave carries the medium along.",
+      "Have the student restate, for the rope, that energy travels to the wall while the rope material stays in place, then test it on the stadium transfer problem."
+    ],
+    "common_pitfalls": [
+      "Asserting 'waves carry energy, not matter' as a slogan without having the student trace what one particle of the medium actually does.",
+      "Letting the ocean-surf example stand unexamined, since it genuinely involves some forward water motion and will keep reinforcing the misconception if not reframed.",
+      "Conflating transverse rope waves with longitudinal cases (like sound) too early, which can confuse the core point that medium particles oscillate about a fixed position and do not travel with the wave."
+    ]
+  }
+}

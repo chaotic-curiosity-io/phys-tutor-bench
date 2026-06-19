@@ -1,0 +1,252 @@
+{
+  "models": [
+    "llama3.1:8b",
+    "llama3.2:3b",
+    "qwen2.5:7b",
+    "qwen3:8b"
+  ],
+  "dimensions": [
+    {
+      "id": "misconception_diagnosis",
+      "abbr": "MD",
+      "name": "Misconception Diagnosis"
+    },
+    {
+      "id": "scaffolding_strategy",
+      "abbr": "SS",
+      "name": "Scaffolding Strategy"
+    },
+    {
+      "id": "answer_disclosure_restraint",
+      "abbr": "ADR",
+      "name": "Answer Disclosure Restraint"
+    },
+    {
+      "id": "conceptual_model_building",
+      "abbr": "CMB",
+      "name": "Conceptual Model Building"
+    },
+    {
+      "id": "transfer_success",
+      "abbr": "TS",
+      "name": "Transfer Success"
+    },
+    {
+      "id": "pedagogical_harm_avoidance",
+      "abbr": "PHA",
+      "name": "Pedagogical Harm Avoidance"
+    }
+  ],
+  "summary": {
+    "llama3.1:8b": {
+      "n_conversations": 12,
+      "composite_mean": 1.816666666666667,
+      "dimensions": {
+        "misconception_diagnosis": {
+          "mean": 2.0,
+          "std": 0.7071067811865476
+        },
+        "scaffolding_strategy": {
+          "mean": 2.0,
+          "std": 0.7071067811865476
+        },
+        "answer_disclosure_restraint": {
+          "mean": 2.0833333333333335,
+          "std": 0.9537935951882998
+        },
+        "conceptual_model_building": {
+          "mean": 1.4166666666666667,
+          "std": 0.9537935951882996
+        },
+        "transfer_success": {
+          "mean": 2.0833333333333335,
+          "std": 1.2555432644432802
+        },
+        "pedagogical_harm_avoidance": {
+          "mean": 1.0833333333333333,
+          "std": 1.114924013354971
+        }
+      }
+    },
+    "llama3.2:3b": {
+      "n_conversations": 12,
+      "composite_mean": 1.0083333333333333,
+      "dimensions": {
+        "misconception_diagnosis": {
+          "mean": 1.25,
+          "std": 0.5951190357119042
+        },
+        "scaffolding_strategy": {
+          "mean": 1.0833333333333333,
+          "std": 0.759202798262025
+        },
+        "answer_disclosure_restraint": {
+          "mean": 1.25,
+          "std": 0.7216878364870323
+        },
+        "conceptual_model_building": {
+          "mean": 0.6666666666666666,
+          "std": 0.6236095644623235
+        },
+        "transfer_success": {
+          "mean": 1.4166666666666667,
+          "std": 0.8620067027323834
+        },
+        "pedagogical_harm_avoidance": {
+          "mean": 0.08333333333333333,
+          "std": 0.2763853991962833
+        }
+      }
+    },
+    "qwen2.5:7b": {
+      "n_conversations": 12,
+      "composite_mean": 1.4791666666666667,
+      "dimensions": {
+        "misconception_diagnosis": {
+          "mean": 2.0833333333333335,
+          "std": 0.8620067027323833
+        },
+        "scaffolding_strategy": {
+          "mean": 1.0,
+          "std": 0.7071067811865476
+        },
+        "answer_disclosure_restraint": {
+          "mean": 0.6666666666666666,
+          "std": 0.4714045207910317
+        },
+        "conceptual_model_building": {
+          "mean": 1.75,
+          "std": 0.924211375534118
+        },
+        "transfer_success": {
+          "mean": 1.9166666666666667,
+          "std": 0.9537935951882998
+        },
+        "pedagogical_harm_avoidance": {
+          "mean": 1.25,
+          "std": 1.1636866703140785
+        }
+      }
+    },
+    "qwen3:8b": {
+      "n_conversations": 12,
+      "composite_mean": 2.379166666666667,
+      "dimensions": {
+        "misconception_diagnosis": {
+          "mean": 3.0833333333333335,
+          "std": 0.2763853991962833
+        },
+        "scaffolding_strategy": {
+          "mean": 1.8333333333333333,
+          "std": 0.6871842709362768
+        },
+        "answer_disclosure_restraint": {
+          "mean": 1.0,
+          "std": 0.5773502691896257
+        },
+        "conceptual_model_building": {
+          "mean": 3.1666666666666665,
+          "std": 0.5527707983925666
+        },
+        "transfer_success": {
+          "mean": 2.4166666666666665,
+          "std": 0.9537935951882998
+        },
+        "pedagogical_harm_avoidance": {
+          "mean": 2.5,
+          "std": 0.7637626158259734
+        }
+      }
+    }
+  },
+  "per_topic": {
+    "llama3.1:8b": {
+      "thermal_waves": {
+        "mean": 2.35,
+        "std": 1.0731573354670167,
+        "count": 3
+      },
+      "mechanics": {
+        "mean": 1.9333333333333336,
+        "std": 0.6355225321645872,
+        "count": 3
+      },
+      "em": {
+        "mean": 1.5833333333333333,
+        "std": 0.5390320542932076,
+        "count": 3
+      },
+      "modern_quantum": {
+        "mean": 1.4000000000000001,
+        "std": 0.1080123449734643,
+        "count": 3
+      }
+    },
+    "llama3.2:3b": {
+      "thermal_waves": {
+        "mean": 0.9833333333333334,
+        "std": 0.35668224265054493,
+        "count": 3
+      },
+      "em": {
+        "mean": 1.2,
+        "std": 0.45460605656619507,
+        "count": 3
+      },
+      "modern_quantum": {
+        "mean": 1.0499999999999998,
+        "std": 0.7071067811865475,
+        "count": 3
+      },
+      "mechanics": {
+        "mean": 0.8000000000000002,
+        "std": 0.17795130420052188,
+        "count": 3
+      }
+    },
+    "qwen2.5:7b": {
+      "mechanics": {
+        "mean": 2.0833333333333335,
+        "std": 0.18408935028645423,
+        "count": 3
+      },
+      "modern_quantum": {
+        "mean": 0.9666666666666667,
+        "std": 0.5249338582674541,
+        "count": 3
+      },
+      "thermal_waves": {
+        "mean": 1.5333333333333332,
+        "std": 0.3472111109333277,
+        "count": 3
+      },
+      "em": {
+        "mean": 1.3333333333333333,
+        "std": 0.873053390247253,
+        "count": 3
+      }
+    },
+    "qwen3:8b": {
+      "mechanics": {
+        "mean": 2.6666666666666665,
+        "std": 0.16996731711975957,
+        "count": 3
+      },
+      "modern_quantum": {
+        "mean": 2.3499999999999996,
+        "std": 0.0,
+        "count": 3
+      },
+      "thermal_waves": {
+        "mean": 1.8500000000000003,
+        "std": 0.12247448713915883,
+        "count": 3
+      },
+      "em": {
+        "mean": 2.65,
+        "std": 0.14719601443879726,
+        "count": 3
+      }
+    }
+  }
+}

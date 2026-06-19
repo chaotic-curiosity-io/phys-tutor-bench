@@ -1,0 +1,14 @@
+{
+  "conversation_id": "8556a180-20be-483c-985c-b1ddbb8fb9fe",
+  "scenario_id": "modq-qm2-001",
+  "model_under_test": "qwen2.5:7b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor correctly identifies that the student holds the disturbance/measurement-limitation view and explicitly distinguishes 'measurement limitations vs. fundamental uncertainty,' acknowledging the disturbance story has 'real physics in it' before correcting it. It names the intrinsic Fourier/wave-packet origin. It addresses the right misconception directly, though it does not deeply validate why the disturbance picture is so seductive."},
+    "scaffolding_strategy":        {"score": 1, "justification": "Despite the heading of 'questions,' the tutor essentially lectures across long multi-section turns, restating the Fourier and intrinsic-uncertainty argument repeatedly rather than eliciting reasoning. It poses few genuine questions to the student and does not adapt when the student keeps pushing back; it just re-delivers the same content."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor fully states the answer early ('it is an intrinsic property of quantum systems, not just a limitation of technology') and elaborates the complete explanation. The student is told the resolution rather than guided to it."},
+    "conceptual_model_building":   {"score": 3, "justification": "It builds a genuinely transferable model: the Fourier relationship between localization in one domain and spread in the conjugate domain, applicable to wave packets and (in the transfer) to time-frequency. It notes the bound constrains the state regardless of measurement technique, which is the correct generalization and boundary condition."},
+    "transfer_success":            {"score": 1, "justification": "The sound click/tone transfer was answered entirely by the TUTOR; the simulated student only restated/summarized the tutor's explanation. There is no independent demonstration that the student mapped time->position and frequency->momentum on its own; the student behavior degenerated into echoing."},
+    "pedagogical_harm_avoidance":  {"score": 2, "justification": "Physics is essentially correct (intrinsic uncertainty, Fourier origin, p = hbar k, the bound is a property of the state). Minor loose statements about wave-function collapse during measurement, but no misconception reinforced and no harmful moves. Correct but lecture-heavy; neutral."}
+  }
+}

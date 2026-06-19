@@ -1,0 +1,38 @@
+{
+  "id": "modq-qm2-001",
+  "topic_area": "modern_quantum",
+  "subtopic": "uncertainty_principle",
+  "level": "intro_calculus",
+  "problem_context": "In a modern physics class, the instructor states that for an electron prepared in a state with a very well-defined position (a narrow wave packet), its momentum is necessarily spread over a wide range of values, with the spread satisfying delta-x times delta-p of at least h-bar over 2. A student is asked: is this spread in momentum a statement about the limits of our measuring devices, or a statement about the electron itself?",
+  "student_initial_response": "I'm pretty sure this is about measurement. The reason we can't pin down both is that to measure where the electron is, you have to bounce a photon off it, and that photon kicks it and changes its momentum. So the act of measuring position disturbs the momentum, and vice versa. The electron really does have a definite position and momentum the whole time, we just can't get at both because our probe interferes. If we built a gentle enough instrument or used a longer-wavelength photon, we could get around the limit and measure both precisely.",
+  "misconception_tags": ["QM2_uncertainty_measurement_limitation"],
+  "misconception_source": "QMCS",
+  "misconception_description": "Student believes the uncertainty principle is about measurement limitations (clumsy instruments) rather than a fundamental property of nature.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_calculus",
+    "knows": ["the quantitative form delta-x times delta-p is at least h-bar over 2", "photons carry momentum and can recoil off particles", "an electron can be described by a wave packet"],
+    "struggles_with": ["distinguishing the disturbance picture from an intrinsic property of the quantum state", "connecting the spread in momentum to the Fourier content of the wave function", "accepting that the electron does not possess simultaneous sharp values of x and p prior to measurement"],
+    "affect": "confident_but_wrong",
+    "response_style": "verbose_reasoner"
+  },
+  "transfer_problem": "Consider a single musical note played on a speaker. If the speaker emits a very short click (a sound localized to a tiny instant in time), a frequency analyzer shows the click contains a broad band of frequencies; if instead the speaker holds a long, steady pure tone, the analyzer shows a very narrow band of frequencies. No microphone is bouncing anything off the sound or kicking it. Explain why a short-in-time pulse is necessarily broad in frequency, and then explain how this same mathematical relationship underlies why a wave packet that is narrow in position is necessarily broad in momentum.",
+  "transfer_success_criteria": "Student recognizes the time-frequency (Fourier) tradeoff in the sound example holds even though nothing is disturbing the wave, attributing the frequency spread to the shape of the signal itself rather than to a measuring device. They then map time to position and frequency to momentum (via p = h-bar times k), concluding that a position-localized wave packet must contain a broad range of wave numbers and therefore a broad range of momenta as an intrinsic feature of the state. They explicitly state the spread is a property of the wave function, not an artifact of a clumsy or disturbing measurement.",
+  "expert_strategy": {
+    "diagnosis": "The student holds the 'disturbance' or 'observer effect' interpretation of the uncertainty principle (QM2), conflating Heisenberg's microscope heuristic with the actual content of the theorem. The root is that the disturbance story is intuitive and is often taught first, so the student treats delta-x and delta-p as hidden definite values obscured by a clumsy probe, rather than as the irreducible spread of a single wave function whose position and momentum representations are Fourier transforms of each other.",
+    "recommended_approach": "bridging_analogy",
+    "scaffolding_sequence": [
+      "Acknowledge the disturbance story has real physics in it, then ask the student to consider a case with no probe at all: a wave packet sitting alone, never measured.",
+      "Introduce the classical wave analogy of a pulse versus a pure tone, asking the student to predict the frequency content of a very short click before any measurement.",
+      "Lead the student to see that a short-in-time signal mathematically must be built from many frequencies (a wide band), purely from how waves add up, with no measurement involved.",
+      "Map the analogy onto the quantum case: position localization corresponds to a narrow packet in x, which by the same Fourier relationship is built from many wave numbers k, hence many momenta p = h-bar times k.",
+      "Make the distinction explicit: the spread delta-p describes the range of momenta the state actually contains, so the electron does not possess one hidden sharp momentum waiting to be revealed.",
+      "Revisit Heisenberg's microscope and reframe it as one consistent consequence of the principle, not its cause, noting that even an ideal non-disturbing measurement cannot beat the bound because the bound is a property of the state."
+    ],
+    "common_pitfalls": [
+      "Reinforcing the disturbance picture by leaning on the photon-recoil microscope as the primary explanation, which cements the very misconception being targeted.",
+      "Asserting that uncertainty is 'fundamental' as a slogan without giving the student a mechanism (the Fourier/wave-packet structure) that makes intrinsic spread tangible.",
+      "Letting the student believe a sufficiently gentle or clever instrument could evade the bound, rather than confronting that the limit constrains the state itself regardless of measurement technique."
+    ]
+  }
+}

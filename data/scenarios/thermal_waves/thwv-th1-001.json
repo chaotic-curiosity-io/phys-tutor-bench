@@ -1,0 +1,38 @@
+{
+  "id": "thwv-th1-001",
+  "topic_area": "thermal_waves",
+  "subtopic": "temperature_heat",
+  "level": "intro_algebra",
+  "problem_context": "A 200 g block of aluminum and a 200 g block of copper are both pulled from the same oven, where they have been sitting long enough to reach the oven's temperature of 150 C. The teacher asks: which block contains more heat, and how do their temperatures compare right when they come out?",
+  "student_initial_response": "The aluminum has more heat. They're at the same temperature, but aluminum heats up faster, so it must hold more heat to get that hot. More heat means hotter, basically the same thing.",
+  "misconception_tags": ["TH1_temperature_heat_conflation"],
+  "misconception_source": "TCS",
+  "misconception_description": "Student conflates temperature and heat, using them interchangeably. Believes temperature measures the amount of heat in an object.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["a thermometer reads temperature in degrees", "objects can get hotter or colder", "energy can move from hot things to cold things"],
+    "struggles_with": ["distinguishing temperature as an intensive property from heat as energy transferred", "recognizing that specific heat and mass determine thermal energy content", "using the words heat and temperature as separate quantities"],
+    "affect": "confident_but_wrong",
+    "response_style": "terse_answerer"
+  },
+  "transfer_problem": "A lit birthday candle has a flame at about 1000 C. A bathtub full of warm water is at 40 C. Which one would transfer more energy to a block of ice dropped into it, and which one is at a higher temperature?",
+  "transfer_success_criteria": "Student separates the two ideas: the candle flame is at a far higher temperature, but the large mass of warm water can deliver much more thermal energy (heat) to the ice because heat transferred depends on mass and specific heat, not just temperature. A correct answer identifies the flame as hotter yet recognizes the bathtub as the larger reservoir of transferable energy.",
+  "expert_strategy": {
+    "diagnosis": "TH1 — the student uses 'heat' and 'temperature' as synonyms, treating temperature as a readout of how much heat an object stores. Root cause is everyday language ('how much heat is in it') colliding with the physics distinction between an intensive property (temperature) and an energy transfer (heat).",
+    "recommended_approach": "socratic_questioning with an anchoring_conception",
+    "scaffolding_sequence": [
+      "Affirm the correct part: at equilibrium in the oven, both blocks really are at the same temperature.",
+      "Probe the language: ask what 'heat' means to the student and whether a block 'has' heat or 'gains' heat, surfacing the conflation.",
+      "Introduce the distinction with an anchor: temperature is like the level of water in a glass (intensive), thermal energy is like the total amount of water (extensive, depends on size).",
+      "Compute together: Q = m c (delta T). Same m and same delta T, but copper and aluminum have different specific heats, so the energy each absorbed to reach 150 C differs, while their temperatures are identical.",
+      "Have the student restate which quantity the thermometer measures and which quantity Q = m c (delta T) measures, in their own words.",
+      "Apply to a new case (a thimble of boiling water vs a warm swimming pool) to test whether temperature and energy content have been decoupled."
+    ],
+    "common_pitfalls": [
+      "Just declaring 'heat and temperature are different' without giving the student a concrete way to tell them apart.",
+      "Jumping straight to the Q = m c (delta T) formula before the conceptual distinction is established, reinforcing rote plugging.",
+      "Dismissing the student's intuition that the blocks feel the same, when that intuition is actually correct about temperature and should be validated."
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "conversation_id": "df788afc-e860-4985-b1e5-2bebe8479401",
+  "scenario_id": "mech-grav1-001",
+  "model_under_test": "llama3.2:3b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 2, "justification": "The tutor states the correct headline (objects fall at the same rate regardless of mass, g independent of mass) but never surfaces the actual root — that more mass also means more inertia, so a = F/m yields the same g. It implicitly addresses the misconception while muddying it with momentum/velocity talk; the specific mechanism is never explicit."},
+    "scaffolding_strategy": {"score": 1, "justification": "Largely declarative with rhetorical questions, and the scaffolding actively wanders into an unrelated parachute-design tangent (turns 5–7) that abandons the fall-rate concept and confuses the student about air resistance."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor asserts the same-acceleration answer up front and then over-explains, while simultaneously contradicting it. Little genuine student-led construction."},
+    "conceptual_model_building": {"score": 0, "justification": "The model built is wrong. The tutor claims the heavier object 'would indeed have a higher velocity than the feather' right before impact in a vacuum (turn 4) and that 'the apple falls from a greater height than the dumbbell' (turn 2, false — same height). These corrupt the very model the lesson should build; nothing transferable and correct is established."},
+    "transfer_success": {"score": 1, "justification": "On the Moon hammer/feather transfer problem, the tutor's own answer is self-contradictory ('I predict that the hammer will reach the lunar surface before the feather' then 'Both objects will hit the lunar surface simultaneously'), and the student then adds a wrong Earth claim that the heavier hammer hits first due to drag (heavier/denser actually falls faster only because of LESS relative drag, but the framing reinforces 'heavy wins'). The misconception effectively reappears."},
+    "pedagogical_harm_avoidance": {"score": 0, "justification": "Repeated incorrect physics: turn 2 'the apple ... falls from a greater height than the dumbbell' (false); turns 3–4 'right before hitting the ground, the dumbbell would indeed have a higher velocity than the feather' in a vacuum (false — equal heights give equal speeds/times); and a self-contradictory transfer answer ('hammer first' vs 'simultaneously'). This reinforces the heavier-falls-faster misconception. PHA 0."}
+  }
+}

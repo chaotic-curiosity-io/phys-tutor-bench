@@ -1,0 +1,38 @@
+{
+  "id": "em-cir5-001",
+  "topic_area": "em",
+  "subtopic": "circuits",
+  "level": "intro_calculus",
+  "problem_context": "Two resistors are available: R1 = 10 ohms and R2 = 40 ohms. Each is connected, one at a time, across the SAME ideal 12 V battery. The student is asked to compare (a) the voltage across each resistor and (b) the current through each resistor, and to explain how voltage and current differ in this situation.",
+  "student_initial_response": "Okay so V = IR, that's Ohm's law. Since it's the same 12 V battery, the bigger resistor R2 has more resistance, so it has more voltage AND more current pushing through it — more voltage means more current, they go together. So I'd say R2 has the higher current. Voltage and current are basically the same push through the wire anyway, just measured differently.",
+  "misconception_tags": ["CIR5_voltage_current_conflation"],
+  "misconception_source": "DIRECT",
+  "misconception_description": "Student conflates voltage and current, using them interchangeably or not distinguishing their roles in circuit behavior.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_calculus",
+    "knows": ["Ohm's law V = IR as a formula", "a battery is rated in volts", "resistance is measured in ohms and opposes flow"],
+    "struggles_with": ["distinguishing voltage (potential difference) from current (charge flow rate)", "recognizing that the battery fixes voltage, not current", "interpreting which quantity is held constant versus which is computed in V = IR"],
+    "affect": "confident_but_wrong",
+    "response_style": "formula_plugger"
+  },
+  "transfer_problem": "A tall water tower maintains a fixed water pressure at its base. Two pipes of different inner diameters are connected, one at a time, to that base. Compare the water PRESSURE the tower provides to each pipe and the water FLOW RATE through each pipe. Which pipe carries the greater flow rate, and does the pressure differ between the two cases?",
+  "transfer_success_criteria": "Student identifies pressure (analogous to voltage) as the fixed driving quantity set by the tower, the same for both pipes, while flow rate (analogous to current) is determined by pressure divided by the pipe's resistance — so the wider, lower-resistance pipe carries MORE flow. Crucially, the student keeps pressure and flow rate as distinct quantities and does not claim 'more pressure means more flow' for the narrow pipe. Mapping pressure to voltage and flow rate to current explicitly demonstrates the concepts are no longer conflated.",
+  "expert_strategy": {
+    "diagnosis": "The student treats voltage and current as a single undifferentiated 'push,' so they read V = IR as 'more of one means more of the other' rather than as a relationship among three independent quantities. The root is the absence of distinct mental referents: voltage as potential difference (the cause) versus current as charge flow rate (the effect), and a failure to track which quantity the battery actually holds fixed.",
+    "recommended_approach": "socratic_questioning with a bridging_analogy (gravitational/water pressure) to give voltage and current separate physical meanings",
+    "scaffolding_sequence": [
+      "Ask the student to state the units and physical meaning of voltage and of current separately — surface that they currently describe both as the same 'push.'",
+      "Pin down what the battery guarantees: ask whether a 12 V battery fixes the volts across its terminals or the amps through the circuit, and lead them to see voltage is the controlled input here.",
+      "Rearrange Ohm's law together to I = V/R and have the student notice that with V held constant, increasing R must DECREASE I, contradicting 'more resistance, more current.'",
+      "Have the student compute both cases numerically (I1 = 12/10 = 1.2 A, I2 = 12/40 = 0.3 A) so the inverse relationship is concrete, while voltage stays 12 V across each.",
+      "Introduce the water-pressure analogy: pressure (voltage) set by the tower stays fixed; flow rate (current) depends on pressure divided by pipe resistance — separating cause from effect.",
+      "Ask the student to restate, in their own words, how voltage and current play different roles, and re-answer the original comparison correctly."
+    ],
+    "common_pitfalls": [
+      "Accepting the correct final numbers for current without confronting the conceptual claim that voltage and current are 'the same thing,' leaving the conflation intact.",
+      "Adding more formulas (power, equivalent resistance) before the student has separate physical meanings for voltage and current, which deepens formula-plugging.",
+      "Letting the student keep voltage as the dependent quantity — failing to make explicit that the battery fixes voltage and current is what changes between the two resistors."
+    ]
+  }
+}

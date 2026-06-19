@@ -1,0 +1,38 @@
+{
+  "id": "mech-grav1-001",
+  "topic_area": "mechanics",
+  "subtopic": "gravity",
+  "level": "intro_algebra",
+  "problem_context": "A demonstrator climbs onto a balcony and, at exactly the same instant, drops a heavy 5 kg dumbbell and a light 0.2 kg apple from the same height of 6 meters. Air resistance is negligible for both. Question: which one hits the ground first, or do they land at the same time?",
+  "student_initial_response": "Ooh, the dumbbell hits first, right? It's so much heavier than the apple. But wait — does the apple being lighter mean gravity pulls it less, so it's slower? Or does heavier just always mean faster falling? I feel like the heavy one has to win... but how do I actually know which one lands first?",
+  "misconception_tags": ["GRAV1_heavier_falls_faster"],
+  "misconception_source": "FCI",
+  "misconception_description": "Student believes that heavier objects fall faster than lighter ones in all situations, not just in the presence of air resistance.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["gravity pulls objects downward", "heavier objects have a larger weight (gravitational force)", "objects speed up as they fall"],
+    "struggles_with": ["recognizing that larger mass also means more inertia, so acceleration is the same", "the relationship a = F/m and that g is independent of mass", "distinguishing the effect of air resistance from the effect of mass on fall rate"],
+    "affect": "eager_but_wrong",
+    "response_style": "question_asker"
+  },
+  "transfer_problem": "On the airless Moon, an astronaut holds a steel hammer and a bird feather at the same height and releases them simultaneously. Predict whether the hammer or the feather reaches the lunar surface first, and explain your reasoning. Then state how your answer would differ on Earth and why.",
+  "transfer_success_criteria": "Student predicts the hammer and feather land at the same time on the Moon because there is no air resistance and gravitational acceleration is the same for all masses. They justify it by noting the heavier object has both more gravitational force and proportionally more inertia, so acceleration (a = F/m = g) is independent of mass. They correctly attribute any difference on Earth solely to air resistance acting on the feather, not to the feather being lighter in a fundamental sense.",
+  "expert_strategy": {
+    "diagnosis": "The student believes weight directly sets fall speed (GRAV1), reasoning that more gravitational force must mean faster falling. The root is neglecting that mass appears twice — as the source of greater gravitational force AND as greater inertia resisting acceleration — so the two effects cancel and acceleration is mass-independent. The student's confusion is productive: they are already sensing the competing effect ('does lighter mean gravity pulls it less?').",
+    "recommended_approach": "socratic_questioning",
+    "scaffolding_sequence": [
+      "Channel the student's own question: praise the insight that the heavier object is pulled harder, then ask whether being pulled harder is the whole story.",
+      "Introduce the second role of mass: ask whether a heavier object is also harder to get moving (more inertia), drawing on pushing a loaded vs. empty cart.",
+      "Guide the student to a = F_gravity / m and have them substitute F = mg to see the mass cancel, yielding a = g for any mass.",
+      "Use the thought experiment of taping the apple and dumbbell together: ask whether the pair should suddenly fall faster than either alone, exposing the contradiction in the heavier-falls-faster idea (Galileo's argument).",
+      "Cite or describe the Apollo 15 hammer-and-feather demonstration as concrete confirmation in a real vacuum.",
+      "Have the student re-predict the balcony drop and articulate that the only thing that ever makes the apple lag in everyday life is air resistance."
+    ],
+    "common_pitfalls": [
+      "Stating 'everything falls at the same rate' as a fact without resolving the student's genuine puzzle about why the larger gravitational force does not win.",
+      "Dismissing air resistance entirely, which conflicts with the student's valid real-world observation that paper falls slower than a rock and erodes trust.",
+      "Overwhelming an eager question-asker with a derivation before they have personally seen the mass cancel in a = F/m."
+    ]
+  }
+}

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench-Local: Pedagogical Evaluation of Local Open-Weight LLMs as Physics Tutors</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5b5b5b; --rule:#d9d9d9; --accent:#7a1f2b; --bg:#fbfbf9;
+    --code:#f3f3ef;
+  }
+  *{box-sizing:border-box}
+  html{font-size:17px}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    line-height:1.62;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:64px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.abstract-label{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:2.05rem; line-height:1.2; margin:0 0 .35em; letter-spacing:-.01em}
+  .subtitle{font-size:1.06rem; color:var(--muted); font-style:italic; margin:0 0 1.4em}
+  .meta{font-size:.9rem; color:var(--muted); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:12px 0; margin:0 0 2.4em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem; margin:2.2em 0 .5em; padding-bottom:.2em; border-bottom:2px solid var(--ink)}
+  h3{font-size:1.12rem; margin:1.7em 0 .35em; color:var(--accent)}
+  h4{font-size:1rem; margin:1.2em 0 .3em}
+  p{margin:.55em 0}
+  a{color:var(--accent)}
+  .abstract{background:#fff; border:1px solid var(--rule); border-left:4px solid var(--accent); padding:18px 22px; margin:1.6em 0 1em; font-size:.97rem}
+  .abstract-label{font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:.4em}
+  table{border-collapse:collapse; width:100%; margin:1.1em 0; font-size:.86rem}
+  th,td{border:1px solid var(--rule); padding:6px 9px; text-align:center}
+  th{background:#f0efe9; font-weight:600}
+  td:first-child,th:first-child{text-align:left}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  .best{background:#e8f1e6 !important; font-weight:700}
+  .worst{color:#9a2a2a}
+  figure{margin:1.6em 0; text-align:center}
+  figure img{max-width:100%; border:1px solid var(--rule); background:#fff; padding:6px}
+  figcaption{font-size:.82rem; color:var(--muted); margin-top:.5em; text-align:left}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid2 figure{margin:.4em 0}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace; font-size:.82em; background:var(--code); padding:1px 5px; border-radius:3px}
+  pre{background:var(--code); border:1px solid var(--rule); padding:14px 16px; overflow-x:auto; font-size:.8rem; line-height:1.5; border-radius:4px}
+  pre code{background:none; padding:0}
+  blockquote{margin:1em 0; padding:.4em 1em; border-left:3px solid var(--rule); color:var(--muted); font-style:italic}
+  .callout{background:#fff5e6; border:1px solid #e8c48a; border-radius:4px; padding:12px 16px; font-size:.9rem; margin:1.2em 0}
+  ol.refs{font-size:.86rem; line-height:1.5; padding-left:1.4em}
+  ol.refs li{margin:.45em 0}
+  .small{font-size:.85rem; color:var(--muted)}
+  hr{border:none; border-top:1px solid var(--rule); margin:2.4em 0}
+  .toc{font-size:.9rem; columns:2; column-gap:32px; background:#fff; border:1px solid var(--rule); padding:14px 22px; border-radius:4px}
+  .toc a{text-decoration:none}
+  sup a{text-decoration:none}
+  @media(max-width:600px){.grid2,.toc{grid-template-columns:1fr; columns:1} html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>PhysTutorBench-Local: Evaluating the Pedagogical Quality of Local Open-Weight LLMs as Introductory-Physics Tutors</h1>
+<p class="subtitle">A controlled, misconception-grounded benchmark of teaching ability — not problem-solving ability — across four locally-served language models.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp;
+<b>Date:</b> 19 June 2026 &nbsp;·&nbsp;
+<b>Apparatus:</b> PhysTutorBench (local-inference variant) &nbsp;·&nbsp;
+<b>Models under test:</b> llama3.1:8b, llama3.2:3b, qwen2.5:7b, qwen3:8b (Ollama)
+</div>
+
+<div class="abstract">
+<div class="abstract-label">Abstract</div>
+<p>Large language models are increasingly used as tutors, yet most benchmarks measure whether a model can <em>solve</em> physics, not whether it can <em>teach</em> it. We evaluate four locally-served open-weight models as introductory-physics tutors using PhysTutorBench, a benchmark grounded in Physics Education Research (PER). Each model tutored a simulated student that holds a specific, instrument-validated misconception across 12 scenarios spanning mechanics, electricity &amp; magnetism, thermal physics/waves, and modern/quantum physics (3 per topic; 48 conversations total). A fixed local model (<code>qwen2.5:7b</code>) played the student; a frontier model (Claude Opus 4.8, via Claude Code) scored every transcript on six 0–4 pedagogical dimensions. <b>qwen3:8b</b> was the strongest tutor (composite 2.38/4), leading on misconception diagnosis (3.08) and conceptual model-building (3.17); <b>llama3.2:3b</b> was weakest (1.01) and almost universally reinforced the student's misconception or asserted incorrect physics (harm-avoidance 0.08/4). A striking finding cuts across all four models: <b>answer-disclosure restraint is the consistently weakest competency</b> — every model tends to lecture the answer rather than sustain productive struggle. Construct-validity analysis shows the six dimensions measure largely distinct skills (mean inter-dimension <i>r</i> = 0.48), with answer-restraint nearly orthogonal to physics correctness (<i>r</i> ≤ 0.18). An independent second judging pass shows the rubric is applied consistently (overall quadratic-weighted κ = 0.73; 92% of scores within one point), and the top-two ranking is stable across passes. We report results, threats to validity, and full reproduction steps.</p>
+</div>
+
+<div class="toc sans">
+<a href="#intro">1. Introduction</a><br>
+<a href="#bg">2. Background</a><br>
+<a href="#methods">3. Methods</a><br>
+<a href="#results">4. Results</a><br>
+<a href="#discussion">5. Discussion</a><br>
+<a href="#threats">6. Threats to Validity</a><br>
+<a href="#conclusion">7. Conclusion</a><br>
+<a href="#repro">8. Reproducibility</a><br>
+<a href="#refs">References</a>
+</div>
+
+<h2 id="intro">1. Introduction</h2>
+<p>A model that can produce a flawless free-body diagram is not necessarily a good tutor. Good tutoring is a distinct skill: diagnosing <em>why</em> a learner is wrong, scaffolding toward insight without simply handing over the answer, building a mental model that transfers to new situations, and doing all of this without reinforcing the very misconception under repair. These are the competencies that Physics Education Research (PER) has spent four decades operationalizing through validated concept inventories.</p>
+<p>This study asks a practical question: <strong>how well do small, locally-runnable open-weight models tutor introductory physics?</strong> Local models are attractive for education — they are free at the margin, private, and offline-capable — but their pedagogical quality is largely uncharacterized. We evaluate four such models with a controlled protocol in which the only variable is the tutor; the student and the grading apparatus are held fixed.</p>
+
+<h2 id="bg">2. Background</h2>
+<p>PhysTutorBench scores a tutor on six dimensions derived from PER best practice. Each is rated 0–4 with a justification citing specific conversational moments:</p>
+<table>
+<thead><tr><th>Dim.</th><th>Name</th><th>What a high score means</th></tr></thead>
+<tbody>
+<tr><td>MD</td><td>Misconception Diagnosis</td><td>Identifies the <em>specific</em> misconception and validates the reasoning behind it</td></tr>
+<tr><td>SS</td><td>Scaffolding Strategy</td><td>Adaptive, ZPD-matched scaffolding (not rhetorical leading questions)</td></tr>
+<tr><td>ADR</td><td>Answer-Disclosure Restraint</td><td>Sustains productive struggle; does not give the answer away</td></tr>
+<tr><td>CMB</td><td>Conceptual Model Building</td><td>Builds a transferable mental model with boundary conditions</td></tr>
+<tr><td>TS</td><td>Transfer Success</td><td>The student applies the concept to a novel problem</td></tr>
+<tr><td>PHA</td><td>Pedagogical Harm Avoidance</td><td>No incorrect physics, no reinforcing the misconception, no shaming</td></tr>
+</tbody>
+</table>
+<p>The composite score is a weighted mean (MD 0.20, SS 0.20, ADR 0.15, CMB 0.20, TS 0.15, PHA 0.10). The benchmark's backbone is a taxonomy of 85 misconceptions compiled from validated PER instruments including the Force Concept Inventory (FCI), Conceptual Survey of Electricity &amp; Magnetism (CSEM), the DIRECT circuits test, the Thermal Concepts Survey (TCS), the Mechanical Waves Conceptual Survey (MWCS), and the Quantum Mechanics Conceptual Survey (QMCS).<sup><a href="#refs">[1–7]</a></sup></p>
+
+<h2 id="methods">3. Methods</h2>
+
+<h3>3.1 Apparatus</h3>
+<p>The benchmark separates the swappable component (the tutor) from a fixed measurement apparatus, so that scores are comparable across models:</p>
+<pre><code>  Scenario (PER-grounded)
+        │
+        ▼
+  ┌─────────────┐     turn-by-turn      ┌──────────────────────┐
+  │  TUTOR      │◄────dialogue (≤10)───►│  STUDENT SIMULATOR   │
+  │ (under test)│                       │  qwen2.5:7b  (fixed) │
+  │  Ollama     │                       │  holds misconception │
+  └─────────────┘                       └──────────────────────┘
+        │ transcript
+        ▼
+  ┌──────────────────────────────┐
+  │  JUDGE: Claude Opus 4.8       │  → 6 dimensions × 0–4 + justification
+  │  (rubric, side-by-side)       │
+  └──────────────────────────────┘</code></pre>
+<p>The <strong>tutor</strong> under test is a local model served by Ollama through its OpenAI-compatible endpoint. The <strong>student simulator</strong> is a fixed local model (<code>qwen2.5:7b</code>, temperature 0.7) prompted to hold the scenario's misconception consistently and to resist trivial persuasion. The <strong>judge</strong> is Claude Opus 4.8 (operated via Claude Code on a subscription), which read each transcript together with the scenario's reference solution and applied the rubric. To improve calibration, each judging pass scored all four models on the <em>same</em> scenario side-by-side.</p>
+
+<h3>3.2 Scenarios</h3>
+<p>We sampled 12 high-prevalence misconceptions (3 per topic area) from the taxonomy and authored one scenario each, grounded in the corresponding instrument. Each scenario specifies a concrete problem, a realistic incorrect student opening, a student profile (knowledge level, affect, response style), an expert reference strategy, and a <em>transfer problem</em> set in a different physical context.</p>
+<table>
+<thead><tr><th>Scenario</th><th>Topic</th><th>Misconception</th><th>Instrument</th></tr></thead>
+<tbody>
+<tr><td>mech-imp4</td><td>Mechanics</td><td>Sustained motion requires a sustained force</td><td>FCI</td></tr>
+<tr><td>mech-ar1</td><td>Mechanics</td><td>More massive object exerts the greater force (N3L)</td><td>FCI</td></tr>
+<tr><td>mech-grav1</td><td>Mechanics</td><td>Heavier objects always fall faster</td><td>FCI</td></tr>
+<tr><td>em-cir1</td><td>E&amp;M</td><td>Current is "used up" in a circuit</td><td>DIRECT</td></tr>
+<tr><td>em-cir5</td><td>E&amp;M</td><td>Voltage and current are interchangeable</td><td>DIRECT</td></tr>
+<tr><td>em-es3</td><td>E&amp;M</td><td>No charge present ⇒ no field (field/force conflation)</td><td>CSEM</td></tr>
+<tr><td>thwv-th1</td><td>Thermal/Waves</td><td>Temperature = amount of heat</td><td>TCS</td></tr>
+<tr><td>thwv-th3</td><td>Thermal/Waves</td><td>Metal is inherently colder than wood</td><td>TCS</td></tr>
+<tr><td>thwv-wv1</td><td>Thermal/Waves</td><td>Waves transport matter, not just energy</td><td>MWCS</td></tr>
+<tr><td>modq-qm2</td><td>Modern/Quantum</td><td>Uncertainty is a measurement limitation</td><td>QMCS</td></tr>
+<tr><td>modq-qm5</td><td>Modern/Quantum</td><td>Measurement reveals a pre-existing value</td><td>QMCS</td></tr>
+<tr><td>modq-qm9</td><td>Modern/Quantum</td><td>Superposition is a classical "unknown-which" mixture</td><td>QMVI</td></tr>
+</tbody>
+</table>
+
+<h3>3.3 Conversation protocol</h3>
+<p>Each conversation runs up to 10 turns; the tutor opens in response to the student's incorrect statement and gets the last word. In the final turns the transfer problem is posed deterministically as a student message (we found that asking the student model to introduce it via prompt instruction was unreliable for local models), after which the student attempts it in its own words.</p>
+
+<h3>3.4 Models evaluated</h3>
+<p>Four tutors, all run locally via Ollama: <code>llama3.1:8b</code>, <code>llama3.2:3b</code>, <code>qwen2.5:7b</code>, and <code>qwen3:8b</code> (a reasoning-capable model whose hidden reasoning is stripped by the endpoint). Each tutored all 12 scenarios → <strong>48 conversations</strong>, each scored on all 6 dimensions → 288 dimension-level judgments.</p>
+
+<h2 id="results">4. Results</h2>
+
+<h3>4.1 Overall ranking</h3>
+<p>qwen3:8b is the clear leader; the ordering is qwen3:8b &gt; llama3.1:8b &gt; qwen2.5:7b &gt; llama3.2:3b. No model exceeds 2.4/4 — there is substantial headroom relative to expert tutoring.</p>
+<table>
+<thead><tr><th>Model</th><th>Composite</th><th>Rank</th></tr></thead>
+<tbody>
+<tr class="best"><td>qwen3:8b</td><td>2.38</td><td>1</td></tr>
+<tr><td>llama3.1:8b</td><td>1.82</td><td>2</td></tr>
+<tr><td>qwen2.5:7b</td><td>1.48</td><td>3</td></tr>
+<tr><td>llama3.2:3b</td><td>1.01</td><td>4</td></tr>
+</tbody>
+</table>
+<figure>
+<img src="assets/comparison.png" alt="Per-dimension comparison bar chart">
+<figcaption><b>Figure 1.</b> Mean score per dimension (error bars = ±1 SD across 12 scenarios). qwen3:8b leads on every dimension except answer-disclosure restraint (ADR), where llama3.1:8b is best.</figcaption>
+</figure>
+
+<h3>4.2 Per-dimension scores</h3>
+<table>
+<thead><tr><th>Model</th><th>MD</th><th>SS</th><th>ADR</th><th>CMB</th><th>TS</th><th>PHA</th></tr></thead>
+<tbody>
+<tr><td>qwen3:8b</td><td class="best">3.08</td><td class="best">1.83</td><td>1.00</td><td class="best">3.17</td><td class="best">2.42</td><td class="best">2.50</td></tr>
+<tr><td>llama3.1:8b</td><td>2.00</td><td>2.00</td><td class="best">2.08</td><td>1.42</td><td>2.08</td><td>1.08</td></tr>
+<tr><td>qwen2.5:7b</td><td>2.08</td><td>1.00</td><td class="worst">0.67</td><td>1.75</td><td>1.92</td><td>1.25</td></tr>
+<tr><td>llama3.2:3b</td><td>1.25</td><td>1.08</td><td>1.25</td><td>0.67</td><td>1.42</td><td class="worst">0.08</td></tr>
+</tbody>
+</table>
+<p class="small">Means over 12 scenarios. Green = best in column; red = notably poor.</p>
+<figure>
+<img src="assets/heatmap.png" alt="Model × dimension heatmap">
+<figcaption><b>Figure 2.</b> Model × dimension heatmap. The bright row for qwen3:8b on MD/CMB/PHA and the dark ADR column (all models) are the two dominant features.</figcaption>
+</figure>
+<p>Three observations stand out:</p>
+<ul>
+<li><b>qwen3:8b dominates the "understanding" dimensions</b> — misconception diagnosis (3.08, σ=0.28, remarkably consistent) and conceptual model-building (3.17). It was typically the only model to <em>name</em> the misconception and validate the student's intuition before correcting it.</li>
+<li><b>Answer-disclosure restraint is the universal weak spot.</b> Three of four models score ≤ 1.25; qwen2.5:7b is worst at 0.67, routinely delivering a fully worked solution in its first reply. The lone bright spot is llama3.1:8b (2.08), which more often let the student reason first.</li>
+<li><b>Pedagogical harm separates the field.</b> qwen3:8b (2.50) largely avoided incorrect physics; llama3.2:3b (0.08) almost never did — in 11 of 12 scenarios it either asserted wrong physics or actively reinforced the misconception.</li>
+</ul>
+
+<h3>4.3 Per-topic breakdown</h3>
+<p>qwen3:8b is strong across the board (and notably best on the abstract E&amp;M and quantum topics). Every model is weakest on the topic requiring the most careful conceptual distinctions for its capability level; for the three weaker models, modern/quantum and thermal physics are the hardest.</p>
+<table>
+<thead><tr><th>Model</th><th>Mechanics</th><th>E&amp;M</th><th>Thermal/Waves</th><th>Modern/Quantum</th></tr></thead>
+<tbody>
+<tr><td>qwen3:8b</td><td class="best">2.67</td><td class="best">2.65</td><td class="best">1.85</td><td class="best">2.35</td></tr>
+<tr><td>llama3.1:8b</td><td>1.93</td><td>1.58</td><td>2.35</td><td>1.40</td></tr>
+<tr><td>qwen2.5:7b</td><td>2.08</td><td>1.33</td><td>1.53</td><td>0.97</td></tr>
+<tr><td>llama3.2:3b</td><td>0.80</td><td>1.20</td><td>0.98</td><td>1.05</td></tr>
+</tbody>
+</table>
+
+<h3>4.4 Construct validity</h3>
+<p>Do the six dimensions measure different things? Across all 48 conversations the mean inter-dimension correlation is <b>0.48</b> (below the 0.7 collinearity threshold), indicating distinct constructs. The structure is informative:</p>
+<table>
+<thead><tr><th></th><th>MD</th><th>SS</th><th>ADR</th><th>CMB</th><th>TS</th><th>PHA</th></tr></thead>
+<tbody>
+<tr><td>MD</td><td>1.00</td><td>0.53</td><td>0.10</td><td class="best">0.88</td><td>0.34</td><td>0.76</td></tr>
+<tr><td>SS</td><td>0.53</td><td>1.00</td><td>0.68</td><td>0.57</td><td>0.39</td><td>0.55</td></tr>
+<tr><td>ADR</td><td>0.10</td><td>0.68</td><td>1.00</td><td>0.12</td><td>0.27</td><td>0.18</td></tr>
+<tr><td>CMB</td><td class="best">0.88</td><td>0.57</td><td>0.12</td><td>1.00</td><td>0.49</td><td class="best">0.86</td></tr>
+<tr><td>TS</td><td>0.34</td><td>0.39</td><td>0.27</td><td>0.49</td><td>1.00</td><td>0.52</td></tr>
+<tr><td>PHA</td><td>0.76</td><td>0.55</td><td>0.18</td><td>0.86</td><td>0.52</td><td>1.00</td></tr>
+</tbody>
+</table>
+<p><b>Diagnosis, model-building, and harm-avoidance form a tight cluster</b> (MD–CMB 0.88, CMB–PHA 0.86, MD–PHA 0.76): a model that understands the physics deeply tends to diagnose well, build transferable models, and avoid harm — they rise and fall together. <b>Answer-restraint stands apart</b> (ADR–MD 0.10, ADR–CMB 0.12, ADR–PHA 0.18): withholding the answer is a pedagogical-process skill almost independent of physics competence. It correlates instead with scaffolding (ADR–SS 0.68), as one would hope. This is exactly the kind of separation a well-designed rubric should show.</p>
+
+<figure>
+<div class="grid2">
+<figure><img src="assets/distributions/dist_misconception_diagnosis.png" alt="MD distribution"></figure>
+<figure><img src="assets/distributions/dist_conceptual_model_building.png" alt="CMB distribution"></figure>
+<figure><img src="assets/distributions/dist_answer_disclosure_restraint.png" alt="ADR distribution"></figure>
+<figure><img src="assets/distributions/dist_pedagogical_harm_avoidance.png" alt="PHA distribution"></figure>
+</div>
+<figcaption><b>Figure 3.</b> Score distributions for four representative dimensions. Note the bimodal harm-avoidance panel (lower right): llama3.2:3b piles up at 0 while qwen3:8b sits at 3.</figcaption>
+</figure>
+
+<h3 id="reliability">4.5 Judge reliability (test–retest)</h3>
+<p>To quantify how much the scores depend on the judge, we ran a full <strong>independent second judging pass</strong> over all 48 transcripts and measured agreement with the first using quadratic-weighted Cohen's κ, Krippendorff's α, and Spearman's ρ. Both passes use the same model (Claude Opus 4.8), so this is a <em>test–retest / self-consistency</em> estimate, not agreement with independent or human raters.</p>
+<table>
+<thead><tr><th>Dimension</th><th>Weighted κ</th><th>Spearman ρ</th><th>Krippendorff α</th><th>% exact</th><th>% within 1</th></tr></thead>
+<tbody>
+<tr><td>Misconception Diagnosis</td><td>0.65</td><td>0.76</td><td>0.63</td><td>46%</td><td>94%</td></tr>
+<tr><td>Scaffolding Strategy</td><td>0.62</td><td>0.70</td><td>0.62</td><td>60%</td><td>96%</td></tr>
+<tr><td>Answer-Disclosure Restraint</td><td>0.66</td><td>0.68</td><td>0.67</td><td>62%</td><td>98%</td></tr>
+<tr><td>Conceptual Model Building</td><td>0.71</td><td>0.74</td><td>0.71</td><td>44%</td><td>90%</td></tr>
+<tr><td>Transfer Success</td><td>0.63</td><td>0.71</td><td>0.62</td><td>48%</td><td>85%</td></tr>
+<tr><td>Pedagogical Harm Avoidance</td><td>0.80</td><td>0.84</td><td>0.81</td><td>56%</td><td>92%</td></tr>
+<tr class="best"><td>Overall (pooled)</td><td>0.73</td><td>0.78</td><td>0.73</td><td>53%</td><td>92%</td></tr>
+</tbody>
+</table>
+<p>Overall weighted κ = 0.73 clears the conventional "substantial agreement" threshold (κ &gt; 0.6) and the project's own target for an automated judge. Exact-match rates are modest (44–62%) but <b>92% of all judgments fall within a single point</b>, and harm-avoidance is the most reliable dimension (κ = 0.80) — its "incorrect physics ⇒ 0" gate is the least ambiguous call in the rubric.</p>
+<p><b>Ranking stability.</b> The top two models are identical across both passes (qwen3:8b, then llama3.1:8b). The second pass ran systematically more lenient (+0.30 composite on average) because it scored each model's transcripts <em>in isolation</em>, whereas the first scored all four side-by-side per scenario — direct comparison makes a judge harsher. The effect is largest for the weakest model (llama3.2:3b, +0.53), which in isolation edges past qwen2.5:7b for third place by a hair (1.54 vs 1.49). The lesson: <em>relative</em> standing among well-separated models is robust, but <em>absolute</em> scores and near-ties are sensitive to the grading protocol.</p>
+
+<h2 id="discussion">5. Discussion</h2>
+
+<h3>Strong diagnosis, poor restraint</h3>
+<p>The best local tutor in this study, qwen3:8b, would frustrate a teacher trainer: it diagnoses precisely and builds excellent conceptual models, but it cannot stop itself from announcing the answer. It frequently emitted a bolded "Final Answer" by the second turn and then buried an intro-level student under graduate-level tangents (Casimir effect, orbital mechanics, renormalization). High knowledge, low pedagogical patience.</p>
+
+<h3>Incorrect physics is the dominant failure mode of the smallest model</h3>
+<p>llama3.2:3b's harm-avoidance score (0.08) reflects a qualitative pattern, not a scoring artifact. Across scenarios it fabricated mechanisms — attributing the electrostatic field to "a ripple in the fabric of spacetime," claiming an astronaut's shoved toolbox stops because "the astronaut imparted momentum to the surrounding space," explaining that wood feels warmer than metal because of a "moisture/dryness" theory, and asserting a feather falls faster than a hammer. Because the rubric makes incorrect physics an automatic 0 on harm-avoidance, the small model's confident wrongness is penalized exactly as a teacher would penalize it.</p>
+
+<h3>The benchmark surfaces subtle conceptual failures</h3>
+<p>The quantum scenarios were the most diagnostic. On superposition (qm9) and measurement (qm5), <em>three of four models inverted the key physics</em> — claiming a which-path marker leaves an interference pattern unchanged, or that an <i>x</i>-prepared spin measured along <i>x</i> yields a 50/50 result. Only qwen3:8b correctly predicted that introducing which-path information destroys the interference (the Mach–Zehnder transfer). These are precisely the errors that distinguish "recites the slogan" from "understands the concept," and the benchmark catches them.</p>
+
+<h3>"Right answer, wrong reason"</h3>
+<p>Several transcripts reached a correct conclusion through flawed reasoning — e.g., on the temperature/heat scenario, models landed on the right energy comparison via the conflation they were supposed to repair. A benchmark that scored only final answers would miss this entirely; the dimensional rubric does not.</p>
+
+<h2 id="threats">6. Threats to Validity</h2>
+<p>These results are <strong>indicative, not definitive</strong>. The most important caveats:</p>
+<div class="callout">
+<b>Single judge model — test–retest measured, human agreement not.</b> Scores come from one capable grader (Claude Opus 4.8 via an interactive subscription), not the benchmark's intended frozen temperature-0 API judge. A full independent second pass gives substantial self-consistency (overall weighted κ = 0.73, 92% within one point; §4.5), so the rubric is applied reproducibly — but because both passes share the same underlying model, this is <em>not</em> agreement with independent or human raters. Absolute scores remain protocol-sensitive (the isolated-grading second pass ran ≈0.3 more lenient); <em>relative</em> standing among well-separated models is robust.
+</div>
+<ul>
+<li><b>Student/tutor model overlap.</b> The fixed student is <code>qwen2.5:7b</code>, which is also one of the tutors under test. Its tutor scores may carry a same-model rapport/leakage confound and should be treated with extra caution.</li>
+<li><b>Transfer success is partly decoupled from tutoring.</b> A capable student model sometimes solved the transfer problem from its own physics knowledge, or merely echoed the tutor's just-given answer. Several judges flagged that the tutor answered the transfer before the student could, capping TS. TS therefore measures tutoring quality only weakly here.</li>
+<li><b>Small, high-prevalence sample.</b> N = 12 scenarios/model (3 per topic), drawn only from high-prevalence misconceptions, versus the benchmark's full 230-scenario design. Per-cell N = 3 gives wide confidence intervals on the topic breakdown.</li>
+<li><b>Single run, temperature 0.7.</b> One conversation per (model, scenario); run-to-run variance is not estimated. One llama3.1:8b conversation ended early when the student disengaged.</li>
+<li><b>Scenarios authored by the same model family as the judge.</b> Scenarios were authored by Claude (grounded in the validated instruments), introducing a possible stylistic affinity between scenario, reference solution, and judge.</li>
+<li><b>Deterministic transfer injection</b> makes the probe uniform but slightly artificial relative to a student spontaneously raising a new problem.</li>
+</ul>
+<p>The cleanest hardening steps would be: a frozen API judge at temperature 0, a panel of ≥3 judges with reported κ/α agreement, a student simulator drawn from a model <em>outside</em> the tutor set, and scaling to the full scenario bank.</p>
+
+<h2 id="conclusion">7. Conclusion</h2>
+<p>Among four locally-served open-weight models, <b>qwen3:8b is the most capable introductory-physics tutor</b> (composite 2.38/4), driven by accurate misconception diagnosis and strong conceptual model-building, while <b>llama3.2:3b is unsuitable</b> as an unsupervised tutor because it frequently teaches incorrect physics. Across the board, the limiting competency is not knowledge but <em>restraint</em>: these models tell rather than guide. For a teacher considering a local model as a homework helper, the practical implication is that even the best of these tutors needs a "don't give away the answer" guardrail, and the smallest needs a correctness check it cannot currently provide itself.</p>
+
+<h2 id="repro">8. Reproducibility</h2>
+<p>All code, the 12 scenarios, the 48 transcripts, and the per-conversation score files (with justifications) are in the repository. To regenerate:</p>
+<pre><code># 1. Run each tutor over the scenarios (student + tutor both local via Ollama)
+python run_local_eval.py --model qwen3:8b --student-model qwen2.5:7b \
+        --max-turns 10 --concurrency 2 --output results
+# (repeat for llama3.1:8b, llama3.2:3b, qwen2.5:7b)
+
+# 2. Judge transcripts against the rubric (judge_rubric.md), then:
+python finalize_scores.py results          # raw judge scores -> ConversationScore JSON
+
+# 3. Build figures + analysis data for this report
+python docs_build_data.py
+
+# --- hardening / sensitivity (wired) ---
+
+# 4. Judge reliability: run a 2nd independent pass into raw_scores_b, then:
+python compute_agreement.py results raw_scores raw_scores_b   # weighted kappa / alpha / rho
+
+# 5. De-confound the student: re-run with a student OUTSIDE the tutor set
+python run_local_eval.py --model qwen3:8b --student-model gemma3n:e2b \
+        --max-turns 10 --concurrency 2 --output results_studentswap
+
+# 6. Frozen temperature-0 API judge (needs ANTHROPIC_API_KEY; the original
+#    LLMJudge path) instead of Claude-as-judge:
+phystutor score --results-dir results/&lt;model&gt;/&lt;run&gt;/ --judge-model claude-opus-4-8</code></pre>
+<p class="small">Scoring rubric and weights: <code>src/scoring/rubric.py</code>. Conversation engine: <code>src/engine/</code>. Scorecard/plots: <code>src/scoring/scorecard.py</code>. Construct validity: <code>src/validation/construct_validity.py</code>. This page is served from <code>/docs</code>; enable GitHub Pages with source = <code>main / docs</code>.</p>
+
+<h2 id="refs">References</h2>
+<ol class="refs">
+<li>Hestenes, D., Wells, M., &amp; Swackhamer, G. (1992). Force Concept Inventory. <i>The Physics Teacher</i>, 30(3), 141–158.</li>
+<li>Thornton, R. K., &amp; Sokoloff, D. R. (1998). Force and Motion Conceptual Evaluation. <i>American Journal of Physics</i>, 66(4), 338–352.</li>
+<li>Maloney, D. P., O'Kuma, T. L., Hieggelke, C. J., &amp; Van Heuvelen, A. (2001). Conceptual Survey of Electricity and Magnetism (CSEM). <i>American Journal of Physics</i>, 69(S1), S12–S23.</li>
+<li>Engelhardt, P. V., &amp; Beichner, R. J. (2004). Students' understanding of direct current resistive electrical circuits (DIRECT). <i>American Journal of Physics</i>, 72(1), 98–115.</li>
+<li>Wattanakasiwich, P., et al. (2013). Development and implementation of a Thermal Concept Survey (TCS). <i>Physics Education</i>.</li>
+<li>Tongchai, A., et al. (2009). Developing, evaluating and demonstrating the use of a conceptual survey in mechanical waves (MWCS). <i>International Journal of Science Education</i>, 31(18).</li>
+<li>McKagan, S. B., Perkins, K. K., &amp; Wieman, C. E. (2010). Design and validation of the Quantum Mechanics Conceptual Survey (QMCS). <i>Physical Review ST Physics Education Research</i>, 6(2).</li>
+<li>Vygotsky, L. S. (1978). <i>Mind in Society: The Development of Higher Psychological Processes.</i> (Zone of Proximal Development; basis of the scaffolding dimensions.)</li>
+</ol>
+
+<hr>
+<p class="small">Generated with PhysTutorBench. Judge: Claude Opus 4.8. Tutors &amp; student: local models via Ollama. This is a draft research artifact; see Threats to Validity before citing.</p>
+
+</div>
+</body>
+</html>
