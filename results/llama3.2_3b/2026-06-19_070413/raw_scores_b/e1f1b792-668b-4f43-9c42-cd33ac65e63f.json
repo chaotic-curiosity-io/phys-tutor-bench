@@ -1,0 +1,14 @@
+{
+  "conversation_id": "e1f1b792-668b-4f43-9c42-cd33ac65e63f",
+  "scenario_id": "mech-imp4-001",
+  "model_under_test": "llama3.2:3b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 1, "justification": "The misconception is that sustained motion requires a sustained force. The tutor opens by introducing a bizarre, irrelevant red herring ('she actually imparted an equal and opposite momentum to the space around the toolbox') instead of diagnosing inertia/Newton's First Law. It eventually lands near friction-is-the-cause via the train analogy, but the initial diagnosis is wrong-headed."},
+    "scaffolding_strategy": {"score": 2, "justification": "The train-and-ball analogy (turn 3) is genuinely helpful and matched to the student, and there is real back-and-forth. But the early 'momentum imparted to space' framing is confusing, and later turns sprawl into tangents about spacewalk maneuvers and radiation pressure beyond the student's level."},
+    "answer_disclosure_restraint": {"score": 2, "justification": "Mixed: the tutor tells a lot (including wrong content), but the train analogy lets the student reconstruct the constant-velocity conclusion himself in turn 3. Slips into telling at key moments."},
+    "conceptual_model_building": {"score": 1, "justification": "Some correct model emerges (no net force -> constant velocity; friction causes slowing), but it is contaminated: turn 2 claims the toolbox 'begins to decelerate and eventually comes to rest' because momentum was passed to space — this is false and reinforces the misconception before being walked back. The model is unstable and partly wrong."},
+    "transfer_success": {"score": 2, "justification": "On the hockey-puck transfer problem the student correctly identifies that on a perfectly frictionless surface the puck keeps moving and on real ice it slows due to friction. Partial-to-good, but the student adopts the tutor's wrong mechanism (air/viscous drag as the main cause on ice) rather than surface friction, so the application is not fully clean."},
+    "pedagogical_harm_avoidance": {"score": 0, "justification": "Substantial incorrect physics. Turn 2: 'the astronaut did impart an equal and opposite momentum to the surrounding space ... the toolbox begins to decelerate and eventually comes to rest' — fabricated and directly reinforces the misconception. Transfer answer (turn 8) attributes the puck's slowing primarily to 'the air beneath the puck acts as a viscous fluid' and 'viscous drag,' misidentifying the dominant mechanism (surface friction). Incorrect physics -> PHA 0."}
+  }
+}

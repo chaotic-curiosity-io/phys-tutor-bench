@@ -1,0 +1,14 @@
+{
+  "conversation_id": "470bfedc-7424-4dab-a329-715ceca8fd42",
+  "scenario_id": "thwv-th3-001",
+  "model_under_test": "qwen2.5:7b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor correctly identifies the 'metal is inherently cold' misconception and directly addresses it: it explains the sensation reflects rate of heat transfer (thermal conductivity), invokes thermal equilibrium (both seats at room temperature overnight), and validates the student's real observation. It addresses the right category directly, though without naming it as a known misconception."},
+    "scaffolding_strategy":        {"score": 2, "justification": "Turn 1 asks the student to reconsider what 'felt colder' actually measures and uses prediction questions. But it largely answers itself and shifts into delivering many worked examples. It does create some useful cognitive conflict (if both at room temp, why does one feel colder?), so it is genuine scaffolding, but inconsistently sustained and example-heavy."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor discloses the resolution early ('both seats are likely at the same absolute temperature... the sensation of cold is due to thermal conductivity'). The student does not construct it; it is told and then agrees."},
+    "conceptual_model_building":   {"score": 2, "justification": "It builds the conductivity/rate-of-heat-flow model and applies it across multiple scenarios (glass, ceramic, trays), which is generalizable. However it also injects incorrect peripheral examples that muddy the model (see harm dimension), and the thermal-equilibrium boundary condition is stated rather than firmly anchored."},
+    "transfer_success":            {"score": 3, "justification": "On the ice-cube-tray transfer the student gave a correct response with tutor guidance: 'both ice cube trays... are both at the same temperature... the metal tray would make my hand feel colder more quickly due to its higher thermal conductivity.' It succeeds with the tutor having set up the framing, hence success-with-minor-prompting rather than fully independent."},
+    "pedagogical_harm_avoidance":  {"score": 1, "justification": "The core conductivity/equilibrium physics is correct, but the tutor introduces several incorrect side examples: 'the flat piece of paper feels warmer because air pockets in the crumpled paper act as an insulator' (reversed reasoning), and 'wood has lower thermal mass than water and can heat up more quickly' stated loosely/incorrectly, plus a metal cup 'feels hotter' framing that contradicts its own conductivity argument. Correct on the central point but these injected errors are pedagogically harmful, capping at 1."}
+  }
+}

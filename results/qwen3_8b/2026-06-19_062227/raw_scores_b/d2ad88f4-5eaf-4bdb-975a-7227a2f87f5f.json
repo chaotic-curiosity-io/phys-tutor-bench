@@ -1,0 +1,14 @@
+{
+  "conversation_id": "d2ad88f4-5eaf-4bdb-975a-7227a2f87f5f",
+  "scenario_id": "modq-qm9-001",
+  "model_under_test": "qwen3:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 4, "justification": "Turn 1-2 precisely diagnose the QM9 'superposition = classical statistical mixture' misconception ('this is a common initial intuition but differs from the quantum interpretation'), and pinpoint the discriminator the student cannot explain: if each electron took a definite slit the pattern would just be the sum of two blobs with no dark fringes, which require amplitude cancellation (probabilities adding before squaring). Validates the coin instinct while showing exactly why it fails."},
+    "scaffolding_strategy": {"score": 2, "justification": "Turn 1 poses several genuine discriminating questions (which-path detector, sum-of-two-distributions, amplitudes adding/canceling). But thereafter the tutor mostly produces large expository confirmations of the student's own restatements and escalates into phase/de Broglie/entanglement/QFT plus a problem set. Real probing exists but is swamped by lecture, mismatched in volume."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "Turn 2 already fully discloses the mechanism (psi = psi_A + psi_B, |psi|^2 with the interference cross term, dark fringes = destructive interference, which-path measurement destroys it). The answer is essentially handed over with minimal struggle."},
+    "conceptual_model_building": {"score": 4, "justification": "Builds a strong transferable model: amplitudes add (and can cancel) then square, dark fringes are impossible for a probability mixture, single-particle self-interference, and which-path measurement converts superposition into a genuine mixture. Correctly distinguishes mixture vs superposition as physically (not just interpretively) different, with boundary conditions."},
+    "transfer_success": {"score": 3, "justification": "The Mach-Zehnder transfer is posed at turn 7. The correct answer is produced: both paths open -> all photons at D-bright, none at D-dark; which-path marker -> D-dark starts clicking (~50/50); a classical definite-path mixture would already send some photons to D-dark, so total darkness proves coherent coexistence of both amplitudes. However the 'student' largely restates/elaborates the tutor's supplied answer rather than independently predicting it, so success with heavy prompting (3) rather than independent (4)."},
+    "pedagogical_harm_avoidance": {"score": 3, "justification": "Physics is correct (Born rule, interference cross term, which-path decoherence, MZI behavior). The tutor is consistently encouraging and validates progress. It over-loads with advanced tangents and exercises but introduces no incorrect physics or misconception reinforcement; avoids harm and sustains engagement, so 3."}
+  }
+}

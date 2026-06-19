@@ -1,0 +1,14 @@
+{
+  "conversation_id": "8bc12b7f-a636-409f-b926-59a57da237fe",
+  "scenario_id": "mech-grav1-001",
+  "model_under_test": "llama3.1:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 3, "justification": "The tutor identifies the heavier-falls-faster misconception and addresses the key competing-effects idea directly: turn 3 explains 'its greater mass also means it experiences a stronger gravitational force; these two effects balance out,' and turn 5 reinforces that the mass cancels in a=F/m. It targets the right concept, though it never crisply derives a=mg/m=g and folds in some muddled side claims."},
+    "scaffolding_strategy":        {"score": 2, "justification": "There is real back-and-forth questioning, and the tutor builds on the student's inertia/momentum intuitions. But it mismatches at points — introducing 'kinetic energies proportional to their masses' and a spring analogy that confuse rather than clarify — and it never uses the cleanest scaffold (substitute F=mg into a=F/m so the student sees the cancellation). Genuine but somewhat off-target scaffolding."},
+    "answer_disclosure_restraint": {"score": 2, "justification": "The tutor states the conclusion fairly directly ('they'll hit at the same time', turn 4) and, critically, on the Moon transfer it answers the entire problem itself rather than letting the student predict. Guidance interleaved with telling."},
+    "conceptual_model_building":   {"score": 2, "justification": "The mass-cancels-in-a=F/m idea is the right generalizable model and is gestured at, but it is diluted by incorrect/confused statements (kinetic-energy claim) and the model is not cleanly stated. It connects to the elevator example but does not establish robust boundary conditions correctly (see air-resistance error)."},
+    "transfer_success":            {"score": 1, "justification": "The student does not really perform the transfer — the tutor answers the Moon hammer/feather problem for them, and that answer contains a physics error about Earth (claiming the feather might land first / 'even backwards'). The student then merely echoes the tutor's incorrect Earth claim ('the feather would fall faster'), so the transfer applies a wrong model rather than demonstrating independent correct reasoning."},
+    "pedagogical_harm_avoidance":  {"score": 0, "justification": "The tutor states incorrect physics on the transfer: turn 8 claims that on Earth heavier objects 'experience more drag... fall slower and potentially even backwards' and 'the feather might reach the ground first.' On Earth the heavy hammer reaches the ground first, not the feather. This is wrong physics that the student adopts, plus the earlier 'kinetic energies proportional to masses' muddle, constituting pedagogical harm."}
+  }
+}

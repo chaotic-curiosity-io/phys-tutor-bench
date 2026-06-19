@@ -1,0 +1,14 @@
+{
+  "conversation_id": "c7bd6988-fb4c-4d38-b9f9-c709727c43c3",
+  "scenario_id": "thwv-th1-001",
+  "model_under_test": "qwen2.5:7b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 1, "justification": "The tutor names a temperature-vs-heat distinction, but it badly misdiagnoses/misapplies it. It concludes both blocks have the SAME heat (and even that heat is 'zero' because deltaT = 0), missing that the correct answer is aluminum contains MORE thermal energy (higher specific heat at equal mass and temperature). It addresses the wrong conclusion, so the specific misconception is not correctly resolved."},
+    "scaffolding_strategy":        {"score": 1, "justification": "It poses some questions in turn 1, but they steer toward a wrong conclusion, and the deltaT-based 'heat = zero' reasoning is a pseudo-argument. Subsequent turns just repeat the (incorrect) summary; no genuine adaptive scaffolding toward the correct Q = mc(deltaT) reasoning that differentiates the materials."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor discloses its conclusion immediately ('both blocks have the same amount of heat'), giving the answer rather than guiding — and the disclosed answer is wrong."},
+    "conceptual_model_building":   {"score": 0, "justification": "The model built is incorrect: it tells the student that at equal temperature the blocks contain equal heat and that Q is about temperature change only, which both reinforces the conflation and teaches wrong physics. The role of specific heat in thermal-energy content is mentioned but then contradicted by the 'equal heat' conclusion."},
+    "transfer_success":            {"score": 1, "justification": "The candle/bathtub transfer was answered by the TUTOR, and its reasoning is wrong: it attributes the bathtub's greater energy transfer to 'better contact and sustained interaction / larger contact area' rather than to mass and specific heat. The student echoed this incorrect explanation, effectively still conflating the quantities."},
+    "pedagogical_harm_avoidance":  {"score": 0, "justification": "Serious incorrect physics: stating the two 150 C blocks contain the same heat (the correct answer is aluminum contains more), claiming 'heat in each block is zero' from deltaT = 0, and explaining the bathtub's larger heat delivery via contact area instead of mass x specific heat. Incorrect physics and reinforcement of the heat/temperature conflation mandate a 0."}
+  }
+}
