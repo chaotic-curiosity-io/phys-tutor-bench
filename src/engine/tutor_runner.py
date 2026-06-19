@@ -127,12 +127,14 @@ class GenericHTTPTutor:
         api_key: str = "",
         temperature: float = 0.7,
         max_tokens: int = 2048,
+        timeout: float = 600.0,
     ):
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.api_key = api_key
         self.temperature = temperature
         self.max_tokens = max_tokens
+        self.timeout = timeout
 
     def respond(
         self,
@@ -158,7 +160,7 @@ class GenericHTTPTutor:
             f"{self.base_url}/v1/chat/completions",
             json=payload,
             headers=headers,
-            timeout=120,
+            timeout=self.timeout,
         )
         resp.raise_for_status()
         data = resp.json()
@@ -176,12 +178,14 @@ def create_tutor_backend(
     api_base: str | None = None,
     api_key: str | None = None,
 ) -> TutorBackend:
-    """Factory to create the appropriate tutor backend based on model name."""
-    if model.startswith("claude-"):
-        return AnthropicTutor(model=model, temperature=temperature, max_tokens=max_tokens)
-    elif model.startswith("gpt-") or model.startswith("o1") or model.startswith("o3"):
-        return OpenAITutor(model=model, temperature=temperature, max_tokens=max_tokens)
-    elif api_base:
+    """Factory to create the appropriate tutor backend based on model name.
+
+    An explicit ``api_base`` means "talk to this OpenAI-compatible endpoint" (e.g. a
+    local Ollama server at http://localhost:11434). It takes precedence over model-name
+    prefix matching so that locally-served models whose names collide with cloud prefixes
+    (e.g. "gpt-oss") are routed to the local endpoint instead of a cloud provider.
+    """
+    if api_base:
         return GenericHTTPTutor(
             base_url=api_base,
             model=model,
@@ -189,6 +193,10 @@ def create_tutor_backend(
             temperature=temperature,
             max_tokens=max_tokens,
         )
+    if model.startswith("claude-"):
+        return AnthropicTutor(model=model, temperature=temperature, max_tokens=max_tokens)
+    elif model.startswith("gpt-") or model.startswith("o1") or model.startswith("o3"):
+        return OpenAITutor(model=model, temperature=temperature, max_tokens=max_tokens)
     else:
         # Default to Anthropic
         return AnthropicTutor(model=model, temperature=temperature, max_tokens=max_tokens)

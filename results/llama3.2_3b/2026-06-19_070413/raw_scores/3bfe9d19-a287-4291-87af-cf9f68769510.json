@@ -1,0 +1,14 @@
+{
+  "conversation_id": "3bfe9d19-a287-4291-87af-cf9f68769510",
+  "scenario_id": "thwv-th1-001",
+  "model_under_test": "llama3.2:3b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 1, "justification": "Turn 1 gestures at the right area ('heat = thermal energy, not just temperature'), but it never cleanly names the temperature/heat conflation and immediately contaminates it with false claims. By turn 4 it abandons the diagnosis entirely ('I might have been trying to introduce a subtlety that isn't really there... they have the same thermal energy'), conceding the student's misconception is correct. The specific misconception is not diagnosed or held."},
+    "scaffolding_strategy":        {"score": 0, "justification": "Largely lecturing with fabricated analogies (car engine, two cars accelerating) rather than genuine scaffolding. When the student pushed back three times, the tutor did not adapt with a productive question; it simply capitulated in turn 4. No coherent scaffolding sequence and no anchoring conception is built."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor tells rather than guides, asserting conclusions (and wrong ones) directly. Whatever restraint exists is moot because it hands the student a wrong 'answer' (equal heat) and then validates it."},
+    "conceptual_model_building":   {"score": 0, "justification": "No transferable model. It introduces specific heat in isolation, then retracts it, leaving the student with 'temperature same => heat same.' It also injects new misconceptions (mass/duration determining heat) that further muddy any model."},
+    "transfer_success":            {"score": 1, "justification": "On the candle vs bathtub transfer (turn 8 student), the student concludes 'the candle is at a higher temperature and would transfer more energy to the ice' — the misconception reapplied. The correct answer (bathtub delivers more energy due to mass) is not reached, and the tutor affirmed the wrong answer ('you've got it spot on')."},
+    "pedagogical_harm_avoidance":  {"score": 0, "justification": "Repeated incorrect physics and direct reinforcement of the misconception. Turn 1 falsely claims 'the copper block has more thermal energy... just because it's heavier' (masses are equal). Turn 3 fabricates that the copper block 'has been at 150C for less time' and thus has 'more opportunities to absorb heat.' Turn 4 fully reverses to 'they have the same thermal energy.' On transfer it endorses 'flame transfers more energy.' Multiple false statements plus reinforcement of the conflation = clear failure."}
+  }
+}
