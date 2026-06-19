@@ -1,0 +1,38 @@
+{
+  "id": "thwv-th3-001",
+  "topic_area": "thermal_waves",
+  "subtopic": "heat_transfer",
+  "level": "intro_algebra",
+  "problem_context": "In a science classroom that has been closed up overnight, there is a metal lab stool and a wooden chair sitting side by side. A student puts one hand on the metal seat and the other on the wooden seat. The teacher asks the class to predict which seat is actually at a higher temperature and to explain their reasoning.",
+  "student_initial_response": "Okay so I touched both and the metal stool felt way colder than the wooden chair, like noticeably colder, so I'm pretty sure the metal is at a lower temperature. I think metal is just naturally a cold material, you know how a metal railing or a spoon always feels cold even indoors? So the metal must have cooled down more during the night, and the wood held onto its warmth better, which is why the wood feels warmer to me. So my answer is the metal is colder.",
+  "misconception_tags": ["TH3_metal_inherently_cold"],
+  "misconception_source": "TCS",
+  "misconception_description": "Student believes metals are inherently cold (or warm) because of how they feel, not understanding thermal conductivity and heat transfer rates.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["objects left in the same room a long time tend to settle to room conditions", "heat flows from warmer things to cooler things", "skin can sense warm and cold"],
+    "struggles_with": ["understanding that 'feels cold' reflects rate of heat transfer, not temperature", "applying thermal equilibrium to objects sharing one environment", "connecting thermal conductivity to how fast a material draws heat from skin"],
+    "affect": "eager_but_wrong",
+    "response_style": "verbose_reasoner"
+  },
+  "transfer_problem": "You take two ice cube trays out of the same freezer at the same time, one made of metal and one made of plastic. You grab one tray with each bare hand. The metal tray feels painfully colder than the plastic one. Are the two trays actually at different temperatures, and why does the metal feel so much colder?",
+  "transfer_success_criteria": "Student concludes both trays are at the same temperature (the freezer temperature) because they shared one environment and reached thermal equilibrium, and explains that the metal feels colder because its high thermal conductivity pulls heat out of the hand much faster than the plastic does. The sensation tracks the rate of heat transfer from the skin, not the object's temperature.",
+  "expert_strategy": {
+    "diagnosis": "TH3 — the student treats 'feels cold' as a direct readout of temperature and assigns metal an inherent coldness. Root cause is that the skin senses heat flow rate, not temperature, and a high-conductivity material drains heat from the hand quickly, producing a colder sensation even at equal temperature.",
+    "recommended_approach": "bridging_analogy plus a prediction-observation-explanation cycle",
+    "scaffolding_sequence": [
+      "Validate the observation honestly: the metal really does feel colder, so the puzzle is what 'feels colder' is actually measuring.",
+      "Invoke thermal equilibrium: ask how long the two seats have shared the room and what that implies about their temperatures, guiding toward equal temperature.",
+      "Create cognitive conflict: if both are at room temperature, why does one feel colder? Have the student notice their conclusion and observation now disagree.",
+      "Bridge to rate of flow: introduce that skin senses how fast heat leaves it; metal conducts heat away from the hand quickly, wood slowly, so metal feels colder at the same temperature.",
+      "Confirm with a thermometer thought experiment: predict that a thermometer on each seat reads the same, separating instrument-measured temperature from felt sensation.",
+      "Transfer to the freezer-tray case to check that conductivity, not an inherent coldness of metal, now drives the explanation."
+    ],
+    "common_pitfalls": [
+      "Telling the student the metal is not really colder without explaining what the cold sensation does represent, leaving the intuition unaddressed.",
+      "Introducing the term thermal conductivity as a label without connecting it to the felt experience of heat leaving the hand.",
+      "Overloading the explanation with the heat-conduction equation when a qualitative rate-of-transfer argument is what resolves the misconception."
+    ]
+  }
+}

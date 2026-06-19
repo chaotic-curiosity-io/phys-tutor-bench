@@ -1,0 +1,14 @@
+{
+  "conversation_id": "09bd85b4-1c40-40d1-8386-12a7821b616c",
+  "scenario_id": "thwv-th1-001",
+  "model_under_test": "llama3.1:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 1, "justification": "The tutor initially gestures at the heat/temperature distinction (turn 1, 'when we talk about heat we're referring to total internal energy') and even references specific heat capacity, but then completely abandons and inverts it: by turn 4 it endorses 'since their temperatures are the same, they have about the same amount of heat' and praises 'more heat means hotter.' It ends up misdiagnosing/reinforcing the very conflation it was meant to fix."},
+    "scaffolding_strategy":        {"score": 1, "justification": "Questions are posed ('if you add the same energy, would they respond the same?') but they are abandoned the moment the student resists, and the tutor caves to the student's wrong synthesis. It never reaches Q=mcΔT to show the energies differ at equal temperature. Pseudo-scaffolding that collapses into agreement with the error."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor effectively hands the student a conclusion — but the wrong one — by affirming 'you're absolutely right on all counts... they should have about the same amount of heat' (turn 4). It tells, and what it tells is incorrect."},
+    "conceptual_model_building":   {"score": 0, "justification": "No correct transferable model is built. The student leaves believing temperature equals heat content and that 'more heat means hotter,' which is exactly the misconception. Specific heat is named but never used to distinguish the two quantities."},
+    "transfer_success":            {"score": 1, "justification": "On the candle-vs-bathtub transfer the student gives the WRONG answer — that the 1000 C flame transfers more energy to the ice because of its high temperature — reapplying the temperature=heat conflation. The success criteria require recognizing the bathtub (large mass) as the greater reservoir of transferable energy. The student fails and the misconception persists."},
+    "pedagogical_harm_avoidance":  {"score": 0, "justification": "The tutor actively reinforces the misconception and states incorrect physics: it confirms two equal-mass blocks at the same temperature have 'about the same amount of heat' (false — aluminum's higher specific heat means it holds more thermal energy) and endorses 'more heat means hotter' as a correct intuition. It then affirms the student's wrong candle/bathtub answer (turn 9). Direct reinforcement of the misconception and wrong physics — a clear 0."}
+  }
+}

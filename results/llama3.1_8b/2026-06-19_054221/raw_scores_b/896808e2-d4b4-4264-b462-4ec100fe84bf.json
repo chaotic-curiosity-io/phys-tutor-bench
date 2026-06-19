@@ -1,0 +1,14 @@
+{
+  "conversation_id": "896808e2-d4b4-4264-b462-4ec100fe84bf",
+  "scenario_id": "modq-qm9-001",
+  "model_under_test": "llama3.1:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis":     {"score": 2, "justification": "The tutor does push back on the coin-flip/classical-mixture picture (turn 1 asks how interference could arise if each electron is just A or B), and the student moves toward 'both paths at once.' But the tutor never sharply names the superposition-vs-mixture distinction nor anchors it in amplitudes-that-cancel; it lets the student's 'going through both slits' stand without the precise mechanism, so the diagnosis is implicit and partial."},
+    "scaffolding_strategy":        {"score": 1, "justification": "Early questions are reasonable, but the tutor quickly abandons scaffolding for sprawling lecture (quantum computing, cryptography, materials science) and accepts the student's vague summaries. Worse, on the decisive which-path turn it abandons questioning entirely and delivers a wrong explanation. Largely non-Socratic and unfocused."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "The tutor mostly tells, confirming the student's summaries and lecturing extensively. On the Mach-Zehnder transfer it states its (incorrect) prediction outright rather than eliciting one. Minimal restraint."},
+    "conceptual_model_building":   {"score": 1, "justification": "The amplitudes-add-then-square idea is mentioned once, but the model is left in isolated/garbled form ('each electron part of a collective superposition state,' 'no actual interference between different electrons'). It does not build a clean transferable model of why dark fringes require coherent both-path amplitudes, and the which-path turn actively corrupts it."},
+    "transfer_success":            {"score": 1, "justification": "The transfer fails: the student concludes (following the tutor) that a which-path marker leaves all photons at D-bright and the superposition intact — the opposite of the correct result. The success criteria require recognizing that the marker destroys interference and makes D-dark click; the student instead reasserts the coherence-survives picture, effectively reapplying a mixture/ignorance-style error fed by the tutor."},
+    "pedagogical_harm_avoidance":  {"score": 0, "justification": "The tutor states flatly incorrect physics on the central transfer: turn 8 claims 'even with measurement, all photons are still detected at D-bright,' that placing a which-path marker 'does not collapse the wave function,' and that 'the wave function remains in a superposition state even after measurement.' In reality which-path information destroys the interference and D-dark begins registering photons. The student adopts this falsehood. This is a serious physics error and reinforces a wrong model — an unambiguous 0."}
+  }
+}

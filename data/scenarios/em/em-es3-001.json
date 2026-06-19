@@ -1,0 +1,38 @@
+{
+  "id": "em-es3-001",
+  "topic_area": "em",
+  "subtopic": "electric_fields",
+  "level": "intro_calculus",
+  "problem_context": "A single isolated +5 nC point charge sits at the origin in otherwise empty space. Point P is located 0.20 m to the right of the charge, and there is nothing physically present at P — no other charge, just empty vacuum. The student is asked: is there an electric field at point P, and if so, what is it?",
+  "student_initial_response": "So the source charge definitely sets up a field, I get that part. But at point P specifically there's nothing there — no charge sitting at P — so I don't think there's actually a field AT that point. The field is real where the +5 nC charge is, but at P it's just empty space, so there's no field there until you actually put a charge at P for the field to push on. The field kind of only exists once there's a charge to feel it, right?",
+  "misconception_tags": ["ES3_electric_field_force_conflation"],
+  "misconception_source": "CSEM",
+  "misconception_description": "Student conflates electric field with electric force, not understanding that the field exists independently of any test charge.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_calculus",
+    "knows": ["a source charge creates an electric field around it", "the field is stronger nearer the source charge", "the formula E = kQ/r^2 for a point charge's field magnitude"],
+    "struggles_with": ["treating the field as existing independently of any test charge", "distinguishing the field (a property of space) from the force (which requires a charge to act on)", "interpreting E = F/q as defining a field that is there even when q = 0"],
+    "affect": "partially_correct",
+    "response_style": "verbose_reasoner"
+  },
+  "transfer_problem": "Consider Earth's gravitational field at a point 300 km above the ground, where an empty region of space contains no satellite, no astronaut, nothing. Is there a gravitational field at that empty point? If a 2 kg sensor were later placed there, what determines the force it would feel — and was the field already present before the sensor arrived?",
+  "transfer_success_criteria": "Student asserts the gravitational field exists at the empty point regardless of whether anything is there, because Earth (the source) establishes g throughout the surrounding space. The force on the 2 kg sensor (F = mg) only appears once mass is placed there, but the field g = F/m was already defined and present. A successful transfer explicitly parallels the electric case: the source establishes a field everywhere, the field is a property of space, and the force is a separate quantity requiring an object to act upon.",
+  "expert_strategy": {
+    "diagnosis": "The student has correctly grasped that a source charge creates a field but conflates the field with the force it would exert, so they believe the field 'turns on' only when a test charge is present to feel it. The root is reading E = F/q as 'field requires a force, force requires a charge at the point,' rather than understanding the field as a property the source assigns to every point in space independent of any test charge.",
+    "recommended_approach": "anchoring_conception leveraging the student's correct 'source creates a field' idea, plus socratic_questioning to separate field from force",
+    "scaffolding_sequence": [
+      "Anchor on what the student already accepts: the +5 nC source creates a field — ask them how far out that field reaches and whether it stops abruptly at any boundary.",
+      "Pose the consistency probe: if the field exists right next to the charge in empty space, what is special about point P that would make the field vanish there, given P is also just empty space?",
+      "Distinguish the two quantities by definition: introduce E = F/q and ask what E equals at P before any charge is placed — guide them to see E is computed from the source (kQ/r^2), not from the absent test charge.",
+      "Run a thought experiment: place a tiny test charge at P, compute the force, then halve the test charge and halve it again — show the force changes but F/q stays fixed, so that ratio (the field) was a fact about P all along.",
+      "Bridge to the gravitational field as a familiar analogue: Earth's g exists above the ground whether or not anything is there to fall, framing field as a property of space.",
+      "Have the student restate that the field at P exists independently and compute E = kQ/r^2 at P, explicitly separating 'field is present' from 'force appears only when a charge is placed there.'"
+    ],
+    "common_pitfalls": [
+      "Just giving the formula E = kQ/r^2 and the numerical answer, which the student can plug into while still believing the field only 'really' exists where a charge feels it.",
+      "Overcorrecting and dismissing the student's valid partial understanding that the source creates the field, instead of building on it as the anchor.",
+      "Letting the test-charge language reinforce the conflation — failing to make explicit that the test charge probes a field that is already there, rather than creating or activating it."
+    ]
+  }
+}

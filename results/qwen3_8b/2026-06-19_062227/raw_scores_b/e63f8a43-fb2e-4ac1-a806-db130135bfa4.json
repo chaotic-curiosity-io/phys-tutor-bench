@@ -1,0 +1,14 @@
+{
+  "conversation_id": "e63f8a43-fb2e-4ac1-a806-db130135bfa4",
+  "scenario_id": "thwv-th1-001",
+  "model_under_test": "qwen3:8b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 3, "justification": "The tutor identifies the TH1 temperature/heat conflation and addresses it directly ('the confusion arises from mixing two distinct concepts: temperature and heat content,' temperature = average KE vs heat = total energy via Q=mcdT). It names and corrects the conflation, though it does not deeply validate the everyday-language origin, so 3."},
+    "scaffolding_strategy": {"score": 2, "justification": "Turn 1 poses a guiding question and supplies Q=mcdT, and the bucket/bathtub anchor is appropriate for intro-algebra. But it quickly becomes expository with full worked answers, and oddly affirms the student's correct conclusion (aluminum has more heat) while leaving the student's flawed 'heats up faster' reasoning only partially repaired. Some scaffolding, imperfectly targeted."},
+    "answer_disclosure_restraint": {"score": 1, "justification": "Turn 1 immediately gives the conclusion and the specific-heat values ('Aluminum contains more heat... their temperatures are the same') with the full Q=mcdT justification. Effectively the answer with minimal disguise."},
+    "conceptual_model_building": {"score": 2, "justification": "The water-level (intensive) vs total-water (extensive) anchor and Q=mcdT do build toward a generalizable distinction, but the model is undercut at the critical transfer where the tutor reduces energy transfer to temperature DIFFERENCE alone and ignores mass/specific-heat of the reservoir — so the transferable model it leaves the student with is actually wrong about what governs total heat transferred. Tied to the case and partly mis-generalized."},
+    "transfer_success": {"score": 1, "justification": "The transfer (1000 C candle flame vs 40 C bathtub: which transfers MORE ENERGY to ice) is posed at turn 7. The success criterion is that the large-mass bathtub delivers more thermal energy despite the flame being hotter. The student concludes the OPPOSITE: 'the flame transfers more energy... because of its much larger temperature difference' — applying a temperature-centric (essentially the original) view. Transfer fails: the student re-applies a heat=temperature style error."},
+    "pedagogical_harm_avoidance": {"score": 0, "justification": "At the decisive transfer the tutor itself asserts incorrect physics: it claims the flame 'transfers more energy to the ice block' because of the larger temperature difference, ignoring that total heat delivered depends on the reservoir's mass and specific heat (the bathtub is the larger energy reservoir). This both states wrong physics and reinforces the temperature/heat conflation the lesson was meant to dispel — a clear PHA failure (0)."}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "conversation_id": "3bfe9d19-a287-4291-87af-cf9f68769510",
+  "scenario_id": "thwv-th1-001",
+  "model_under_test": "llama3.2:3b",
+  "judge_model": "claude-opus-4.8 (Claude Code)",
+  "dimensions": {
+    "misconception_diagnosis": {"score": 1, "justification": "The tutor initially identifies the heat/temperature conflation and mentions specific heat (turn 2), but then completely abandons and reverses the diagnosis, conceding the student was right (turn 4: 'I might have been trying to introduce a subtlety that isn't really there'). It ends up misdiagnosing the situation as one where the misconception is correct."},
+    "scaffolding_strategy": {"score": 0, "justification": "No effective scaffolding — when the student pushes back (turns 2–3), the tutor caves rather than building toward Q = mc·deltaT. It then invents a fake 'duration in oven' argument. This is the opposite of leading the student to a contradiction."},
+    "answer_disclosure_restraint": {"score": 0, "justification": "Restraint is moot because the 'answer' delivered is wrong: the tutor explicitly tells the student that equal temperature means equal heat (turns 4, 6, 7), affirming the misconception outright."},
+    "conceptual_model_building": {"score": 0, "justification": "No correct model is built; the correct distinction (temperature intensive vs thermal energy depending on m and c) is introduced then retracted. The student leaves believing heat = temperature, the exact misconception."},
+    "transfer_success": {"score": 1, "justification": "On the transfer problem (1000 C candle flame vs 40 C bathtub, energy to ice), the student concludes the candle transfers MORE energy because it is hotter (turn 8). The success criterion requires recognizing the large warm-water reservoir delivers more transferable energy despite lower temperature. The student applies the temperature=heat misconception again and gets it wrong, with the tutor endorsing it."},
+    "pedagogical_harm_avoidance": {"score": 0, "justification": "Actively reinforces the misconception and states incorrect physics. The tutor caves ('they have the same thermal energy, which is just a fancy way of saying same amount of heat,' turn 4), invents a false mechanism ('the copper block has been at the same temperature for less time ... has had more opportunities to absorb and re-distribute heat,' turn 3), and on the transfer problem confirms that the hotter object necessarily transfers more energy. Clear PHA 0."}
+  }
+}

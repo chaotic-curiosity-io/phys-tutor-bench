@@ -1,0 +1,38 @@
+{
+  "id": "mech-ar1-001",
+  "topic_area": "mechanics",
+  "subtopic": "newton_third_law",
+  "level": "intro_algebra",
+  "problem_context": "During a tug-of-war, a 90 kg adult and a 30 kg child each grab one end of the same rope and pull. At the instant shown, the rope is taut and neither has started sliding yet. Question: at this instant, how does the force the adult exerts on the rope compare with the force the child exerts on the rope through it — and how do the forces the two people exert on each other through the rope compare?",
+  "student_initial_response": "The adult pulls with more force. They're way heavier and stronger, so they push harder on the rope than the kid does.",
+  "misconception_tags": ["AR1_greater_mass_greater_force"],
+  "misconception_source": "FCI",
+  "misconception_description": "Student believes that in an interaction, the more massive object exerts a greater force than the less massive one.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["force is measured in newtons", "the adult has more mass than the child", "tension is a pull transmitted through a rope"],
+    "struggles_with": ["recognizing that interaction forces come in equal and opposite pairs", "separating force magnitude from mass and from who 'wins'", "identifying the two objects in an interaction pair"],
+    "affect": "confident_but_wrong",
+    "response_style": "terse_answerer"
+  },
+  "transfer_problem": "Two ice skaters stand facing each other on frictionless ice: a 40 kg skater and an 80 kg skater. The 40 kg skater places her hands on the 80 kg skater and pushes off hard, and they glide apart. Compare the magnitude of the force the small skater exerts on the large skater with the force the large skater exerts on the small skater, and then compare their resulting accelerations.",
+  "transfer_success_criteria": "Student states the two push forces are equal in magnitude and opposite in direction (Newton's third law), independent of mass and independent of which skater 'did the pushing.' They then correctly note that the lighter skater accelerates more (a = F/m) because the same-magnitude force acts on a smaller mass, distinguishing equal forces from unequal effects.",
+  "expert_strategy": {
+    "diagnosis": "The student conflates force magnitude with mass and with the intuitive sense of who is stronger or 'wins' (AR1). The root is failure to treat the interaction as a single force pair acting between two objects; they instead reason that the bigger/stronger agent must produce the bigger force. Their separate, correct intuition about acceleration and mass is being misapplied to the forces themselves.",
+    "recommended_approach": "socratic_questioning",
+    "scaffolding_sequence": [
+      "Pin down the two objects in the interaction and ask the student to name the single rope (or contact) that connects them.",
+      "Use a bridging anchor: a bathroom scale pressed between the two hands reads one number — ask what that single reading implies about the two pushes.",
+      "Pose a thought experiment where the child suddenly lets go, and ask whether the adult can keep pulling 'harder than' nothing, surfacing that the pull only exists as a mutual interaction.",
+      "Introduce Newton's third law as the rule that the pair is always equal and opposite, then test it against the scale anchor.",
+      "Separate force from effect by computing accelerations (a = F/m) so the student sees equal forces produce unequal motions, which captures their 'the adult wins' intuition correctly.",
+      "Revisit the original tug-of-war and have the student restate both the force comparison (equal) and why the adult tends to win (friction with the ground, not a bigger rope force)."
+    ],
+    "common_pitfalls": [
+      "Accepting short 'equal' answers without checking the student still believes the bigger person pushes harder — the terse style can mask an unchanged model.",
+      "Conceding that the adult 'really does pull harder' to be agreeable, reinforcing the misconception.",
+      "Explaining acceleration differences before the student accepts equal forces, which lets them keep attributing the larger force to the larger mass."
+    ]
+  }
+}

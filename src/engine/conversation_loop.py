@@ -92,19 +92,26 @@ class ConversationLoop:
                 break
 
             # --- Student responds ---
-            # Determine if we should inject the transfer problem
-            inject_transfer = (
-                not transfer_injected
-                and turn >= self.max_turns - self.transfer_injection_offset
-            )
+            # Pose the transfer problem deterministically as the student's message the
+            # first time we reach the final window. Relying on the student model to
+            # introduce it via a prompt instruction proved unreliable for local models,
+            # so we inject the exact transfer problem to guarantee it is probed. The
+            # student's genuine (mis)understanding then shows in how it ATTEMPTS the
+            # transfer over the following turns.
+            in_transfer_window = turn >= self.max_turns - self.transfer_injection_offset
 
-            student_text, student_tokens = self.student.respond(
-                student_history, inject_transfer=inject_transfer
-            )
-            total_student_tokens += student_tokens
-
-            if inject_transfer:
+            if in_transfer_window and not transfer_injected:
+                student_text = (
+                    "Okay, I think I'm starting to get it. But what about this — "
+                    f"{self.scenario.transfer_problem}"
+                )
+                student_tokens = 0
                 transfer_injected = True
+            else:
+                student_text, student_tokens = self.student.respond(
+                    student_history, inject_transfer=False
+                )
+                total_student_tokens += student_tokens
 
             student_msg = ConversationMessage(
                 role="student",
