@@ -1,0 +1,38 @@
+{
+  "id": "em-cir1-001",
+  "topic_area": "em",
+  "subtopic": "circuits",
+  "level": "intro_algebra",
+  "problem_context": "A simple series circuit has a 6 V battery connected to a single light bulb by two wires. An ammeter can be clipped into the circuit either on the wire leading INTO the bulb or on the wire coming OUT of the bulb. The student is asked: how does the ammeter reading on the wire leaving the bulb compare to the reading on the wire entering it?",
+  "student_initial_response": "Um, I think the reading after the bulb would be smaller? Like, the bulb lights up, so it's using up some of the current to make the light, so there should be less coming out the other side than going in. Maybe? I'm not totally sure, but it kind of makes sense that some of it gets used up making the light glow.",
+  "misconception_tags": ["CIR1_current_consumed"],
+  "misconception_source": "DIRECT",
+  "misconception_description": "Student believes that current is 'used up' as it flows through a circuit — more current enters a resistor than leaves it.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["a battery drives current around a complete loop", "the bulb glows because energy is delivered to it", "an ammeter measures current in amps"],
+    "struggles_with": ["distinguishing current (charge flow) from energy delivered", "conservation of charge at a single point", "what physically gets 'consumed' in a resistor"],
+    "affect": "uncertain_and_wrong",
+    "response_style": "hedging_guesser"
+  },
+  "transfer_problem": "Water is pumped around a closed loop of pipe that includes a narrow constricted section (like a kink) where the flow does work turning a tiny paddle wheel. If you place identical flow meters in the pipe just before the kink and just after the kink, how do the two flow-rate readings (liters per second) compare? Explain why.",
+  "transfer_success_criteria": "Student states the flow rate is the SAME before and after the constriction because water (like charge) is conserved and the loop is unbroken — what the paddle wheel takes is energy/pressure, not the amount of water passing per second. A successful transfer explicitly maps 'amount of water per second' to current and 'energy taken by the paddle wheel' to the energy dissipated in the resistor, recognizing these are different quantities.",
+  "expert_strategy": {
+    "diagnosis": "The student conflates current (rate of charge flow) with energy. They reason that because the bulb visibly 'does something' (emits light), the thing flowing must be depleted. The root is an undifferentiated single 'electricity' concept in which current and energy are one substance that gets consumed.",
+    "recommended_approach": "socratic_questioning combined with a bridging_analogy that separates 'how much flows' from 'what is delivered'",
+    "scaffolding_sequence": [
+      "Affirm the correct insight that the bulb really does use something up, then ask: what exactly is being used up — the charges themselves, or the energy they carry?",
+      "Probe the model directly: ask where the 'used-up' current would go, since the charges have nowhere to leave the wire (the loop is sealed and metal does not store charge).",
+      "Introduce the conservation idea with a counting question: in one second, if 3 coulombs enter the bulb, how many electrons can pile up or vanish inside it? Lead them to 'none — they must keep moving on.'",
+      "Use a parade or conveyor-belt analogy: the same number of people pass each point per minute, but they hand off energy (carry boxes off) at the resistor — the people are not consumed.",
+      "Have the student re-predict the two ammeter readings and articulate that current in equals current out, while energy is what the bulb consumes.",
+      "Consolidate by naming the principle (conservation of charge / Kirchhoff's current law) and connect it back to why both ammeter readings are identical."
+    ],
+    "common_pitfalls": [
+      "Telling the student the readings are equal without dislodging the energy/current conflation, so the misconception survives intact under a memorized fact.",
+      "Dismissing the student's correct intuition that the bulb uses something up, which discourages them and discards a useful anchoring idea (energy IS consumed).",
+      "Overloading the explanation with Kirchhoff's law formalism or the drift-velocity model before the student accepts that charge cannot accumulate or disappear."
+    ]
+  }
+}

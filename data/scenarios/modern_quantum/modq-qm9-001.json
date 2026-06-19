@@ -1,0 +1,38 @@
+{
+  "id": "modq-qm9-001",
+  "topic_area": "modern_quantum",
+  "subtopic": "quantum_states",
+  "level": "intro_calculus",
+  "problem_context": "A single electron passes through a double-slit setup one particle at a time. Before hitting the detection screen, with no which-path detector present, the electron is described by a superposition of 'went through slit A' and 'went through slit B.' Over many electrons an interference pattern of bright and dark fringes builds up. A student is asked what the superposition means for an individual electron in flight, and why dark fringes appear.",
+  "student_initial_response": "I guess the superposition just means the electron really did go through one slit or the other, A or B, and we just don't know which one until it lands. So it's kind of like a coin we haven't looked at yet, definitely heads or tails. The bright spots are probably... where more electrons happen to land? I'm not totally sure how the dark stripes work if each electron picks a real slit, but maybe the dark spots are just places where, um, fewer of them end up by chance. I might be off on that part.",
+  "misconception_tags": ["QM9_superposition_classical_mixture"],
+  "misconception_source": "QMVI",
+  "misconception_description": "Student interprets quantum superposition as a classical statistical mixture — the system is definitely in one state, we just don't know which.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_calculus",
+    "knows": ["electrons arrive at the screen one at a time as localized dots", "many electrons build up a pattern of bright and dark fringes", "probabilities are involved in where each electron lands"],
+    "struggles_with": ["distinguishing a superposition from a classical 'one-or-the-other but unknown' mixture", "understanding that probability amplitudes add (and can cancel) before squaring", "explaining dark fringes, which require destructive interference impossible for a mixture"],
+    "affect": "confident_but_wrong",
+    "response_style": "hedging_guesser"
+  },
+  "transfer_problem": "A Mach-Zehnder interferometer sends a single photon into a device with two paths, path 1 and path 2, that recombine at a final beam splitter feeding two detectors, D-bright and D-dark. With both paths open and balanced, every single photon is detected at D-bright and never at D-dark. Now you place a tiny non-absorbing marker that records which path each photon took (without blocking it). Predict what happens at D-dark in each case, and explain why a picture in which each photon 'definitely took path 1 or path 2, we just don't know which' fails to account for the both-paths-open result.",
+  "transfer_success_criteria": "Student predicts that with both paths open and no which-path marker, the photon always lands at D-bright and never at D-dark due to destructive interference of the two path amplitudes, whereas adding a which-path marker destroys the interference and makes D-dark start clicking (roughly 50/50). They explain that a classical 'definitely path 1 or path 2' mixture would send some photons to D-dark even with both paths open, so the complete darkness of D-dark proves the amplitudes for both paths coexist and interfere for each single photon. They conclude superposition is not ignorance of a definite path but the coherent presence of both, with interference as the empirical signature.",
+  "expert_strategy": {
+    "diagnosis": "The student treats superposition as a classical statistical mixture (QM9): each electron 'really' went through one slit and the superposition merely encodes our ignorance. The root is that a mixture and a superposition both produce probabilistic single outcomes, so without interference the two are indistinguishable; the misconception survives because the student has not connected dark fringes to the cancellation of amplitudes, which a classical mixture (adding probabilities, never negative) cannot produce.",
+    "recommended_approach": "socratic_questioning",
+    "scaffolding_sequence": [
+      "Gently engage the hedging: ask the student to commit to a prediction for the dark fringes under their coin-flip picture, namely whether any electrons should land there.",
+      "Draw out that if each electron truly went through A or B, the screen pattern would just be the sum of two single-slit blobs, with no fully dark stripes.",
+      "Confront the data: dark fringes are places where electrons essentially never land even though each slit alone would send some there, so something is canceling.",
+      "Introduce amplitudes versus probabilities: explain that quantum mechanics adds path amplitudes (which can be positive or negative and cancel) and only then squares, unlike a mixture which adds non-negative probabilities.",
+      "Connect cancellation to the dark fringes: destructive interference of the A and B amplitudes for a single electron is what empties those locations, requiring both paths to be coherently present.",
+      "Contrast with the which-path case: note that detecting the slit converts the superposition into a genuine mixture and the interference pattern (and dark fringes) disappears, showing the two are physically different, not just interpretive."
+    ],
+    "common_pitfalls": [
+      "Accepting 'we just don't know which slit' because it reproduces single-electron randomness, which never confronts the destructive interference that distinguishes superposition from mixture.",
+      "Explaining interference as electrons 'pushing' or colliding with each other, even though the pattern persists one electron at a time, which substitutes a new wrong model.",
+      "Rushing to wave-function formalism or path integrals before the student accepts that dark fringes are impossible under a definite-path mixture."
+    ]
+  }
+}

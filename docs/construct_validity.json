@@ -1,0 +1,79 @@
+{
+  "md_ss_correlation": {
+    "r": 0.5285988848656122,
+    "hypothesis": "Correct diagnosis correlates with better scaffolding",
+    "interpretation": "moderate positive (0.529)"
+  },
+  "adr_ts_correlation": {
+    "r": 0.27481378514591115,
+    "hypothesis": "Answer restraint predicts transfer success",
+    "interpretation": "weak positive (0.275)"
+  },
+  "cmb_ts_correlation": {
+    "r": 0.4910261901035311,
+    "hypothesis": "Conceptual model building predicts transfer",
+    "interpretation": "moderate positive (0.491)"
+  },
+  "correlation_matrix": {
+    "matrix": [
+      [
+        1.0,
+        0.5285988848656122,
+        0.0968979578066214,
+        0.8751276587298823,
+        0.3406841594396841,
+        0.7622641823084153
+      ],
+      [
+        0.5285988848656122,
+        1.0,
+        0.6839187637945001,
+        0.5731022061307451,
+        0.389050670942765,
+        0.5512048774819253
+      ],
+      [
+        0.0968979578066214,
+        0.6839187637945001,
+        0.9999999999999999,
+        0.11874787399915186,
+        0.27481378514591115,
+        0.1762071254204865
+      ],
+      [
+        0.8751276587298823,
+        0.5731022061307451,
+        0.11874787399915186,
+        1.0000000000000002,
+        0.4910261901035311,
+        0.8613804528691027
+      ],
+      [
+        0.3406841594396841,
+        0.389050670942765,
+        0.27481378514591115,
+        0.4910261901035311,
+        1.0000000000000002,
+        0.5184612016867577
+      ],
+      [
+        0.7622641823084153,
+        0.5512048774819253,
+        0.1762071254204865,
+        0.8613804528691027,
+        0.5184612016867577,
+        1.0
+      ]
+    ],
+    "dimensions": [
+      "misconception_diagnosis",
+      "scaffolding_strategy",
+      "answer_disclosure_restraint",
+      "conceptual_model_building",
+      "transfer_success",
+      "pedagogical_harm_avoidance"
+    ]
+  },
+  "avg_inter_dimension_correlation": 0.48276573271500606,
+  "dimensions_distinct": true
+}

@@ -7,6 +7,7 @@ temperature across all evaluations. Changing it invalidates prior results.
 from __future__ import annotations
 
 import anthropic
+import httpx
 
 from src.scenarios.schema import Scenario, StudentProfile, Affect, ResponseStyle
 
@@ -98,16 +99,24 @@ class StudentSimulator:
     def __init__(
         self,
         scenario: Scenario,
-        model: str = "claude-sonnet-4-20250514",
+        model: str = "claude-sonnet-4-6",
         temperature: float = 0.7,
         max_tokens: int = 1024,
         client: anthropic.Anthropic | None = None,
+        api_base: str | None = None,
+        api_key: str | None = None,
+        timeout: float = 600.0,
     ):
         self.scenario = scenario
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
-        self.client = client or anthropic.Anthropic()
+        # When api_base is set, the student is served by an OpenAI-compatible endpoint
+        # (e.g. a local Ollama server) instead of the Anthropic SDK.
+        self.api_base = api_base.rstrip("/") if api_base else None
+        self.api_key = api_key
+        self.timeout = timeout
+        self.client = client or (None if self.api_base else anthropic.Anthropic())
         self.system_prompt = build_student_system_prompt(scenario)
 
     def respond(
@@ -134,6 +143,32 @@ class StudentSimulator:
                 f"{self.scenario.transfer_problem}\"\n"
                 f"Phrase it naturally in your own words and response style."
             )
+
+        if self.api_base:
+            # OpenAI-compatible endpoint (Ollama): fold the system prompt in as the
+            # first message, since this API takes system as a role rather than a kwarg.
+            messages = [{"role": "system", "content": system}] + list(conversation_history)
+            headers = {"Content-Type": "application/json"}
+            if self.api_key:
+                headers["Authorization"] = f"Bearer {self.api_key}"
+            payload = {
+                "model": self.model,
+                "messages": messages,
+                "temperature": self.temperature,
+                "max_tokens": self.max_tokens,
+            }
+            resp = httpx.post(
+                f"{self.api_base}/v1/chat/completions",
+                json=payload,
+                headers=headers,
+                timeout=self.timeout,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            text = data["choices"][0]["message"]["content"]
+            usage = data.get("usage", {})
+            tokens = usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0)
+            return text, tokens
 
         response = self.client.messages.create(
             model=self.model,

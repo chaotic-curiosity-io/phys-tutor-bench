@@ -1,0 +1,38 @@
+{
+  "id": "modq-qm5-001",
+  "topic_area": "modern_quantum",
+  "subtopic": "quantum_measurement",
+  "level": "intro_calculus",
+  "problem_context": "An electron is prepared in the spin state that is an equal superposition of spin-up and spin-down along the z-axis (specifically, the state pointing along +x). A Stern-Gerlach apparatus oriented along z then measures it and registers spin-up. A student is asked to describe what the electron's spin was doing just before the z-measurement.",
+  "student_initial_response": "So the apparatus read spin-up... does that mean the electron was already spin-up the whole time and the measurement just told us? I feel like the +x state is sort of our way of saying we don't yet know if it's up or down, and the measurement reveals which one it secretly was. But then I'm not sure why we'd bother calling it a superposition instead of just saying it's up or down with some probability. Is there actually a difference between 'it was up and we found out' and whatever the superposition is supposed to mean?",
+  "misconception_tags": ["QM5_measurement_reveals_preexisting"],
+  "misconception_source": "QMCS",
+  "misconception_description": "Student believes that quantum measurement simply reveals a preexisting value rather than collapsing a superposition into a definite state.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_calculus",
+    "knows": ["a measurement along z yields either spin-up or spin-down with calculable probabilities", "the +x state gives 50/50 outcomes when measured along z", "probabilities come from the squared amplitudes of the state"],
+    "struggles_with": ["distinguishing a quantum superposition from ignorance of a preexisting value", "recognizing that the +x state gives a definite, certain outcome when measured along x", "seeing measurement as state collapse rather than passive readout"],
+    "affect": "partially_correct",
+    "response_style": "question_asker"
+  },
+  "transfer_problem": "Take a fresh electron in that same +x superposition. Instead of measuring along z, you measure its spin along the x-axis. The hidden-value idea would say each electron secretly carries definite up/down values along every axis from the start. Predict what fraction of many identically prepared +x electrons come out spin-up along x, then contrast that with what a 'hidden preexisting value along z' picture would have predicted if you had measured along z. What does the certainty of the x-result tell you about whether the electron had a definite z-value beforehand?",
+  "transfer_success_criteria": "Student predicts that measuring along x gives spin-up along x with 100% certainty (because the state IS the +x eigenstate), while measuring along z would give a random 50/50 split. They recognize that the electron cannot simultaneously have carried a definite z-value AND yield a guaranteed x-result consistent with a single hidden value across all axes, so the +x superposition is not a list of preexisting up/down z-labels but a genuinely different state whose z-outcome is created at measurement. They articulate that the measured z-value did not exist before the z-measurement collapsed the state.",
+  "expert_strategy": {
+    "diagnosis": "The student holds the hidden-variable or 'measurement reveals' view (QM5): the superposition is read as mere ignorance of a value the electron already possesses, so collapse is demoted to a passive readout. The partially-correct root is genuine: for a single z-measurement the statistics are indistinguishable from classical ignorance, which is why the misconception is so durable. The fix requires a context where the preexisting-value picture makes a different, falsifiable prediction, namely measuring along a complementary (x) axis.",
+    "recommended_approach": "socratic_questioning",
+    "scaffolding_sequence": [
+      "Honor the partially-correct instinct: agree that for a single z-measurement, 'it was secretly up' and 'superposition' give the same 50/50 statistics, so the student's confusion is reasonable.",
+      "Pose the discriminating question: ask what the +x state predicts if we instead measure along x, drawing out that the outcome is certain (always +x).",
+      "Have the student spell out what a hidden-value account requires: a definite up/down label along every axis simultaneously, fixed before measurement.",
+      "Lead the student to the contradiction: a single fixed set of labels cannot give a guaranteed x-result and a 50/50 z-result for the same prepared state, so no consistent preexisting value set exists.",
+      "Reframe collapse: the +x superposition is a definite state of its own, and the z-measurement does not reveal a pre-set z-value but produces one, leaving the electron in a z-eigenstate afterward.",
+      "Optionally preview that this is exactly what Bell-type experiments confirm, so the distinction is empirical, not merely philosophical."
+    ],
+    "common_pitfalls": [
+      "Accepting the student's framing because the single-axis statistics match, which leaves the hidden-variable picture intact and unchallenged.",
+      "Overclaiming that the electron has 'no properties at all' before measurement, which overshoots; the +x state is itself definite (sharp along x) and that fact is the lever.",
+      "Diving into formal projection-operator math before the student feels the conceptual contradiction between certain x-results and random z-results."
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "mech-imp4-001",
+  "topic_area": "mechanics",
+  "subtopic": "newton_first_law",
+  "level": "intro_algebra",
+  "problem_context": "An astronaut on a spacewalk gives a 2 kg toolbox a single gentle shove and lets go. The toolbox drifts away from her at a steady 0.5 m/s through empty space, far from any planet, with no air and nothing touching it. She asks: what happens to the toolbox a few minutes after she releases it?",
+  "student_initial_response": "I think it's gonna slow down and eventually stop, because after she lets go there's nothing pushing on it anymore, right? Like, her hand gave it the push but once that's gone there's no force keeping it going. Things need a force to keep moving, so without one it has to lose speed. Maybe it stops pretty quick since it's just floating out there with nothing helping it along.",
+  "misconception_tags": ["IMP4_motion_requires_force"],
+  "misconception_source": "FCI",
+  "misconception_description": "Student believes that sustained motion requires a sustained force. If nothing is pushing it, it should stop.",
+  "common_prevalence": "high",
+  "student_profile": {
+    "knowledge_level": "intro_algebra",
+    "knows": ["a force is a push or a pull", "objects on Earth do slow down and stop when you stop pushing", "the toolbox has mass and is moving"],
+    "struggles_with": ["recognizing that friction and drag are the cause of slowing, not the absence of a force", "the idea that constant velocity is the natural state when net force is zero", "separating everyday experience from the idealized frictionless case"],
+    "affect": "confident_but_wrong",
+    "response_style": "verbose_reasoner"
+  },
+  "transfer_problem": "A hockey puck is given one tap and slides across a long sheet of very smooth, freshly resurfaced ice, gliding a long way before it finally slows down. Compare what happens to this puck with what would happen on an ideal, perfectly frictionless surface, and explain why the puck on real ice eventually slows.",
+  "transfer_success_criteria": "Student attributes the real puck's slowing to friction (a backward force from the ice), states that on a perfectly frictionless surface with no net force the puck would keep moving at constant velocity indefinitely, and correctly identifies that no forward force is needed to maintain motion. They distinguish the cause of slowing (friction) from the original push, and connect the ice case to the spacewalk case as the same underlying principle.",
+  "expert_strategy": {
+    "diagnosis": "The student holds the impetus/Aristotelian view that motion itself requires a continuous force (IMP4). The root is overgeneralization from everyday experience where friction and drag are always present, so the student treats slowing-and-stopping as the default and never isolates friction as the responsible agent. The frictionless space context removes the usual hidden force, exposing the misconception cleanly.",
+    "recommended_approach": "bridging_analogy",
+    "scaffolding_sequence": [
+      "Validate the intuition: agree that on Earth things do stop, and ask the student to name everything touching the moving object on a normal surface.",
+      "Elicit the role of friction by asking what gets easier as a surface becomes smoother (ice, air-hockey table) — build a bridge from sticky to slick to frictionless.",
+      "Ask the student to predict the puck's behavior as friction is reduced step by step, leading them to the limiting case where slowing approaches zero.",
+      "Have the student list the actual forces on the drifting toolbox in space (none horizontal) and connect 'no force to slow it' with 'no slowing.'",
+      "State Newton's first law in the student's own words: with zero net force, velocity stays constant — including staying in motion.",
+      "Return to Earth examples and reframe stopping as evidence of a force (friction/drag), not evidence that force is needed to keep moving."
+    ],
+    "common_pitfalls": [
+      "Stating Newton's first law as a definition without first surfacing and crediting friction, leaving the student's everyday experience unexplained.",
+      "Telling the student they are simply wrong, which triggers defensiveness given their confident affect and shuts down the reasoning.",
+      "Jumping to equations (F = ma, net force) before the student conceptually accepts that constant motion needs no force."
+    ]
+  }
+}
