@@ -29,6 +29,10 @@ A critique of this v1 study against educational-measurement standards, an annota
 
 A preregisterable study protocol testing the keystone question — *do automated tutoring scores predict real student learning gains?* — with a worked mechanics/FCI instantiation, two bridge estimators, decision gates, and a phased roadmap sequencing all ten research directions.
 
+### 📄 For PER groups & funders: **[Concept paper — Do automated tutoring-quality metrics predict real physics learning?](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html)**
+
+A PER-publication-grade research prospectus built to survive a hostile measurement, statistics, ethics, and funding review. Hardens the v3 plan with an honest novelty position against the recent AI-tutor learning-gain RCTs (Kestin 2025; Tutor CoPilot 2024), an IRT latent-change criterion, a disattenuated cross-validated decision gate, first-class equity, and a phased, primary-source-verified funding case (NSF RITEL/IUSE, Cottrell seed; Gates/Digital Promise external validation). Evidence base assembled by a multi-agent research → adversarial-critique → verification harness.
+
 ---
 
 ## What It Measures

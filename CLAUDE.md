@@ -60,3 +60,16 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 - **LLM JSON is regex-extracted.** Both the judge and the scenario generator pull the first `{…}` block out of the response, so prompt edits that change output shape can silently break parsing.
 - `results/` and `*.db` are git-ignored (runtime artifacts); `data/scenarios/` is generated and not committed.
 ```
+
+## Published papers & docs (GitHub Pages)
+
+`docs/` is served as a static site by **GitHub Pages — source: `main` branch, `/docs` path** → https://chaotic-curiosity-io.github.io/phys-tutor-bench/. The research write-ups live there as styled, self-contained HTML:
+- `index.html` — v1 empirical report
+- `methodology.html` — v2 PER-grounded methodology (§6 = the ten future research directions)
+- `v3-plan.html` — v3 validity-bridge implementation plan
+- `concept-paper.html` — fundable concept paper / prospectus for PER groups & funders
+- `research_corpus.json` — primary-source-verified evidence base behind the papers
+
+**Publishing a new paper (standing rule):** add it to `docs/` as styled HTML (model new ones on `v3-plan.html` / `concept-paper.html` — shared CSS, nav backlinks top and bottom, `og:`/`twitter:` link-preview meta), cross-link it into the other papers' nav **and** the root `README.md`, then **commit to `main`** — Pages auto-builds; a feature branch would NOT deploy. Verify the live URL after the build settles.
+
+**Keep READMEs in sync (standing rule):** whenever docs, commands, structure, or behavior change, update `README.md` (and any other READMEs) in the *same* change — never defer it to "later."
