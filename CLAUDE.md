@@ -24,6 +24,13 @@ phystutor scorecard --results-dir results/ --compare modelA,modelB   # tables + 
 python compare_judges.py --a <scoresA> --b <scoresB>   # inter-judge kappa/alpha across two judges' score dirs
 phystutor annotate --conversations <dir>    # Streamlit human-annotation UI -> SQLite
 phystutor validate --annotations <db> --results-dir <dir> [--run-discriminant]
+
+# Fully-local + manual-judge reproduction path (no CLI; used for the v1 Ollama report)
+python run_local_eval.py        # drives BOTH tutor AND student via local Ollama -> results/<slug>/<ts>/conversations/
+#   ...judge each conversation with judge_rubric.md -> <run>/raw_scores/<id>.json  (score+justification, NO composite)
+python finalize_scores.py <run> # apply rubric weights -> <run>/scores/<id>_score.json  (re-weight without re-judging)
+python compute_agreement.py results raw_scores raw_scores_b  # judge test-retest self-consistency (κ/α), NOT inter-judge
+python docs_build_data.py       # rebuild docs/ figures + analysis_data.json from scored results
 ```
 
 No linter/formatter is configured (despite `.ruff_cache`/`.mypy_cache` in `.gitignore`). There is no async test despite `asyncio_mode=auto`.
@@ -44,8 +51,8 @@ taxonomy ──generate──> Scenario JSON ──run──> ConversationRecord
 ```
 
 1. **Scenarios** (`src/scenarios/`): `taxonomy.py` loads the 65+ misconception taxonomy (the "backbone" — every scenario traces to a PER instrument). `generate_scenarios.py` prompts an LLM to author `Scenario` objects per misconception, allocating counts to hit per-topic targets (`TOPIC_TARGETS`).
-2. **Engine** (`src/engine/`): `conversation_loop.py` runs one tutoring dialogue. `student_simulator.py` is a **controlled variable** — fixed model/prompt/temperature; changing it invalidates prior results. `tutor_runner.py` is the model-under-test, selected by `create_tutor_backend()` (a factory dispatching on model-name prefix). `batch_runner.py` fans scenarios across a `ThreadPoolExecutor` with a pre-flight cost estimate/abort.
-3. **Scoring** (`src/scoring/`): `rubric.py` holds the six dimensions as structured data + composite weights. `judge.py` is the `Judge` ABC **plus the `create_judge(model)` factory** (dispatches on model prefix, mirroring `create_tutor_backend`); `llm_judge.py` is the Anthropic implementation and `openai_judge.py` is the OpenAI one (both reuse the same rubric prompt + JSON parsing); `reward_model_judge.py` is an intentional stub for a future trained model. `scorecard.py` aggregates and plots. Root `compare_judges.py` computes inter-judge agreement (κ/α) for dual-judge runs, reusing `validation/agreement_analysis.py`.
+2. **Engine** (`src/engine/`): `conversation_loop.py` runs one tutoring dialogue. `student_simulator.py` is a **controlled variable** — fixed model/prompt/temperature; changing it invalidates prior results. `tutor_runner.py` is the model-under-test, selected by `create_tutor_backend()` (a factory dispatching on model-name prefix — `AnthropicTutor`/`OpenAITutor`, **or `GenericHTTPTutor` when an explicit `api_base` is passed, which takes precedence over prefix matching** so a locally-served model like `gpt-oss` reaches the local endpoint, not the cloud; `--api-base`/`--api-key` expose this on `run-single`/`run-benchmark`). `batch_runner.py` fans scenarios across a `ThreadPoolExecutor` with a pre-flight cost estimate/abort.
+3. **Scoring** (`src/scoring/`): `rubric.py` holds the six dimensions as structured data + composite weights. `judge.py` is the `Judge` ABC **plus the `create_judge(model)` factory** (dispatches on model prefix, mirroring `create_tutor_backend`); `llm_judge.py` is the Anthropic implementation and `openai_judge.py` is the OpenAI one (both reuse the same rubric prompt + JSON parsing); `reward_model_judge.py` is an intentional stub for a future trained model. `scorecard.py` aggregates and plots. **Two scoring tracks exist:** the in-process `phystutor score` (judge returns a fully-composited `ConversationScore`), and a file-based manual-judge track where a judge follows root `judge_rubric.md` to write *raw* dimension scores to `<run>/raw_scores/<id>.json` (no composite) and `finalize_scores.py` applies `rubric.DEFAULT_WEIGHTS` to emit `<run>/scores/<id>_score.json` — so you can re-weight without re-judging. Root `compare_judges.py` computes **inter-judge** agreement (two judge models); `compute_agreement.py` computes **test–retest self-consistency** (one judge, two passes) — both reuse `validation/agreement_analysis.py`.
 4. **Validation** (`src/validation/`): `agreement_analysis.py` (Cohen's/weighted kappa, Krippendorff's alpha vs. human SQLite annotations), `construct_validity.py`, and `discriminant_validity.py` (generates gold/foil tutor conversations and asserts the rubric ranks `expert > pseudo_socratic > answer_dumper > wrong_physics`). `human_annotation_interface.py` is the Streamlit app.
 
 ### The six dimensions (defined once in `rubric.py`)
@@ -62,8 +69,8 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 - **Conversation loop keeps two role-swapped histories.** From the tutor's view student=`user`/tutor=`assistant`; from the student's view it's reversed. The tutor always gets the last word at `max_turns`.
 - **Transfer is the outcome measure.** The student simulator is told to inject the `transfer_problem` `transfer_injection_offset` turns before the end (via an appended system-prompt instruction), and the student answers honestly from its *current* understanding — that exchange drives the TS score.
 - **LLM JSON is regex-extracted.** Both the judge and the scenario generator pull the first `{…}` block out of the response, so prompt edits that change output shape can silently break parsing.
+- **`loadenv.sh` bridges lowercase `.env` keys to SDK env vars.** The SDKs need uppercase `ANTHROPIC_API_KEY`/`OPENAI_API_KEY`; `source loadenv.sh` maps the lowercase `.env` names onto them before a run.
 - `results/` and `*.db` are git-ignored (runtime artifacts); `data/scenarios/` is generated and not committed.
-```
 
 ## Published papers & docs (GitHub Pages)
 
@@ -76,7 +83,7 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 - `transcripts/` — every saved conversation rendered to HTML (scenario context, dialogue, per-judge scores + justifications). **Generated** by `python build_transcripts.py` from `results/` + `data/scenarios/`. Because `results/` is gitignored, the rendered HTML under `docs/transcripts/` is the committed/published artifact — re-run the script and commit it whenever new runs are added.
 - `research_corpus.json` — primary-source-verified evidence base behind the papers
 
-Helper scripts (root): `build_transcripts.py` (render transcripts → `docs/transcripts/`) and `estimate_cost.py` (estimate a run's API cost from saved transcripts, no new calls; list prices, used for `frontier.html` §6).
+Helper scripts (root): `build_transcripts.py` (render transcripts → `docs/transcripts/`), `docs_build_data.py` (rebuild `docs/` figures + `analysis_data.json`/`construct_validity.json` from scored results), and `estimate_cost.py` (estimate a run's API cost from saved transcripts, no new calls; list prices, used for `frontier.html` §6).
 
 **Publishing a new paper (standing rule):** add it to `docs/` as styled HTML (model new ones on `v3-plan.html` / `concept-paper.html` — shared CSS, nav backlinks top and bottom, `og:`/`twitter:` link-preview meta), cross-link it into the other papers' nav **and** the root `README.md`, then **commit to `main`** — Pages auto-builds; a feature branch would NOT deploy. Verify the live URL after the build settles.
 
