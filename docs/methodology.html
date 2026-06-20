@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench v2 — A PER-Grounded Methodology for Evaluating LLM Physics Tutors</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html">
+<meta name="description" content="A critique of our v1 LLM-physics-tutoring benchmark and a superseding, Physics-Education-Research-grounded methodology: validity teardown, annotated literature corpus, a tiered (gold-standard + practical) design, and an instantiable study kit for PER groups.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PhysTutorBench v2 — a PER-grounded methodology for evaluating LLM physics tutors">
+<meta property="og:description" content="Why judged 'process quality' isn't enough: a validity teardown, an annotated PER + LLM-eval literature corpus, a tiered methodology anchored on measured learning gains, and an instantiable study kit + preregistration template.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/comparison.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PhysTutorBench v2 — a PER-grounded methodology for LLM physics tutors">
+<meta name="twitter:description" content="From judged process quality to measured learning gains: a tiered, validity-first methodology and study kit for PER groups using LLMs in physics tutoring.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/comparison.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:2.0rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0}
+  a{color:var(--accent)}
+  ul,ol{margin:.5em 0 .8em}
+  li{margin:.3em 0}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.84rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.78rem;line-height:1.5;border-radius:4px}
+  pre code{background:none;padding:0}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .tag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:10px;vertical-align:middle}
+  .t-ver{background:#e3f1e8;color:var(--ok);border:1px solid #bcdcc7}
+  .t-canon{background:#e9eef4;color:var(--accent);border:1px solid #c2d2e0}
+  .t-weak{background:#fbeede;color:var(--warn);border:1px solid #e8c98f}
+  sup a{text-decoration:none;font-weight:700}
+  ol.refs{font-size:.84rem;line-height:1.5;padding-left:1.6em}
+  ol.refs li{margin:.5em 0}
+  ol.refs .q{color:var(--muted);font-style:italic}
+  .small{font-size:.85rem;color:var(--muted)}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink"><a href="index.html">← Back to the v1 empirical report</a></p>
+
+<h1>PhysTutorBench v2: A PER-Grounded Methodology for Evaluating LLM Physics Tutors</h1>
+<p class="subtitle">A validity teardown of our v1 benchmark, an annotated literature corpus, a tiered (gold-standard + practical) methodology, and an instantiable study kit — designed as a jumping-off point for Physics Education Research groups studying or deploying LLMs in tutoring.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> design document / position paper (draft) &nbsp;·&nbsp; <b>Supersedes:</b> <a href="index.html">PhysTutorBench-Local v1</a>
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">Orientation</div>
+<p>Our <a href="index.html">v1 study</a> scored four local LLMs on the <em>process</em> quality of their physics tutoring, as judged by another LLM. It was internally informative but, by the standards of educational measurement, it measures the wrong thing in the wrong way: it never observes learning, its judge was never validated against humans, and its "student" was an LLM that can leak the answer. This document does three things. First (§1) it dismantles v1 against Messick's unified validity framework<sup><a href="#r11">11</a></sup> and the <i>Standards for Educational and Psychological Testing</i><sup><a href="#r12">12</a></sup>. Second (§2) it assembles the grounding literature, distinguishing claims we <span class="tag t-ver">verified</span> against primary sources from those that are <span class="tag t-canon">canonical</span>. Third (§3–§4) it specifies a superseding, <b>tiered</b> methodology — a gold-standard learning-gain study and a cheaper LLM-based tier whose validity is <em>bridged</em> to the gold tier — plus a ready-to-use item/rubric/preregistration kit. The through-line is one shift, forced by the evidence: <b>stop rewarding judged tutoring moves and start measuring student learning, then earn the right to use cheaper proxies by calibrating them against that ground truth.</b></p>
+</div>
+
+<div class="toc">
+<a href="#teardown">1. Critical teardown of v1</a><br>
+<a href="#corpus">2. Annotated literature corpus</a><br>
+<a href="#methodology">3. New methodology (tiered)</a><br>
+<a href="#kit">4. Instantiable study kit</a><br>
+<a href="#open">5. Open problems &amp; honesty</a><br>
+<a href="#refs">References</a><br>
+<a href="#provenance">Provenance &amp; method</a>
+</div>
+
+<h2 id="teardown">1. Critical teardown of v1</h2>
+<p>Messick<sup><a href="#r11">11</a></sup> reframed validity as a single argument about whether the inferences we draw from scores are warranted, with facets that the <i>Standards</i><sup><a href="#r12">12</a></sup> codify: evidence based on <b>content</b>, <b>internal structure</b>, <b>relations to other variables</b> (criterion), <b>response processes</b>, and <b>consequences</b>. v1 is weak on nearly all of them. The table maps each v1 design choice to the facet it threatens and the standard it violates.</p>
+
+<table>
+<thead><tr><th>v1 design choice</th><th>Validity / reliability threat</th><th>Why (with evidence)</th></tr></thead>
+<tbody>
+<tr><td><b>Outcome = LLM-judged process quality</b> (6 rubric dimensions), never any measured learning</td><td>Criterion &amp; consequential validity (the core failure)</td><td>The thing we care about is whether students learn. v1 never observes a learner, so it has <em>no</em> criterion evidence. Worse, the field has repeatedly found that assumed-good process features don't track learning: VanLehn<sup><a href="#r8">8</a></sup> found the belief that finer interaction granularity raises effectiveness was <em>not</em> confirmed, and Chi et al.<sup><a href="#r9">9</a></sup> found students learned just as well when tutors were <em>suppressed</em> from giving explanations/feedback. Rewarding "good-looking" tutor moves can therefore be invalid.</td></tr>
+<tr><td><b>"Transfer success" scored from the simulated student's answer</b></td><td>Construct validity — construct-irrelevant variance</td><td>The simulated student is an LLM that already knows the physics; its transfer answer reflects its latent knowledge (and prompt compliance), not learning caused by the tutor. We observed exactly this leakage in v1. The measured score is contaminated by an irrelevant construct (the student model's competence).</td></tr>
+<tr><td><b>Single LLM judge</b> (Claude), test–retest κ≈0.73 reported, no human comparison</td><td>Criterion validity of the <em>judge</em>; reliability ≠ validity</td><td>Test–retest reliability shows the judge is self-consistent, not correct. LLM judges carry documented systematic biases — verbosity, position, and self-preference<sup><a href="#r13">13</a></sup> — that consistent re-scoring will not reveal. Without agreement against expert humans there is no criterion evidence the judge measures tutoring quality at all.</td></tr>
+<tr><td><b>LLM "student" stands in for a learner</b>, and overlaps in model family with a tutor</td><td>Response-process validity; construct contamination</td><td>The validity of a simulated examinee rests on it reproducing real learners' response processes (the "response processes" evidence source in the <i>Standards</i><sup><a href="#r12">12</a></sup>). An LLM prompted to "hold a misconception" is not shown to backslide, partially restructure, or err like real students do; family overlap with a tutor invites rapport/style confounds.</td></tr>
+<tr><td><b>Scenarios authored by the same model family as the judge</b></td><td>Content validity; circularity / contamination</td><td>Content validity in PER instruments comes from expert panels and student interviews, not model self-generation. Same-family authoring + judging is a closed loop that can reward a house style rather than pedagogy, and risks train/eval contamination.</td></tr>
+<tr><td><b>12 scenarios, high-prevalence misconceptions only, single run, temp 0.7</b></td><td>Generalizability (G-theory); statistical conclusion validity</td><td>With one observation per (model, scenario) and no variance components estimated, the design cannot separate tutor, scenario, judge, and occasion facets. LLM outputs are stochastic; a single run gives no run-to-run interval.</td></tr>
+<tr><td><b>Composite = fixed arbitrary weights</b> (.20/.20/.15/.20/.15/.10)</td><td>Internal-structure validity</td><td>Weights were asserted, not derived from how the dimensions relate to a learning criterion. v1's own construct-validity result (ADR nearly orthogonal to the physics-quality cluster) shows the dimensions are not exchangeable, so a hand-set weighted sum has no principled justification.</td></tr>
+<tr><td><b>No real learners → no ethics/equity analysis</b></td><td>Consequential validity; research ethics</td><td>If a benchmark is used to choose a classroom tutor, its consequences (who is helped/harmed, over-reliance, accessibility) are part of its validity. v1 has no IRB pathway, no subgroup analysis, and only a thin "pedagogical harm" proxy.</td></tr>
+</tbody>
+</table>
+<div class="callout bad"><b>Bottom line.</b> v1 is a <em>reliability</em> demonstration wearing a validity costume. Its single defensible quantitative claim — that one LLM judge applies a rubric to itself consistently (κ≈0.73) — says nothing about whether high-scoring tutors actually teach physics. Every fix below is tied to one of these rows.</div>
+
+<h2 id="corpus">2. Annotated literature corpus</h2>
+<p>Tags: <span class="tag t-ver">verified</span> = claim adversarially checked against the primary source in our research run (quote on file); <span class="tag t-canon">canonical</span> = foundational work cited from the corpus but not independently vote-verified here; <span class="tag t-weak">contested</span> = genuine disagreement in the literature. Full citations in <a href="#refs">References</a>.</p>
+
+<h3>2a. PER measurement: gains, inventories, and their limits</h3>
+<ul>
+<li><span class="tag t-ver">verified</span> <b>Normalized gain ⟨g⟩</b> (Hake<sup><a href="#r1">1</a></sup>) is the PER workhorse for course effectiveness: <code>g = (post − pre)/(100 − pre)</code>. Across 62 courses (N=6542), interactive-engagement courses averaged ⟨g⟩=0.48 vs 0.23 for traditional — the canonical demonstration that <em>how</em> you teach moves conceptual learning about twofold. <em>This is the outcome metric v2 adopts as ground truth.</em></li>
+<li><span class="tag t-ver">verified</span> <b>The FCI</b> (Hestenes, Wells &amp; Swackhamer<sup><a href="#r2">2</a></sup>) is a validated diagnostic of force/motion conceptions — an appropriate, defensible source of misconceptions and pre/post items (as v1 used), provided items are used as designed.</li>
+<li><span class="tag t-weak">contested</span> <b>Is ⟨g⟩ the right metric?</b> Nissen et al.<sup><a href="#r4">4</a></sup> argued normalized gain is prescore-biased and recommended Cohen's <i>d</i>; Coletta &amp; Steinert<sup><a href="#r3">3</a></sup> rebutted that the bias is an omitted-variable artifact and that <i>d</i> is <em>less</em> informative as a single-parameter effectiveness measure. <b>Implication:</b> report both, and model student-level covariates rather than trusting any single scalar.</li>
+<li><span class="tag t-ver">verified</span> <b>⟨g⟩ is not population-independent.</b> Coletta &amp; Phillips<sup><a href="#r7">7</a></sup> found individual g correlates with pre-score (r≈0.15–0.33) and, more strongly, with scientific-reasoning ability (Lawson r≈0.51). <b>Implication:</b> incoming knowledge and reasoning ability are confounds that must be measured and adjusted for when comparing tutors across student groups.</li>
+<li><span class="tag t-ver">verified</span> <b>Item-correctness ≠ understanding.</b> On FCI Q.29, many students pick the right answer without the concept and many who learned it still miss it<sup><a href="#r5">5</a></sup>; some items even get <em>worse</em> post-instruction. <b>Implication:</b> never score a single forced-choice answer as "transfer"; use multi-item subscales and, ideally, reasoning evidence.</li>
+<li><span class="tag t-ver">verified</span> <b>Pre/post change is partly noise.</b> Because responses are non-deterministic, up to ~25% of answers can flip on retest <em>with no learning</em>, and apparent gains/losses can range 0–100%<sup><a href="#r6">6</a></sup>; IRT models these gains/losses better than raw proportions. <b>Implication:</b> power studies for measurement noise; prefer IRT/latent-trait scoring over raw % for individual-level inference.</li>
+</ul>
+
+<h3>2b. Tutoring &amp; learning science: what "good tutoring" actually is</h3>
+<ul>
+<li><span class="tag t-ver">verified</span> <b>Realistic effect-size ceiling.</b> VanLehn<sup><a href="#r8">8</a></sup>: human tutoring vs no-tutoring is d≈0.79 — not Bloom's mythical "2 sigma" — and intelligent tutoring systems reach d≈0.76, <em>nearly equal to humans</em>. <b>Implication:</b> (i) LLM tutors are worth rigorous learning-outcome study; (ii) calibrate expectations and power to d≈0.4–0.8, not heroic gains.</li>
+<li><span class="tag t-ver">verified</span> <b>Tutor talk is not the active ingredient.</b> Chi et al.<sup><a href="#r9">9</a></sup> posed three hypotheses (tutor-centered, student-centered, interactive) and showed students learned just as well when tutors were <em>suppressed</em> from explaining/giving feedback — learning tracked <em>student construction</em> and scaffolding density. <b>Implication:</b> the construct "good tutoring" should center on <em>eliciting student generative activity</em>, which validates v1's instinct to reward answer-withholding — but it must be tied to learning, not assumed.</li>
+<li><span class="tag t-canon">canonical</span> <b>ICAP</b> (Chi &amp; Wylie<sup><a href="#r10">10</a></sup>) orders engagement <i>Interactive &gt; Constructive &gt; Active &gt; Passive</i> and is observable from behavior/outputs — a theory-grounded scaffold for a tutoring rubric (reward moves that push students to <em>generate</em>). <span class="small">(Our run could not finish vote-verifying the specific ICAP ordering claims before a rate limit; cited as canonical.)</span></li>
+<li><span class="tag t-canon">canonical</span> <b>Productive failure</b> (Kapur<sup><a href="#r14">14</a></sup>): having learners struggle/generate before instruction can beat direct instruction — a caution against over-rewarding immediate tutor "help." <span class="tag t-canon">canonical</span> <b>Feedback</b> (Hattie &amp; Timperley; Black &amp; Wiliam) and the <b>self-explanation effect</b> further support generative, formative designs.</li>
+</ul>
+
+<h3>2c. Validity &amp; reliability methodology</h3>
+<ul>
+<li><span class="tag t-canon">canonical</span> <b>Messick's unified validity</b><sup><a href="#r11">11</a></sup> and the <b>AERA/APA/NCME <i>Standards</i></b><sup><a href="#r12">12</a></sup> are the backbone of §1 and §3: validity is an argument with content/structure/criterion/response-process/consequence evidence; the <i>Educational Measurement</i> (5th ed.) validity chapter<sup><a href="#r16">16</a></sup> is the working reference.</li>
+<li><span class="tag t-canon">canonical</span> <b>Reliability for rubric scoring:</b> Cohen's/Fleiss κ and quadratic-weighted κ for ordinal agreement, Krippendorff's α for ≥2 raters with missing data, and <b>Generalizability Theory</b> to decompose variance across rater/scenario/occasion facets — the right tool for a benchmark with crossed facets (v1 used none).</li>
+<li><span class="tag t-canon">canonical</span> <b>Content validity by process:</b> expert-panel review and <b>cognitive interviews / think-aloud</b> protocols are how PER instruments earn content and response-process validity — the antidote to v1's model-authored items.</li>
+</ul>
+
+<h3>2d. LLMs in education &amp; evaluation</h3>
+<ul>
+<li><span class="tag t-canon">canonical</span> <b>LLM-as-judge biases</b> (Zheng et al., MT-Bench/Chatbot Arena<sup><a href="#r13">13</a></sup>): position bias, verbosity bias, and self-enhancement bias are documented; agreement with humans is the standard a judge must meet before substituting for them. <b>Implication:</b> a judge must be calibrated against expert humans, audited for these biases (randomize order, control length, avoid self-judging), and reported with agreement statistics.</li>
+<li><span class="tag t-canon">canonical</span> <b>Real-world LLM tutoring evidence exists:</b> the Tutor CoPilot RCT<sup><a href="#r15">15</a></sup> studied an LLM tutoring aid with real tutors/students and learning outcomes — the kind of criterion design v2's gold tier emulates.</li>
+<li><span class="tag t-canon">canonical / verify versions</span> <b>Prior tutoring benchmarks &amp; simulated students</b> — representative line of work to build on and cite precisely once versions are checked: <i>MathDial</i> (Macina et al.), <i>CIMA</i> (Stasaski et al.), <i>Bridge</i>, the <i>AI Teacher Test</i> (Tack &amp; Piech), and pedagogical-ability rubrics/taxonomies (Macina et al.). These mostly evaluate <em>dialogue acts/process</em>, sharing v1's core limitation (no learning criterion) — which is the gap v2 targets. <span class="small">(Some arXiv identifiers surfaced by automated search were implausible and are deliberately omitted; cite from the canonical record.)</span></li>
+<li><span class="tag t-canon">canonical</span> <b>Contamination/leakage</b> in LLM eval is pervasive: items the model may have seen inflate scores. PER inventories are partly web-available, so contamination control (held-out/novel items, canary strings, paraphrase variants) is mandatory.</li>
+</ul>
+
+<h2 id="methodology">3. New methodology (tiered)</h2>
+<p>The design is a ladder. <b>Tier&nbsp;G (gold)</b> measures real student learning and is the criterion everything else must answer to. <b>Tier&nbsp;P (practical)</b> is the cheap, automatable LLM-based evaluation — usable <em>only</em> to the extent it has been shown to predict Tier&nbsp;G. The novel methodological commitment is the explicit <b>validity bridge</b> between them.</p>
+
+<h3>3.1 Construct definition</h3>
+<p>Operationalize "good physics tutoring," from §2b, as: <em>maximizing a learner's durable conceptual gain by eliciting and scaffolding their own generative reasoning, diagnosing the specific prior conception, and avoiding the introduction or reinforcement of incorrect physics.</em> Note what this excludes: fluent explanation and answer delivery are <em>not</em> the construct (Chi<sup><a href="#r9">9</a></sup>), and process polish is valued only insofar as it produces learning (VanLehn<sup><a href="#r8">8</a></sup>). <span class="small">[Fixes v1 rows 1, 2, 7.]</span></p>
+
+<h3>3.2 Outcome measure &amp; the validity bridge</h3>
+<ul>
+<li><b>Tier G criterion:</b> change on a <em>validated</em> concept inventory administered pre/post a tutoring intervention with <em>real learners</em>, randomized to tutor condition(s). Report normalized gain ⟨g⟩<sup><a href="#r1">1</a></sup> <em>and</em> Cohen's d<sup><a href="#r3">3</a>,<a href="#r4">4</a></sup>, with IRT/latent scoring<sup><a href="#r6">6</a></sup>; model student-level covariates (pre-score, reasoning ability) given their confounding role<sup><a href="#r7">7</a></sup>. Use delayed post-tests for durability and multi-item subscales rather than single items<sup><a href="#r5">5</a></sup>.</li>
+<li><b>Tier P signals:</b> the automatable measures (rubric-scored process; simulated-student "learning"; judge ratings).</li>
+<li><b>The bridge (the core contribution):</b> do not assume Tier P predicts Tier G — <em>estimate</em> it. On a shared scenario set evaluated under both tiers, report the correlation/regression of Tier-P scores against Tier-G gains, with a pre-set minimum (e.g., criterion validity r ≥ 0.5 before Tier P may be used for ranking). Re-validate the bridge whenever the tutor population, judge model, or items change. <span class="small">[Fixes v1 rows 1, 2.]</span></li>
+</ul>
+<div class="callout"><b>Honest caveat (see §5):</b> whether <em>any</em> current automated proxy reaches a usable bridge correlation with measured physics learning is an open empirical question. v2's contribution is making that question answerable, not assuming the answer.</div>
+
+<h3>3.3 Student modeling</h3>
+<p>Three options, in descending validity: (i) <b>real learners</b> (Tier G); (ii) <b>human-validated simulated students</b> — LLM students accepted only after their dialogue behavior is shown to match real student corpora (turn-level error/backslide rates, misconception persistence, response processes per the <i>Standards</i><sup><a href="#r12">12</a></sup>); (iii) <b>naive LLM students</b> (v1's choice) — usable for cheap iteration but <em>not</em> for validity claims. Mandate: the student model family must be <em>disjoint</em> from every tutor under test, and the simulated student must be prevented from accessing the canonical answer (no answer-leakage on transfer). <span class="small">[Fixes v1 rows 2, 4.]</span></p>
+
+<h3>3.4 Items / scenario sourcing &amp; content validity</h3>
+<p>Source misconceptions from validated inventories (FCI/FMCE/CSEM/DIRECT/TCS/…) as v1 did, but earn content validity the PER way: an <b>expert panel</b> (physicists + PER specialists) authors/reviews scenarios; <b>cognitive interviews</b> with real students confirm each scenario elicits the intended conception. <b>Never let the tutor's or judge's model family author the items.</b> Maintain a <b>held-out, contamination-controlled</b> set (novel contexts, paraphrases, canaries). Sample across difficulty and prevalence, not just high-prevalence items. <span class="small">[Fixes v1 rows 5, 6.]</span></p>
+
+<h3>3.5 Rubric &amp; its validation</h3>
+<p>Replace arbitrary dimensions/weights with a <b>behaviorally-anchored rating scale (BARS)</b> grounded in ICAP<sup><a href="#r10">10</a></sup> and the construct (§3.1): each level has observable descriptors and transcript exemplars. Validate the rubric: pilot it, run expert raters, report inter-rater reliability, and — crucially — <b>derive dimension weights empirically</b> from each dimension's relation to the Tier-G learning criterion (or report dimensions separately and refuse to composite until weights are earned). <span class="small">[Fixes v1 rows 1, 7.]</span></p>
+
+<h3>3.6 Judging &amp; reliability</h3>
+<ul>
+<li><b>Humans are the criterion.</b> Expert raters score a calibration sample; target weighted κ / Krippendorff α with pre-registered thresholds (e.g., α ≥ 0.67 acceptable, ≥ 0.80 good), using G-theory to size rater/scenario facets.</li>
+<li><b>LLM judges only after calibration.</b> An LLM judge may be used at scale <em>only</em> once its agreement with the human panel is measured and adequate, and after a <b>bias audit</b>: randomize transcript/option order (position bias), control/normalize length (verbosity bias), and forbid a model from judging its own family (self-enhancement)<sup><a href="#r13">13</a></sup>.</li>
+<li><b>Panels &amp; blinding:</b> ≥3 independent judges, blind to tutor identity, randomized presentation; report agreement and disagreement analysis (not just a single test–retest κ as v1 did). <span class="small">[Fixes v1 rows 3, 5.]</span></li>
+</ul>
+
+<h3>3.7 Contamination, fairness &amp; ethics</h3>
+<p>Contamination controls (held-out/novel items, canaries, paraphrase robustness) per §3.4. <b>Equity:</b> because gain confounds with incoming ability/reasoning<sup><a href="#r7">7</a></sup>, pre-register subgroup analyses and report differential effectiveness; treat <em>consequential</em> validity (who benefits, over-reliance, accessibility) as part of the argument, not an afterthought. <b>Ethics:</b> Tier G requires IRB/consent, data governance, and a defined protocol for handling a tutor that teaches wrong physics to a real student. <span class="small">[Fixes v1 row 8.]</span></p>
+
+<h3>3.8 Statistics &amp; power</h3>
+<p>Unit of analysis is the student (Tier G) or the (tutor × scenario × run) cell (Tier P). Use <b>mixed-effects models</b> with crossed random effects (student, scenario, judge, run) — not a flat mean of 48 numbers. Power to the realistic d≈0.4–0.8 ceiling<sup><a href="#r8">8</a></sup> <em>and</em> to measurement noise<sup><a href="#r6">6</a></sup>. Estimate run-to-run variance by repeating generations at the intended temperature. Pre-register hypotheses and correct for multiple comparisons across dimensions/topics. <span class="small">[Fixes v1 rows 4, 6, 7.]</span></p>
+
+<h3>3.9 Model-agnostic core + local/open-weight recipe</h3>
+<p>The core (construct, criterion, bridge, rubric, reliability, contamination, ethics) is model-agnostic. A concrete <b>local recipe</b>: serve tutors via an OpenAI-compatible endpoint (e.g., Ollama, as in v1); for Tier P, use a <em>disjoint</em> local model as a human-validated simulated student and a <em>separately-calibrated</em> judge (local or API) whose human-agreement is measured first; keep all weights/prompts/seeds versioned for reproducibility. Local-first buys privacy, cost, and classroom deployability — but the validity bridge is what makes its numbers mean anything.</p>
+
+<h2 id="kit">4. Instantiable study kit</h2>
+
+<h3>4.1 Scenario / item schema</h3>
+<pre><code>{
+  "id": "mech-ar1-002",
+  "inventory_source": {"instrument": "FCI", "item_ids": ["AR1"], "citation": "Hestenes 1992"},
+  "target_misconception": "greater mass exerts greater interaction force",
+  "content_validity": {
+    "expert_panel_ids": ["...", "..."],          // who authored/reviewed
+    "cognitive_interview_n": 6,                     // students confirming it elicits the conception
+    "elicitation_confirmed": true
+  },
+  "contamination": {"held_out": true, "paraphrase_of": null, "canary": "PTB2-…"},
+  "student_profile": {"level":"intro_algebra","prior_score_band":"low",
+                      "documented_behaviors":["backslides","partial-restructure"]},
+  "pre_items":  ["...validated inventory items, scored as subscale..."],
+  "post_items": ["...matched/parallel form..."],
+  "delayed_post_items": ["...durability check..."],
+  "expert_reference_strategy": "bridging from anchoring conception; elicit, don't tell",
+  "tier": "G|P"
+}</code></pre>
+
+<h3>4.2 Behaviorally-anchored rubric (excerpt, one dimension)</h3>
+<table>
+<thead><tr><th>Lvl</th><th>Eliciting Generative Reasoning (ICAP-anchored)</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>Tutor states the answer/explanation; student only receives (Passive).</td></tr>
+<tr><td>1</td><td>Tutor asks rhetorical/leading questions whose answer is given (Active in form, Passive in substance).</td></tr>
+<tr><td>2</td><td>Tutor prompts the student to apply a stated rule to the case (Active).</td></tr>
+<tr><td>3</td><td>Tutor elicits student-generated reasoning beyond given material — self-explanation, prediction, contrast (Constructive).</td></tr>
+<tr><td>4</td><td>Tutor sustains co-construction: builds on the student's generated ideas across turns to restructure the conception (Interactive).</td></tr>
+</tbody>
+</table>
+<p class="small">Each level requires a transcript exemplar in the rater guide. Dimensions are scored separately; weights are derived against the Tier-G criterion (§3.5), not preset.</p>
+
+<h3>4.3 Annotation &amp; agreement protocol</h3>
+<ul>
+<li>≥3 expert raters; blind to tutor identity; randomized transcript order.</li>
+<li>Calibration round + adjudication of disagreements; report quadratic-weighted κ and Krippendorff α per dimension, plus a G-study of variance components.</li>
+<li>LLM judge (if used) scored on the <em>same</em> calibration sample; report human–LLM agreement and a bias-audit (position/verbosity/self-preference)<sup><a href="#r13">13</a></sup> before any at-scale use.</li>
+</ul>
+
+<h3>4.4 Preregistration checklist</h3>
+<ul>
+<li>☐ Construct &amp; hypotheses stated; primary outcome = Tier-G learning gain (⟨g⟩ + d, IRT-scored).</li>
+<li>☐ Real-learner sample, randomization, IRB/consent, subgroup (equity) analyses pre-specified.</li>
+<li>☐ Items from validated inventories; expert panel + cognitive interviews; held-out/contamination plan.</li>
+<li>☐ Simulated student (if any) human-validated; model family disjoint from tutors; answer-leakage blocked.</li>
+<li>☐ Rubric BARS finalized; rater training; reliability thresholds pre-set; weights derived, not assumed.</li>
+<li>☐ Judge plan: human panel primary; LLM judge only post-calibration with bias audit.</li>
+<li>☐ Validity bridge: pre-set minimum Tier-P↔Tier-G correlation; re-validation triggers.</li>
+<li>☐ Mixed-effects analysis plan; power to d≈0.4–0.8 and to measurement noise; run-to-run replication; multiple-comparison correction.</li>
+<li>☐ Reproducibility: versioned models/prompts/seeds; data &amp; code release plan.</li>
+</ul>
+
+<h2 id="open">5. Open problems &amp; intellectual honesty</h2>
+<ul>
+<li><b>The bridge may not hold.</b> It is currently <em>unknown</em> whether any cheap automated proxy (LLM judge over simulated-student dialogues) correlates strongly enough with measured physics learning to substitute for it. v2 is designed to find out; do not presume success.</li>
+<li><b>Simulated students are unproven as learners.</b> They can model a misconception's surface but there is little evidence they reproduce the <em>dynamics</em> of conceptual change; treat them as a convenience, validated or not used for claims.</li>
+<li><b>Even the gold criterion is imperfect.</b> Concept-inventory gain is noisy<sup><a href="#r6">6</a></sup>, confounded with reasoning ability<sup><a href="#r7">7</a></sup>, item-dependent<sup><a href="#r5">5</a></sup>, and metric-contested<sup><a href="#r3">3</a>,<a href="#r4">4</a></sup>; report multiple measures and model covariates.</li>
+<li><b>Construct breadth.</b> Conceptual gain is not all of tutoring (motivation, equity, epistemology, long-term retention matter); v2 measures a defensible core, not the whole.</li>
+</ul>
+
+<h2 id="refs">References</h2>
+<p class="small"><span class="tag t-ver">verified</span> entries were checked against the primary source during our research run (representative quote shown). <span class="tag t-canon">canonical</span> entries are foundational works cited from the corpus but not independently vote-verified here; confirm details against the source of record.</p>
+<ol class="refs">
+<li id="r1"><span class="tag t-ver">verified</span> Hake, R. R. (1998). <i>Interactive-engagement versus traditional methods…</i> Am. J. Phys. 66(1), 64–74. <a href="https://web.mit.edu/jrankin/www/Active_Learning/hake_active_phys.pdf">[pdf]</a> <span class="q">"…48 courses (N4458)… achieved an average gain gIE-ave 0.48… traditional… 0.23."</span></li>
+<li id="r2"><span class="tag t-ver">verified</span> Hestenes, D., Wells, M., &amp; Swackhamer, G. (1992). <i>Force Concept Inventory.</i> The Physics Teacher 30(3), 141–158. <a href="https://eric.ed.gov/?id=EJ456376">[ERIC]</a></li>
+<li id="r3"><span class="tag t-ver">verified</span> Coletta, V. P., &amp; Steinert, J. J. (2020). <i>Why normalized gain should continue to be used…</i> Phys. Rev. Phys. Educ. Res. 16, 010108. <a href="https://doi.org/10.1103/PhysRevPhysEducRes.16.010108">[doi]</a></li>
+<li id="r4"><span class="tag t-ver">verified (existence/authorship)</span> Nissen, J. M., Talbot, R. M., Nasim Thompson, A., &amp; Van Dusen, B. (2018). <i>Comparison of normalized gain and Cohen's d…</i> Phys. Rev. Phys. Educ. Res. 14, 010115. (arXiv:1612.09180)</li>
+<li id="r5"><span class="tag t-ver">verified</span> Study of FCI item Q.29 (atmospheric pressure): correctness ≠ understanding; some items worsen post-instruction. Phys. Rev. Phys. Educ. Res. 17, 020120. <a href="https://journals.aps.org/prper/abstract/10.1103/PhysRevPhysEducRes.17.020120">[link]</a></li>
+<li id="r6"><span class="tag t-ver">verified</span> IRT analysis of FCI gains/losses; test–retest noise up to ~25% with no learning. arXiv:1509.03878. <a href="https://arxiv.org/pdf/1509.03878">[pdf]</a></li>
+<li id="r7"><span class="tag t-ver">verified</span> Coletta, V. P., &amp; Phillips, J. A. (2005). <i>Interpreting FCI scores: Normalized gain, preinstruction scores, and scientific reasoning ability.</i> Am. J. Phys. <a href="https://www.physics.utoronto.ca/~key/PHY1600/PER%20Papers/FCI%20Pre%20and%20post%20scores%20-%20ColettaPhillips.pdf">[pdf]</a> <span class="q">g vs reasoning r≈0.51.</span></li>
+<li id="r8"><span class="tag t-ver">verified</span> VanLehn, K. (2011). <i>The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems.</i> Educational Psychologist 46(4), 197–221. <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2011.611369">[link]</a> <span class="q">human d≈0.79; ITS d≈0.76.</span></li>
+<li id="r9"><span class="tag t-ver">verified</span> Chi, M. T. H., Siler, S. A., Jeong, H., Yamauchi, T., &amp; Hausmann, R. G. (2001). <i>Learning from human tutoring.</i> Cognitive Science 25(4), 471–533. <a href="https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1">[link]</a> <span class="q">"students learned just as effectively even when tutors were suppressed from giving explanations and feedback."</span></li>
+<li id="r10"><span class="tag t-canon">canonical</span> Chi, M. T. H., &amp; Wylie, R. (2014). <i>The ICAP framework: Linking cognitive engagement to active learning outcomes.</i> Educational Psychologist 49(4), 219–243. <span class="small">(ICAP ordering not vote-verified in our run due to a session limit.)</span></li>
+<li id="r11"><span class="tag t-canon">canonical</span> Messick, S. (1995). <i>Validity of psychological assessment.</i> American Psychologist 50(9), 741–749. <a href="https://people.bath.ac.uk/edspd/Weblinks/MA_Ass/Resources/Quality%20issues/Messick%201995%20AP.pdf">[pdf]</a></li>
+<li id="r12"><span class="tag t-canon">canonical</span> AERA, APA, &amp; NCME (2014). <i>Standards for Educational and Psychological Testing.</i> <a href="https://www.apa.org/science/programs/testing/standards">[link]</a></li>
+<li id="r13"><span class="tag t-canon">canonical</span> Zheng, L., et al. (2023). <i>Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena.</i> arXiv:2306.05685 (NeurIPS 2023). <a href="https://arxiv.org/abs/2306.05685">[link]</a> <span class="small">— position, verbosity, self-enhancement biases.</span></li>
+<li id="r14"><span class="tag t-canon">canonical</span> Kapur, M. <i>Productive Failure.</i> <a href="https://boldscience.org/wp-content/uploads/2025/04/Productive-Failure.pdf">[pdf]</a></li>
+<li id="r15"><span class="tag t-canon">canonical</span> Wang, R. E., et al. (2024). <i>Tutor CoPilot: a human–AI approach for scaling real-world expertise.</i> (EdWorkingPaper ai24-1054.) <a href="https://edworkingpapers.com/sites/default/files/ai24_1054_v2.pdf">[pdf]</a></li>
+<li id="r16"><span class="tag t-canon">canonical</span> <i>Educational Measurement</i> (5th ed.), Ch. 4: Validity. NCME. <a href="https://ncme.org/wp-content/uploads/2026/01/Educational-Measurement-Fifth-Edition-Chapter-04.pdf">[pdf]</a></li>
+</ol>
+<p class="small">Representative prior LLM-tutoring work to cite precisely once versions are confirmed (see §2d): MathDial (Macina et al.), CIMA (Stasaski et al.), Bridge, the AI Teacher Test (Tack &amp; Piech), and pedagogical-ability taxonomies (Macina et al.).</p>
+
+<h2 id="provenance">Provenance &amp; method</h2>
+<p class="small">This document was produced with an automated deep-research harness (5 search angles → 28 fetched sources → claim extraction → 3-vote adversarial verification) followed by human-directed synthesis. Of 25 high-value claims checked, <b>22 were confirmed</b> (≥2/3 votes) and underpin the <span class="tag t-ver">verified</span> citations; 3 ICAP claims could not finish verification before a provider rate-limit and are cited as <span class="tag t-canon">canonical</span>. The final merge/synthesis was authored from the verified corpus rather than by the harness. Some automated search hits returned implausible identifiers; those were omitted in favor of the canonical record. The 22 adversarially-verified claims (with sources and quotes) are released as <a href="research_corpus.json">research_corpus.json</a>. Treat this as a draft design document: confirm every citation against its source of record before formal use.</p>
+
+<hr>
+<p class="backlink"><a href="index.html">← v1 empirical report</a> &nbsp;·&nbsp; <a href="#top">top ↑</a></p>
+
+</div>
+</body>
+</html>
