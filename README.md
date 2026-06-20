@@ -4,6 +4,20 @@ A benchmark system for evaluating how well generative AI models tutor introducto
 
 ---
 
+## 📚 Papers & Reports
+
+All published via GitHub Pages at [`chaotic-curiosity-io.github.io/phys-tutor-bench`](https://chaotic-curiosity-io.github.io/phys-tutor-bench/).
+
+| | Paper | What it is |
+|:--:|-------|------------|
+| **v1** | [**Local LLMs as physics tutors**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/) | Empirical report — 4 local Ollama models × 12 PER scenarios scored on six pedagogical dimensions; judge κ = 0.73 |
+| **v2** | [**PER-grounded methodology**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html) | Validity critique of v1 + tiered methodology (process → measured learning gains) + annotated literature corpus + instantiable study kit |
+| **v3** | [**Validity-bridge implementation plan**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html) | Preregisterable protocol — *does any automated tutoring score predict real learning?* Two bridge estimators, decision gates, phased roadmap |
+| **📄** | [**Concept paper / prospectus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html) | Fundable, PER-publication-grade prospectus for the validity-bridge study; honest novelty vs. recent AI-tutor RCTs; phased funding case |
+| **🗂** | [**Research corpus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/research_corpus.json) `JSON` | Primary-source-verified evidence base (PER measurement, tutoring science, LLM-eval, funding) behind the papers |
+
+---
+
 ## 📄 Live report — Local open-weight LLMs as physics tutors
 
 ### ▶ **[Read the report](https://chaotic-curiosity-io.github.io/phys-tutor-bench/)** · `chaotic-curiosity-io.github.io/phys-tutor-bench`
