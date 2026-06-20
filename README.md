@@ -2,6 +2,27 @@
 
 A benchmark system for evaluating how well generative AI models tutor introductory physics. Grounded in Physics Education Research (PER), it measures pedagogical quality across six validated dimensions — not whether an AI can solve physics, but whether it can *teach* it.
 
+---
+
+## 📄 Live report — Local open-weight LLMs as physics tutors
+
+### ▶ **[Read the report](https://chaotic-curiosity-io.github.io/phys-tutor-bench/)** · `chaotic-curiosity-io.github.io/phys-tutor-bench`
+
+A study using this benchmark to evaluate four local [Ollama](https://ollama.com) models as introductory-physics tutors — judged on *teaching* quality, not problem-solving. 12 PER-grounded scenarios × 4 models = 48 conversations, each scored on all six dimensions with justifications.
+
+| Rank | Model | Composite&nbsp;/4 |
+|:----:|-------|:----------------:|
+| 🥇 | **qwen3:8b** | **2.38** |
+| 🥈 | llama3.1:8b | 1.82 |
+| 🥉 | qwen2.5:7b | 1.48 |
+| 4 | llama3.2:3b | 1.01 |
+
+**Headlines:** answer-disclosure restraint is the *universal* weak spot — every model tends to lecture the answer rather than guide. `llama3.2:3b` frequently reinforces the student's misconception or states incorrect physics (harm-avoidance 0.08/4). Judge test–retest reliability is substantial (quadratic-weighted κ = 0.73; 92% of scores within one point). Full methods, figures, per-topic breakdowns, construct/judge validity, and threats-to-validity are in the report.
+
+Reproduce: `run_local_eval.py` → judge (`judge_rubric.md`) → `finalize_scores.py` → `docs_build_data.py`; reliability via `compute_agreement.py` (see report §8).
+
+---
+
 ## What It Measures
 
 PhysTutorBench runs any LLM through simulated tutoring conversations where a student exhibits specific misconceptions catalogued by validated PER instruments (FCI, CSEM, BEMA, etc.), then scores the tutor on:
