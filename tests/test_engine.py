@@ -208,6 +208,33 @@ class TestConversationLoop:
         assert len(loaded.messages) == len(record.messages)
 
 
+class TestDisengagementHeuristic:
+    """The detector must catch real quit-signals without misfiring on filler words."""
+
+    def _chk(self, text):
+        import types
+        fake = types.SimpleNamespace(
+            _STRONG_DISENGAGEMENT=ConversationLoop._STRONG_DISENGAGEMENT,
+            _AMBIGUOUS_DISENGAGEMENT=ConversationLoop._AMBIGUOUS_DISENGAGEMENT,
+        )
+        return ConversationLoop._check_disengagement(fake, text)
+
+    @pytest.mark.parametrize("text", [
+        "I give up.", "this is pointless", "I quit", "forget it",
+        "Whatever.", "ugh, whatever.", "never mind",
+    ])
+    def test_genuine_disengagement_triggers(self, text):
+        assert self._chk(text) is True
+
+    @pytest.mark.parametrize("text", [
+        "the fuel becomes exhaust and heat and whatever, but in space the toolbox keeps drifting",
+        "a definite value along whatever axis we're about to measure, and it stays reproducible",
+        "never mind that detail for now — what about the case where the bulb is brighter?",
+    ])
+    def test_filler_words_do_not_misfire(self, text):
+        assert self._chk(text) is False
+
+
 class TestBatchRunner:
     def test_estimate_cost(self):
         """Cost estimation produces reasonable numbers."""

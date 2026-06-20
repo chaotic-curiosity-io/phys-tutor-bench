@@ -27,3 +27,20 @@ class Judge(ABC):
             ConversationScore with scores and justifications for all dimensions.
         """
         ...
+
+
+def create_judge(model: str, **kwargs) -> "Judge":
+    """Factory: pick the judge backend by model-name prefix.
+
+    OpenAI models (``gpt-*`` / o-series) route to ``OpenAIJudge``; everything
+    else (Claude, default) routes to the Anthropic ``LLMJudge``. Mirrors
+    ``create_tutor_backend`` so ``score --judge-model gpt-5.5`` just works.
+    Imports are lazy to avoid a circular import with the judge implementations.
+    """
+    if model.startswith("gpt-") or model.startswith(("o1", "o3", "o4", "o5")):
+        from src.scoring.openai_judge import OpenAIJudge
+
+        return OpenAIJudge(model=model, **kwargs)
+    from src.scoring.llm_judge import LLMJudge
+
+    return LLMJudge(model=model, **kwargs)

@@ -9,6 +9,11 @@ import openai
 import httpx
 
 from src.scenarios.schema import Scenario
+from src.engine.model_compat import (
+    anthropic_create_kwargs,
+    openai_create_kwargs,
+    first_text,
+)
 
 DEFAULT_TUTOR_SYSTEM_PROMPT = """\
 You are a physics tutor working with an introductory physics student. Your goal is to \
@@ -72,12 +77,11 @@ class AnthropicTutor:
     ) -> tuple[str, int]:
         response = self.client.messages.create(
             model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
             system=system_prompt,
             messages=conversation_history,
+            **anthropic_create_kwargs(self.model, self.temperature, self.max_tokens),
         )
-        text = response.content[0].text
+        text = first_text(response.content)
         tokens = response.usage.input_tokens + response.usage.output_tokens
         return text, tokens
 
@@ -108,9 +112,8 @@ class OpenAITutor:
 
         response = self.client.chat.completions.create(
             model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
             messages=messages,
+            **openai_create_kwargs(self.model, self.temperature, self.max_tokens),
         )
         text = response.choices[0].message.content
         tokens = (response.usage.prompt_tokens + response.usage.completion_tokens) if response.usage else 0
@@ -195,7 +198,7 @@ def create_tutor_backend(
         )
     if model.startswith("claude-"):
         return AnthropicTutor(model=model, temperature=temperature, max_tokens=max_tokens)
-    elif model.startswith("gpt-") or model.startswith("o1") or model.startswith("o3"):
+    elif model.startswith("gpt-") or model.startswith(("o1", "o3", "o4", "o5")):
         return OpenAITutor(model=model, temperature=temperature, max_tokens=max_tokens)
     else:
         # Default to Anthropic

@@ -14,6 +14,7 @@ from src.scoring.rubric import (
     format_rubric_for_prompt,
     compute_composite_score,
 )
+from src.engine.model_compat import anthropic_create_kwargs, first_text
 from src.scenarios.schema import (
     Scenario,
     ConversationRecord,
@@ -146,13 +147,12 @@ class LLMJudge(Judge):
 
         response = self.client.messages.create(
             model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
             system=system_prompt,
             messages=[{"role": "user", "content": user_message}],
+            **anthropic_create_kwargs(self.model, self.temperature, self.max_tokens),
         )
 
-        raw_text = response.content[0].text.strip()
+        raw_text = first_text(response.content).strip()
 
         # Parse JSON response
         json_match = re.search(r'\{[\s\S]*\}', raw_text)
