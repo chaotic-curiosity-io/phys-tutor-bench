@@ -1,6 +1,6 @@
 {
   "about": "Verified evidence base behind PhysTutorBench v2 (methodology.html). Produced by an automated deep-research harness: 5 search angles -> 28 fetched sources -> 138 extracted claims -> 3-vote adversarial verification of the 25 highest-value claims. 22 confirmed (>=2/3 votes). Final synthesis was authored by a human from this corpus. 3 ICAP claims could not finish verification before a provider rate limit and are treated as canonical in the write-up.",
-  "method": {"angles": 5, "sources_fetched": 28, "claims_extracted": 138, "claims_verified": 25, "confirmed": 22, "killed_or_unverified": 3},
+  "method": {"runs": 2, "round1": {"angles": 5, "sources_fetched": 28, "claims_extracted": 138, "claims_verified": 25, "confirmed": 22, "note": "PER/tutoring/validity backbone; auto-synthesis + ICAP votes cut off by rate limit"}, "round2": {"angles": 5, "sources_fetched": 23, "claims_extracted": 97, "claims_verified": 25, "confirmed": 24, "note": "LLM-side gaps; full synthesis; pinned judge-bias, prior-benchmark, ICAP citations"}},
   "confirmed_claims": [
     {"claim": "Across 62 intro physics courses (N=6542), interactive-engagement courses averaged normalized gain <g>=0.48 (sd .14) vs 0.23 (sd .04) for traditional, ~2x more effective.", "source": "https://web.mit.edu/jrankin/www/Active_Learning/hake_active_phys.pdf", "vote": "3-0"},
     {"claim": "Normalized gain g = (post% - pre%)/(100 - pre%): actual gain over maximum possible gain.", "source": "https://web.mit.edu/jrankin/www/Active_Learning/hake_active_phys.pdf", "vote": "3-0"},
@@ -25,8 +25,22 @@
     {"claim": "Chi et al. (2001): students learned just as effectively when tutors were experimentally suppressed from giving explanations/feedback, falsifying that tutor explanation delivery is the primary driver of learning.", "source": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1", "vote": "3-0"},
     {"claim": "Chi et al. (2001): interactive-tutoring learning is attributed to deeper/more scaffolding episodes plus students taking control (reading more): construct of good tutoring = eliciting student construction, not disclosure.", "source": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1", "vote": "2-1"}
   ],
-  "unverified_canonical": [
-    {"note": "ICAP ordering (Interactive>Constructive>Active>Passive) and its behavioral operationalization could not finish 3-vote verification before a provider rate limit; cited as canonical (Chi & Wylie 2014).", "source": "https://onlinelibrary.wiley.com/doi/abs/10.1111/cogs.12626"}
+  "round2_gap_fill_confirmed_claims": [
+    {"claim": "LLM-judge validation standard = agreement with human experts; strong judges (GPT-4) reach >80% agreement on non-tie votes (matching human-human), dropping to ~60-66% with ties.", "source": "arXiv:2306.05685 (Zheng et al., NeurIPS 2023)", "vote": "3-0"},
+    {"claim": "LLM judges show documented position, verbosity, and self-enhancement biases plus limited reasoning.", "source": "arXiv:2306.05685; arXiv:2410.02736 (Ye et al., CALM, ICLR 2025)", "vote": "3-0"},
+    {"claim": "CALM quantifies 12 distinct LLM-judge biases; position-bias robustness rate falls below 0.5 with 3-4 candidates, so judges are not reliable by default.", "source": "arXiv:2410.02736 (Ye et al., ICLR 2025)", "vote": "3-0"},
+    {"claim": "Self-preference/self-enhancement is a measurable bias (GPT-4 significant); mechanism contested (self-recognition vs perplexity/familiarity).", "source": "arXiv:2404.13076 (Panickssery et al., NeurIPS 2024); arXiv:2410.21819 (Wataoka et al., workshop)", "vote": "3-0"},
+    {"claim": "MathDial: ~3k teacher-LLM-student tutoring dialogues w/ teacher-move taxonomy; process-only, LLM-simulated students, no learning-outcome criterion (2025 follow-up: simulated results inflated).", "source": "arXiv:2305.14536 (Macina et al., Findings EMNLP 2023)", "vote": "3-0"},
+    {"claim": "CIMA: tutoring dialogue dataset; next-tutor-utterance generation scored by BLEU/BERTScore; process proxy only, no learning gain.", "source": "ACL 2020.bea-1.5 (Stasaski, Kao & Hearst, BEA 2020)", "vote": "3-0"},
+    {"claim": "AI Teacher Test: comparative human judgment of pedagogical ability; both LLMs scored worse than human teachers, esp. on helpfulness (fluency != pedagogy); no learning criterion.", "source": "arXiv:2205.07540 (Tack & Piech, EDM 2022)", "vote": "3-0"},
+    {"claim": "TSCC: freely-available one-to-one tutoring dialogue corpus w/ SETT annotation; process/dialogue only, no learning-gain metric.", "source": "arXiv:2011.07109 (Caines et al., NLP4CALL 2020)", "vote": "3-0"},
+    {"claim": "Bridge: 700 real tutoring conversations w/ expert remediation decisions; evaluated by human preference; authors list learning impact as future work (process/quality only).", "source": "arXiv:2310.10648 (Wang et al., NAACL 2024)", "vote": "3-0"},
+    {"claim": "MathTutorBench (SOTA): scores open-ended pedagogical quality with a trained reward model (expert-vs-novice ~0.84); no real student learning-outcome criterion.", "source": "arXiv:2502.18940 (Macina et al., EMNLP 2025)", "vote": "3-0"},
+    {"claim": "ICAP (Chi & Wylie 2014): ordering Passive<Active<Constructive<Interactive, operationalized via overt behaviors; ordering/operationalization empirically contested.", "source": "doi:10.1080/00461520.2014.965823; contested by doi:10.1038/s41539-023-00197-4 (Schwartz et al., 2023)", "vote": "3-0"}
+  ],
+  "round2_open_unverified": [
+    "Data contamination/leakage primary source (gap #4): not among confirmed claims; treat as open.",
+    "Tutor CoPilot RCT outcomes/population (gap #5; EdWorkingPaper ai24-1054 / arXiv:2410.03017): not independently verified."
   ],
   "additional_sources_fetched": [
     "https://people.bath.ac.uk/edspd/Weblinks/MA_Ass/Resources/Quality%20issues/Messick%201995%20AP.pdf",
