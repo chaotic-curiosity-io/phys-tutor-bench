@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench v3 — Implementation Plan: The Validity-Bridge Study</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html">
+<meta name="description" content="An executable implementation plan for the validity-bridge study — does any automated tutoring-quality proxy predict measured physics learning? — plus a phased roadmap sequencing the full PhysTutorBench research program.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PhysTutorBench v3 — the validity-bridge study (implementation plan)">
+<meta property="og:description" content="A preregisterable study protocol testing whether automated LLM-tutoring scores predict real student learning gains, with a phased roadmap to the full research program.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/comparison.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PhysTutorBench v3 — the validity-bridge study (implementation plan)">
+<meta name="twitter:description" content="Does automated tutoring-quality scoring predict real physics learning? A preregisterable protocol + phased roadmap.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/comparison.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .tag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:10px;vertical-align:middle}
+  .t-gate{background:#fbeede;color:var(--warn);border:1px solid #e8c98f}
+  .t-phase{background:#e9eef4;color:var(--accent);border:1px solid #c2d2e0}
+  .small{font-size:.85rem;color:var(--muted)}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="methodology.html">← v2 methodology</a></p>
+
+<h1>PhysTutorBench v3 — Implementation Plan: The Validity-Bridge Study</h1>
+<p class="subtitle">A preregisterable protocol to test whether <em>any</em> automated tutoring-quality proxy predicts measured physics learning — and a phased roadmap that sequences the rest of the research program behind it.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> implementation plan (draft) &nbsp;·&nbsp; <b>Builds on:</b> <a href="index.html">v1 report</a> + <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <b>Direction:</b> #1 (keystone) of the v2 roadmap
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The one-sentence study</div>
+<p>Recruit real introductory-physics learners, randomize them across a wide gradient of LLM tutors and a control, measure <b>conceptual learning gain</b> with a validated inventory, and ask: <b>do the cheap automated scores we (and every prior benchmark) compute actually predict that learning?</b> If yes, automated evaluation is licensed and the field can scale; if no, the entire LLM-judged-process paradigm — v1 included — is measuring a proxy of unknown worth. This plan specifies the design, the two distinct "bridge" estimators (and why one is well-powered and one is hard), the prerequisites that must be built first, the statistics and decision gates, a worked mechanics/FCI instantiation, and how this single study unlocks the other nine directions.</p>
+</div>
+
+<div class="toc">
+<a href="#why">1. Why this is the keystone</a><br>
+<a href="#design">2. Study design</a><br>
+<a href="#measures">3. Measures &amp; the two bridges</a><br>
+<a href="#analysis">4. Hypotheses, power &amp; decision gates</a><br>
+<a href="#phase0">5. Prerequisites (Phase 0)</a><br>
+<a href="#ethics">6. Ethics, equity &amp; reproducibility</a><br>
+<a href="#worked">7. Worked instantiation</a><br>
+<a href="#roadmap">8. Phased roadmap to the full program</a><br>
+<a href="#risks">9. Risks &amp; mitigations</a><br>
+<a href="#timeline">10. Milestones &amp; deliverables</a>
+</div>
+
+<h2 id="why">1. Why this is the keystone</h2>
+<p>The v2 critique established that no existing LLM-tutoring benchmark — MathDial, CIMA, the AI Teacher Test, TSCC, Bridge, or even SOTA MathTutorBench (<a href="methodology.html#corpus">v2 §2d</a>) — validates its scores against real student learning. They all score <em>process</em>. v1 did too. So the field has been optimizing proxies no one has shown to predict the outcome that matters. The bridge study is the experiment that either grounds that entire enterprise or refutes it. Until it exists, every leaderboard number (ours included) is uninterpretable as evidence about teaching. Everything else in the roadmap (§8) is more valuable <em>after</em> this anchor.</p>
+
+<h2 id="design">2. Study design</h2>
+
+<h3>2.1 Core logic</h3>
+<p>To estimate whether automated scores predict learning, we need <b>variance in tutoring quality</b> paired with <b>both</b> a measured learning gain and an automated score. The design therefore deliberately spans a wide quality gradient of tutors and captures, for every real tutoring session, the transcript that the student actually experienced — so the same session can be scored both ways.</p>
+
+<h3>2.2 Conditions (the quality gradient)</h3>
+<p>K ≈ 10–16 tutor conditions chosen to span <em>bad → expert</em>, so the bridge has range to detect:</p>
+<ul>
+<li><b>Anchored foils</b> (reusing v1's discriminant-validity profiles): an <em>answer-dumper</em>, a <em>confidently-wrong-physics</em> tutor, a <em>pseudo-Socratic</em> tutor, and an <em>expert-prompted</em> tutor. These guarantee spread and double as a discriminant-validity check.</li>
+<li><b>Real models × prompt variants</b>: several base LLMs (local + frontier) crossed with prompt regimes (terse vs. scaffolding-forced vs. unconstrained).</li>
+<li><b>Control(s)</b>: no-tutor (read a standard text for matched time) and, ideally, a human-tutor reference arm to calibrate the effect-size ceiling (human tutoring d≈0.79 — <a href="methodology.html#r8">VanLehn 2011</a>).</li>
+</ul>
+
+<h3>2.3 Participants &amp; assignment</h3>
+<p>Real intro-physics learners (course-embedded or recruited via a screened pool), <b>randomly assigned</b> to one tutor condition, stratified by pre-test score and scientific-reasoning ability (both confound normalized gain — <a href="methodology.html#r7">Coletta &amp; Phillips 2005</a>). Pre-register the target N (see §4).</p>
+
+<h3>2.4 Procedure (per participant)</h3>
+<pre>  consent → pretest (validated inventory + reasoning test + covariates)
+         → tutoring session(s) on the target concept cluster(s)   [transcript logged]
+         → immediate posttest (parallel form)
+         → delayed posttest (~2–4 weeks, durability)
+</pre>
+<p>Sessions are time-boxed and focused on a small set of misconception clusters so pre/post items map tightly to what was tutored. Every transcript is stored for Tier-P scoring (§3).</p>
+
+<h2 id="measures">3. Measures &amp; the two bridges</h2>
+
+<h3>3.1 Tier G — the learning criterion (ground truth)</h3>
+<ul>
+<li><b>Instrument:</b> a validated concept inventory (e.g., FCI/FMCE for mechanics — <a href="methodology.html#r2">Hestenes 1992</a>), used as multi-item subscales, never single items (item-correctness ≠ understanding — <a href="methodology.html#r5">[5]</a>).</li>
+<li><b>Primary outcome:</b> normalized gain ⟨g⟩ (<a href="methodology.html#r1">Hake 1998</a>) <em>and</em> Cohen's d, with <b>IRT/latent-trait</b> scoring to handle the ~25% of answers that flip on retest with no learning (<a href="methodology.html#r6">[6]</a>).</li>
+<li><b>Covariates:</b> pre-score and scientific-reasoning ability, modeled explicitly (they confound g — <a href="methodology.html#r7">[7]</a>).</li>
+<li><b>Durability:</b> delayed post-test as a secondary outcome.</li>
+</ul>
+
+<h3>3.2 Tier P — the automated scores (the candidate proxies)</h3>
+<ul>
+<li><b>Process scores</b> on the real transcripts: the v2 behaviorally-anchored, ICAP-grounded rubric (<a href="methodology.html#kit">v2 §4.2</a>), applied by a <em>human-calibrated</em> judge or a trained domain reward model (cf. MathTutorBench — <a href="methodology.html#r25">[25]</a>), with the bias audit from <a href="methodology.html#methodology">v2 §3.6</a>.</li>
+<li><b>Fully-automated pipeline score</b>: the v1/v2-style run with <em>human-validated simulated students</em> (Phase 0) — the cheap pipeline whose validity we ultimately want to certify.</li>
+</ul>
+
+<h3>3.3 The two bridges (the crux)</h3>
+<table>
+<thead><tr><th>Bridge</th><th>Unit / estimator</th><th>Power</th><th>What it licenses</th></tr></thead>
+<tbody>
+<tr><td><b>B1 — Rubric-on-real-sessions</b></td><td>Each real student's transcript process-score ↔ <em>that student's</em> measured gain; mixed-effects with random effects for tutor, student, item (N = hundreds)</td><td><b>Well-powered</b> (large N, within-condition variance)</td><td>That the rubric/judge applied to a real session tracks learning — i.e., the scoring instrument is a valid within-study proxy.</td></tr>
+<tr><td><b>B2 — Automated-pipeline-vs-reality</b></td><td>Condition-level fully-automated score (simulated students) ↔ condition mean real gain (K data points)</td><td><b>Hard</b> (K is small → wide CI on r)</td><td>The strong claim: that the cheap, no-real-students pipeline predicts real learning and can replace it.</td></tr>
+</tbody>
+</table>
+<div class="callout"><b>Design consequence.</b> Lead with <b>B1</b> — it is properly powered and answers "does our scoring track learning at all?" <b>B2</b> (the holy grail of replacing real students) is bounded by the number of conditions K; a single site can rarely get K large enough for a tight correlation, so B2 should be framed as a <em>multi-site / meta-analytic accumulation</em> across studies that each contribute conditions to a shared, contamination-controlled bank (<a href="#roadmap">§8</a>, direction #10). Pretending K=12 dots settle B2 would repeat v1's overreach.</div>
+
+<h2 id="analysis">4. Hypotheses, power &amp; decision gates</h2>
+<h4>Preregistered research questions</h4>
+<ul>
+<li><b>RQ1 (manipulation works):</b> Do LLM tutors produce conceptual gains above the no-tutor control? (Calibrate expectations to d≈0.4–0.8, not "2-sigma" — <a href="methodology.html#r8">[8]</a>.)</li>
+<li><b>RQ2 (B1 bridge):</b> Does the transcript process-score predict student-level gain, controlling for covariates and condition? Which dimensions carry the prediction?</li>
+<li><b>RQ3 (B2 bridge):</b> Does the fully-automated pipeline score predict condition-level real gain?</li>
+<li><b>RQ4 (discriminant/known-ordering):</b> Do the anchored foils rank as expected (expert &gt; pseudo-Socratic &gt; answer-dumper &gt; wrong-physics) on <em>both</em> tiers?</li>
+</ul>
+<h4>Analysis</h4>
+<p>Mixed-effects models (students nested in conditions; crossed random effects for item and scenario), covariate-adjusted; report standardized effects with CIs; correct for multiple comparisons across dimensions/topics; estimate run-to-run variance by repeating Tier-P generations at the intended temperature. All hypotheses, models, exclusions, and thresholds <b>preregistered</b> before data collection (<a href="methodology.html#kit">v2 §4.4</a> template).</p>
+<h4>Illustrative power (to be finalized by formal analysis + pilot)</h4>
+<ul>
+<li><b>RQ1:</b> detecting d=0.5 at 80% power ≈ 64 students/arm; inventory measurement noise (<a href="methodology.html#r6">[6]</a>) inflates this — budget accordingly.</li>
+<li><b>B1:</b> a student-level correlation of r=0.3 at 80% power needs ≈ 85 paired observations — easily met if the RCT is adequately powered for RQ1; aim higher for a tight CI.</li>
+<li><b>B2:</b> with K=12 conditions, power to detect r=0.5 is only ≈ 40–50% — explicitly underpowered; treat B2 as accumulation, not a one-shot test.</li>
+</ul>
+<div class="callout"><span class="tag t-gate">GATE&nbsp;G1</span> <b>Go/no-go (preregistered):</b> declare a usable proxy only if B1 shows the process-score predicts gain at <b>r ≥ 0.5</b> (or a preregistered equivalent effect) with the bias audit passed. <b>If B1 fails</b>, the field cannot use process scores as learning evidence — a major, publishable negative result that reorients everyone (including us) toward Tier-G or better proxies.</div>
+
+<h2 id="phase0">5. Prerequisites (Phase 0 — must exist before the RCT)</h2>
+<table>
+<thead><tr><th>Prerequisite</th><th>Direction</th><th>Acceptance gate</th></tr></thead>
+<tbody>
+<tr><td>Content-valid scenario + item bank (expert panel + cognitive interviews; held-out/contamination-controlled)</td><td>#10 / v2 §3.4</td><td>≥ N scenarios with interview-confirmed misconception elicitation; parallel pre/post forms validated</td></tr>
+<tr><td>Human-validated simulated students</td><td>#2</td><td>Simulated-student dialogue distributions match real corpora within tolerance; answer-leakage eliminated</td></tr>
+<tr><td>Calibrated judge / trained reward model</td><td>#3</td><td>Judge–human agreement Krippendorff α ≥ 0.67 (target ≥ 0.80); bias audit (position/verbosity/self-preference — <a href="methodology.html#r13">[13]</a>,<a href="methodology.html#r18">[18]</a>) within bounds</td></tr>
+</tbody>
+</table>
+<p>Phase 0 is itself three of the roadmap directions; the bridge study is what forces them to be built to a real standard rather than assumed.</p>
+
+<h2 id="ethics">6. Ethics, equity &amp; reproducibility</h2>
+<ul>
+<li><b>IRB &amp; consent</b> for real-learner data; data governance and de-identification plan.</li>
+<li><b>Harm protocol:</b> a real student may be taught wrong physics by a foil/weak tutor — require a debrief + correct-instruction remediation after post-testing, and a real-time wrong-physics guardrail option (direction #6).</li>
+<li><b>Equity:</b> pre-register subgroup analyses (prior attainment, reasoning ability, language, demographics) and report differential effectiveness — gain confounds with incoming ability (<a href="methodology.html#r7">[7]</a>), so equity is a first-class outcome.</li>
+<li><b>Reproducibility:</b> versioned models/prompts/seeds; preregistration; open release of the item bank (held-out splits + canaries), transcripts (consented), rubric, and analysis code.</li>
+</ul>
+
+<h2 id="worked">7. Worked instantiation (mechanics / FCI)</h2>
+<ul>
+<li><b>Domain:</b> Newtonian mechanics; 3–4 misconception clusters (e.g., Newton's third law, motion-requires-force, gravitation) drawn from the FCI/FMCE.</li>
+<li><b>Inventory:</b> FCI subscales for those clusters, parallel pre/post forms; Lawson reasoning test as covariate.</li>
+<li><b>Conditions:</b> K=12 — 4 anchored foils + 6 model×prompt variants + no-tutor control + (if feasible) a human-tutor arm.</li>
+<li><b>Sessions:</b> ~30 min focused tutoring per cluster.</li>
+<li><b>Sample:</b> target ≈ 60–90/arm for RQ1 → several hundred students total (single large course or multi-section / online pool).</li>
+<li><b>Tier-P:</b> v2 BARS rubric scored by a Phase-0-calibrated reward model on the real transcripts (B1), plus the fully-automated simulated-student pipeline per condition (B2).</li>
+<li><b>Local recipe carry-over:</b> the existing <code>run_local_eval.py</code> / scoring stack instantiates the Tier-P side; the new build is the Tier-G RCT apparatus and the Phase-0 calibration.</li>
+</ul>
+
+<h2 id="roadmap">8. Phased roadmap to the full program</h2>
+<pre>
+  Phase 0 ── foundations (gate the bridge)
+    #2 sim-student validation ─┐
+    #3 judge/reward calibration ┼──▶  Phase 1 ──  #1 VALIDITY-BRIDGE STUDY
+    content-valid item bank ────┘                    │
+                                                     ├─(GATE G1: is there a proxy, r≥0.5?)
+                                                     │
+   Phase 2 (rides on the RCT data / follow-ups)      ▼
+     #4 outcome-measure science   #5 mechanism experiments
+        │                                            │
+        ▼              if G1 = yes                    ▼
+   Phase 3 ── breadth                         #10 validity-anchored
+     #6 harm benchmark                         leaderboard + open bank
+     #7 multimodal/representational                  │
+     #8 adaptivity &amp; equity ───────────────────────▶ Phase 4 ── field scale
+                                                #9 real-classroom RCT
+</pre>
+<table>
+<thead><tr><th>Phase</th><th>Directions</th><th>Output / gate</th></tr></thead>
+<tbody>
+<tr><td><span class="tag t-phase">0</span> Foundations</td><td>#2, #3, item bank (#10 subset)</td><td>Calibrated instruments; acceptance gates in §5</td></tr>
+<tr><td><span class="tag t-phase">1</span> Bridge</td><td>#1 (+ #4, #5 instrumented in the same RCT)</td><td><b>Gate G1</b>: proxy validated or refuted</td></tr>
+<tr><td><span class="tag t-phase">2</span> Consolidate</td><td>#4 outcome science, #5 mechanism, #10 leaderboard (if G1✓)</td><td>Validated metric + (conditional) automated leaderboard</td></tr>
+<tr><td><span class="tag t-phase">3</span> Breadth</td><td>#6 harm, #7 multimodal, #8 equity</td><td>Wider construct + safety coverage</td></tr>
+<tr><td><span class="tag t-phase">4</span> Field scale</td><td>#9 classroom RCT, mature #10 infra</td><td>Ecological validity; community resource</td></tr>
+</tbody>
+</table>
+<p><b>Dependency logic:</b> #2 and #3 gate #1 (you cannot bridge with an uncalibrated judge or an invalid simulated student). #1's gate G1 gates #10 (a leaderboard is only meaningful if its scores are bridge-validated). #6–#8 broaden the construct once the core measure is trusted. #9 is the ecological capstone.</p>
+
+<h2 id="risks">9. Risks &amp; mitigations</h2>
+<table>
+<thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td><b>The proxy does not exist</b> (B1 null)</td><td>This is a valid, high-value result — preregister it as such; it redirects the field to Tier-G and better proxies rather than failing silently.</td></tr>
+<tr><td>B2 underpowered (K too small)</td><td>Lead with B1; design conditions and the item bank for cross-study pooling toward a meta-analytic B2 (#10).</td></tr>
+<tr><td>Recruitment / N shortfall</td><td>Course-embed; multi-section or online pool; power for the well-defined B1 first.</td></tr>
+<tr><td>Real students taught wrong physics</td><td>Debrief + remediation post-test; cap foil exposure; guardrail (#6).</td></tr>
+<tr><td>Inventory contamination (web-available)</td><td>Held-out/paraphrased items + canaries; report robustness (v2 §3.7).</td></tr>
+<tr><td>Measurement noise swamps gain</td><td>IRT scoring, multi-item subscales, delayed post-test, adequate N (<a href="methodology.html#r6">[6]</a>).</td></tr>
+</tbody>
+</table>
+
+<h2 id="timeline">10. Milestones &amp; deliverables</h2>
+<ol>
+<li><b>M0 (Phase 0):</b> validated item bank, validated simulated student, calibrated judge/reward model — with the §5 acceptance gates met; preregistration filed.</li>
+<li><b>M1 (pilot):</b> small pilot to finalize power, session length, and item parallelism; cognitive-interview report.</li>
+<li><b>M2 (data collection):</b> RCT run; transcripts + pre/post/delayed scores collected.</li>
+<li><b>M3 (analysis):</b> B1 (+ B2 contribution), discriminant-ordering check, equity analysis; <b>Gate G1</b> decision.</li>
+<li><b>M4 (release):</b> paper + open item bank, transcripts (consented), rubric, reward model, and analysis code — and, if G1✓, the first bridge-validated leaderboard.</li>
+</ol>
+<div class="callout ok"><b>The payoff.</b> Whichever way Gate G1 resolves, the field gains its first answer to the question every LLM-tutoring benchmark has so far assumed: <em>do these scores mean anything about learning?</em> That answer is the foundation the other nine directions build on.</div>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="methodology.html">v2 methodology</a> · <a href="#top">top ↑</a></p>
+<p class="small">Draft implementation plan. Effect sizes and Ns are planning estimates to be finalized by formal power analysis and pilot. Citations refer to the <a href="methodology.html#refs">v2 reference list</a>.</p>
+
+</div>
+</body>
+</html>
