@@ -1,0 +1,40 @@
+{
+  "about": "Verified evidence base behind PhysTutorBench v2 (methodology.html). Produced by an automated deep-research harness: 5 search angles -> 28 fetched sources -> 138 extracted claims -> 3-vote adversarial verification of the 25 highest-value claims. 22 confirmed (>=2/3 votes). Final synthesis was authored by a human from this corpus. 3 ICAP claims could not finish verification before a provider rate limit and are treated as canonical in the write-up.",
+  "method": {"angles": 5, "sources_fetched": 28, "claims_extracted": 138, "claims_verified": 25, "confirmed": 22, "killed_or_unverified": 3},
+  "confirmed_claims": [
+    {"claim": "Across 62 intro physics courses (N=6542), interactive-engagement courses averaged normalized gain <g>=0.48 (sd .14) vs 0.23 (sd .04) for traditional, ~2x more effective.", "source": "https://web.mit.edu/jrankin/www/Active_Learning/hake_active_phys.pdf", "vote": "3-0"},
+    {"claim": "Normalized gain g = (post% - pre%)/(100 - pre%): actual gain over maximum possible gain.", "source": "https://web.mit.edu/jrankin/www/Active_Learning/hake_active_phys.pdf", "vote": "3-0"},
+    {"claim": "The FCI (Hestenes, Wells & Swackhamer 1992, The Physics Teacher 30(3):141-158) is a validated instrument for students' force/motion conceptions.", "source": "https://eric.ed.gov/?id=EJ456376", "vote": "3-0"},
+    {"claim": "The FCI measures conceptual understanding and alternative conceptions (misconceptions) about force/motion; a diagnostic suitable for sourcing validated misconceptions.", "source": "https://eric.ed.gov/?id=EJ456376", "vote": "3-0"},
+    {"claim": "Authorship correction: PRPER 16,010108 (2020) is Coletta & Steinert, a rebuttal defending normalized gain; the Nissen et al. normalized-gain-vs-Cohen's-d paper is PRPER 14,010115 (2018, arXiv:1612.09180).", "source": "https://doi.org/10.1103/PhysRevPhysEducRes.16.010108", "vote": "3-0"},
+    {"claim": "Coletta & Steinert (2020): the prescore bias attributed to normalized gain by Nissen does not exist under careful analysis; the apparent bias is omitted-variable bias in the competing analysis.", "source": "https://doi.org/10.1103/PhysRevPhysEducRes.16.010108", "vote": "3-0"},
+    {"claim": "Coletta & Steinert (2020): Cohen's d is less informative than normalized gain as a single-parameter effectiveness measure; recommend continuing to use normalized gain.", "source": "https://doi.org/10.1103/PhysRevPhysEducRes.16.010108", "vote": "3-0"},
+    {"claim": "FCI item Q.29 (atmospheric pressure) shows reduced correct-answer rates pre->post in some classes: instruction made performance worse on this item.", "source": "https://journals.aps.org/prper/abstract/10.1103/PhysRevPhysEducRes.17.020120", "vote": "3-0"},
+    {"claim": "Many students answer an FCI item correctly without the intended concept, and many who learned it still miss it: item correctness is a poor proxy for the targeted concept.", "source": "https://journals.aps.org/prper/abstract/10.1103/PhysRevPhysEducRes.17.020120", "vote": "2-1"},
+    {"claim": "Post-instruction learners had a worse correct-response rate on Q.29, making the item less discriminating of ability.", "source": "https://journals.aps.org/prper/abstract/10.1103/PhysRevPhysEducRes.17.020120", "vote": "3-0"},
+    {"claim": "Item Response Theory predicts observed FCI gains/losses fairly well, offering a model-based alternative to raw answer-change proportions.", "source": "https://arxiv.org/pdf/1509.03878", "vote": "3-0"},
+    {"claim": "Because responses are non-deterministic, up to ~25% of answers can change on retest with NO learning: pre/post change is partly measurement noise.", "source": "https://arxiv.org/pdf/1509.03878", "vote": "3-0"},
+    {"claim": "In a no-learning test-retest, apparent gains/losses can range 0%-100%, so raw gain figures alone cannot be read as evidence of learning.", "source": "https://arxiv.org/pdf/1509.03878", "vote": "3-0"},
+    {"claim": "Individual normalized FCI gain g correlates positively & significantly with pre-instruction FCI score in 3/4 IE populations (r=0.15-0.33): g is not independent of incoming level.", "source": "https://www.physics.utoronto.ca/~key/PHY1600/PER%20Papers/FCI%20Pre%20and%20post%20scores%20-%20ColettaPhillips.pdf", "vote": "3-0"},
+    {"claim": "Across 38 IE classes (2948 students), class-average normalized FCI gain correlates with class-average pre-score (r=0.63, p<0.0001): g is not population-independent across groups.", "source": "https://www.physics.utoronto.ca/~key/PHY1600/PER%20Papers/FCI%20Pre%20and%20post%20scores%20-%20ColettaPhillips.pdf", "vote": "3-0"},
+    {"claim": "Normalized FCI gain g correlates with scientific-reasoning ability (Lawson) at r=0.51 (p<0.0001, n=65), stronger than with prescore: reasoning ability is a hidden confound of g as an efficacy measure.", "source": "https://www.physics.utoronto.ca/~key/PHY1600/PER%20Papers/FCI%20Pre%20and%20post%20scores%20-%20ColettaPhillips.pdf", "vote": "3-0"},
+    {"claim": "VanLehn (2011): human tutoring vs no-tutoring effect size d=0.79, far below the cited 'two-sigma' (d=2.0).", "source": "https://www.tandfonline.com/doi/abs/10.1080/00461520.2011.611369", "vote": "3-0"},
+    {"claim": "VanLehn (2011): intelligent tutoring systems reach d=0.76, nearly equal to human tutoring (0.79): automated tutors can match humans on learning outcomes.", "source": "https://www.tandfonline.com/doi/abs/10.1080/00461520.2011.611369", "vote": "3-0"},
+    {"claim": "VanLehn (2011): the belief that finer interaction granularity necessarily increases effectiveness was NOT confirmed; assumed-good design features must be validated against learning, not presumed.", "source": "https://www.tandfonline.com/doi/abs/10.1080/00461520.2011.611369", "vote": "3-0"},
+    {"claim": "Chi et al. (2001) framed tutoring effectiveness as three competing hypotheses (tutor-centered, student-centered, interactive) a benchmark must distinguish among.", "source": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1", "vote": "3-0"},
+    {"claim": "Chi et al. (2001): students learned just as effectively when tutors were experimentally suppressed from giving explanations/feedback, falsifying that tutor explanation delivery is the primary driver of learning.", "source": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1", "vote": "3-0"},
+    {"claim": "Chi et al. (2001): interactive-tutoring learning is attributed to deeper/more scaffolding episodes plus students taking control (reading more): construct of good tutoring = eliciting student construction, not disclosure.", "source": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog2504_1", "vote": "2-1"}
+  ],
+  "unverified_canonical": [
+    {"note": "ICAP ordering (Interactive>Constructive>Active>Passive) and its behavioral operationalization could not finish 3-vote verification before a provider rate limit; cited as canonical (Chi & Wylie 2014).", "source": "https://onlinelibrary.wiley.com/doi/abs/10.1111/cogs.12626"}
+  ],
+  "additional_sources_fetched": [
+    "https://people.bath.ac.uk/edspd/Weblinks/MA_Ass/Resources/Quality%20issues/Messick%201995%20AP.pdf",
+    "https://www.apa.org/science/programs/testing/standards",
+    "https://ncme.org/wp-content/uploads/2026/01/Educational-Measurement-Fifth-Edition-Chapter-04.pdf",
+    "https://arxiv.org/abs/2306.05685",
+    "https://boldscience.org/wp-content/uploads/2025/04/Productive-Failure.pdf",
+    "https://edworkingpapers.com/sites/default/files/ai24_1054_v2.pdf"
+  ],
+  "caveat": "Some automated search hits returned implausible identifiers (e.g., future-dated arXiv IDs); these were excluded from the write-up in favor of the canonical record. Confirm every citation against its source of record before formal use."
+}
