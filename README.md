@@ -25,6 +25,10 @@ Reproduce: `run_local_eval.py` → judge (`judge_rubric.md`) → `finalize_score
 
 A critique of this v1 study against educational-measurement standards, an annotated PER + LLM-eval literature corpus, and a superseding **tiered methodology** — moving from LLM-judged *process quality* to **measured student learning gains** as the criterion, with a practical LLM tier whose validity is *bridged* to the gold standard. Includes an instantiable item/rubric schema and a preregistration checklist for PER groups.
 
+### 🧭 Next: **[v3 implementation plan — the validity-bridge study](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html)**
+
+A preregisterable study protocol testing the keystone question — *do automated tutoring scores predict real student learning gains?* — with a worked mechanics/FCI instantiation, two bridge estimators, decision gates, and a phased roadmap sequencing all ten research directions.
+
 ---
 
 ## What It Measures
