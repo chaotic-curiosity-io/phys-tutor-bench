@@ -10,6 +10,7 @@ import anthropic
 import httpx
 
 from src.scenarios.schema import Scenario, StudentProfile, Affect, ResponseStyle
+from src.engine.model_compat import anthropic_create_kwargs, first_text
 
 STUDENT_SYSTEM_PROMPT = """\
 You are a simulated introductory physics student in a tutoring session. You must behave \
@@ -172,12 +173,11 @@ class StudentSimulator:
 
         response = self.client.messages.create(
             model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
             system=system,
             messages=conversation_history,
+            **anthropic_create_kwargs(self.model, self.temperature, self.max_tokens),
         )
 
-        text = response.content[0].text
+        text = first_text(response.content)
         tokens = response.usage.input_tokens + response.usage.output_tokens
         return text, tokens

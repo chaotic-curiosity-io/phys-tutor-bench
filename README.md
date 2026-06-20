@@ -11,6 +11,7 @@ All published via GitHub Pages at [`chaotic-curiosity-io.github.io/phys-tutor-be
 | | Paper | What it is |
 |:--:|-------|------------|
 | **v1** | [**Local LLMs as physics tutors**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/) | Empirical report — 4 local Ollama models × 12 PER scenarios scored on six pedagogical dimensions; judge κ = 0.73 |
+| **★** | [**Frontier models as tutors (dual-judge rerun)**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html) | Opus 4.8 / Sonnet 4.6 / Haiku 4.5 / GPT-4o × the same 12 scenarios, scored by **two** frontier judges (Opus 4.8 + GPT-5.5). Every frontier tutor beats the best local model; cross-judge ρ = 0.72 but the same-family judge shows a ceiling effect |
 | **v2** | [**PER-grounded methodology**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html) | Validity critique of v1 + tiered methodology (process → measured learning gains) + annotated literature corpus + instantiable study kit |
 | **v3** | [**Validity-bridge implementation plan**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html) | Preregisterable protocol — *does any automated tutoring score predict real learning?* Two bridge estimators, decision gates, phased roadmap |
 | **📄** | [**Concept paper / prospectus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html) | Fundable, PER-publication-grade prospectus for the validity-bridge study; honest novelty vs. recent AI-tutor RCTs; phased funding case |
@@ -34,6 +35,19 @@ A study using this benchmark to evaluate four local [Ollama](https://ollama.com)
 **Headlines:** answer-disclosure restraint is the *universal* weak spot — every model tends to lecture the answer rather than guide. `llama3.2:3b` frequently reinforces the student's misconception or states incorrect physics (harm-avoidance 0.08/4). Judge test–retest reliability is substantial (quadratic-weighted κ = 0.73; 92% of scores within one point). Full methods, figures, per-topic breakdowns, construct/judge validity, and threats-to-validity are in the report.
 
 Reproduce: `run_local_eval.py` → judge (`judge_rubric.md`) → `finalize_scores.py` → `docs_build_data.py`; reliability via `compute_agreement.py` (see report §8).
+
+### 🚀 Companion: **[Frontier models as physics tutors — a dual-judge rerun](https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html)**
+
+The same protocol with frontier models in every role: **Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, and GPT-4o** as tutors, a fixed **Claude Sonnet 4.6** student, and **two independent judges** (Claude Opus 4.8 + GPT-5.5) scoring all 48 conversations.
+
+| Tutor | Opus 4.8 judge | GPT-5.5 judge |
+|-------|:--:|:--:|
+| 🥇 claude-opus-4-8 | **4.00** | **3.70** |
+| 🥈 claude-sonnet-4-6 | 3.92 | 3.68 |
+| 🥉 claude-haiku-4-5 | 3.84 | 3.45 |
+| 4 · gpt-4o | 2.96 | 2.90 |
+
+**Headlines:** every frontier tutor beats v1's best local model (qwen3:8b, 2.38); **answer-disclosure restraint stays the universal weak spot** (GPT-4o worst, 1.75 / 1.25); GPT-4o's gap is *scaffolding*, not diagnosis. The two judges agree on the **ranking** (composite Spearman ρ = 0.72) but the same-family Opus judge rates Claude tutors at the **ceiling** (a perfect 4.00 for the Opus tutor) while cross-family GPT-5.5 is stricter — a self-preference signal the dual-judge design exists to catch. Full tables, figures, inter-judge agreement, and threats-to-validity in the report.
 
 ### 🧪 Companion: **[PhysTutorBench v2 — a PER-grounded methodology](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html)**
 
@@ -84,16 +98,24 @@ pip install -e ".[dev]"
 phystutor generate-scenarios --topic mechanics --count 3
 
 # Run a single scenario against a model
-phystutor run-single --scenario data/scenarios/mechanics/some-scenario.json --model claude-sonnet-4-20250514
+phystutor run-single --scenario data/scenarios/mechanics/some-scenario.json --model claude-opus-4-8
 
-# Run the full benchmark
-phystutor run-benchmark --model claude-sonnet-4-20250514 --concurrency 5
+# Run the full benchmark. Frontier models (Opus 4.8/4.7, Fable 5, OpenAI o-series/GPT-5.x)
+# that reject `temperature` are handled automatically by src/engine/model_compat.py.
+# --student-model overrides the fixed student; --transfer-injection-offset matches a prior run.
+phystutor run-benchmark --model claude-opus-4-8 --student-model claude-sonnet-4-6 \
+  --max-turns 10 --transfer-injection-offset 3 --concurrency 6 --output results/frontier
 
-# Score the conversations
-phystutor score --results-dir results/claude-sonnet-4-20250514/2025-01-15_120000/
+# Score the conversations. --judge-model dispatches by prefix to the Anthropic LLMJudge
+# or the OpenAIJudge; --output keeps each judge's scores in its own directory.
+phystutor score --results-dir results/frontier --judge-model claude-opus-4-8 --output results/frontier/_scores/opus-4-8
+phystutor score --results-dir results/frontier --judge-model gpt-5.5         --output results/frontier/_scores/gpt-5.5
 
-# Generate comparison scorecard
-phystutor scorecard --results-dir results/ --compare claude-sonnet-4-20250514,gpt-4o
+# Generate comparison scorecard (point at one judge's score dir)
+phystutor scorecard --results-dir results/frontier/_scores/opus-4-8 --compare claude-opus-4-8,claude-sonnet-4-6,claude-haiku-4-5,gpt-4o
+
+# Inter-judge agreement when two judges scored the same conversations
+python compare_judges.py --a results/frontier/_scores/opus-4-8 --b results/frontier/_scores/gpt-5.5
 
 # Launch human annotation interface
 phystutor annotate --conversations results/sample/
@@ -118,7 +140,7 @@ phystutor-bench/
 │   ├── scoring/                      # Rubric, LLM judge, scorecard
 │   ├── validation/                   # Annotation interface, agreement, validity
 │   └── cli.py                        # CLI entry point
-├── tests/                            # 71 tests across all subsystems
+├── tests/                            # 106 tests across all subsystems
 └── results/                          # Generated at runtime
 ```
 

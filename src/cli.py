@@ -133,6 +133,10 @@ def run_single(ctx: click.Context, scenario: str, model: str,
 @click.option("--model", required=True, help="Model name for the tutor under test")
 @click.option("--concurrency", default=5, help="Number of parallel conversations")
 @click.option("--max-turns", default=15, help="Maximum conversation turns")
+@click.option("--student-model", default=None,
+              help="Override the student simulator model (default: config student_simulator.model)")
+@click.option("--transfer-injection-offset", default=2,
+              help="Inject the transfer problem N turns before max_turns")
 @click.option("--scenarios-dir", default=DEFAULT_SCENARIOS, help="Path to scenarios directory")
 @click.option("--output", default=DEFAULT_RESULTS, help="Output directory")
 @click.option("--cost-limit", default=50.0, help="Maximum estimated cost in USD")
@@ -141,7 +145,8 @@ def run_single(ctx: click.Context, scenario: str, model: str,
 @click.option("--api-key", default=None, help="Custom API key")
 @click.pass_context
 def run_benchmark(ctx: click.Context, model: str, concurrency: int,
-                  max_turns: int, scenarios_dir: str, output: str,
+                  max_turns: int, student_model: str | None,
+                  transfer_injection_offset: int, scenarios_dir: str, output: str,
                   cost_limit: float, scenario_ids: str | None,
                   api_base: str | None, api_key: str | None) -> None:
     """Run the full benchmark suite against a model."""
@@ -151,6 +156,7 @@ def run_benchmark(ctx: click.Context, model: str, concurrency: int,
     student_cfg = config.get("student_simulator", {})
 
     ids = scenario_ids.split(",") if scenario_ids else None
+    student = student_model or student_cfg.get("model", "claude-sonnet-4-20250514")
 
     _run_benchmark(
         scenarios_dir=scenarios_dir,
@@ -158,8 +164,9 @@ def run_benchmark(ctx: click.Context, model: str, concurrency: int,
         output_dir=output,
         concurrency=concurrency,
         max_turns=max_turns,
-        student_model=student_cfg.get("model", "claude-sonnet-4-20250514"),
+        student_model=student,
         student_temperature=student_cfg.get("temperature", 0.7),
+        transfer_injection_offset=transfer_injection_offset,
         cost_limit=cost_limit,
         api_base=api_base,
         api_key=api_key,
@@ -169,18 +176,22 @@ def run_benchmark(ctx: click.Context, model: str, concurrency: int,
 
 @cli.command()
 @click.option("--results-dir", required=True, help="Directory containing conversation records")
-@click.option("--judge-model", default="claude-opus-4-20250514", help="Model for the LLM judge")
+@click.option("--judge-model", default="claude-opus-4-8", help="Model for the LLM judge")
 @click.option("--scenarios-dir", default=DEFAULT_SCENARIOS, help="Path to scenarios directory")
 @click.option("--concurrency", default=3, help="Number of parallel scoring requests")
-def score(results_dir: str, judge_model: str, scenarios_dir: str, concurrency: int) -> None:
+@click.option("--output", default=None,
+              help="Where to write *_score.json (default: <results-dir>/scores). "
+                   "Use a per-judge dir for dual-judge runs.")
+def score(results_dir: str, judge_model: str, scenarios_dir: str, concurrency: int,
+          output: str | None) -> None:
     """Score a set of conversation records."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
     from src.engine.batch_runner import load_scenarios
     from src.engine.conversation_loop import load_conversation
-    from src.scoring.llm_judge import LLMJudge
+    from src.scoring.judge import create_judge
     from src.scoring.scorecard import save_score
 
-    judge = LLMJudge(model=judge_model)
+    judge = create_judge(judge_model)
 
     # Load scenarios for reference
     all_scenarios = load_scenarios(scenarios_dir)
@@ -195,7 +206,7 @@ def score(results_dir: str, judge_model: str, scenarios_dir: str, concurrency: i
     console.print(f"[bold]Scoring {len(conv_files)} conversations[/bold]")
     console.print(f"  Judge model: {judge_model}")
 
-    scores_dir = results_path / "scores"
+    scores_dir = Path(output) if output else results_path / "scores"
 
     def score_one(conv_path: Path):
         conv = load_conversation(conv_path)

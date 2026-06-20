@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
@@ -149,19 +150,42 @@ class ConversationLoop:
 
         return record
 
+    # Unambiguous quit signals: a word-boundary match anywhere ends the dialogue.
+    _STRONG_DISENGAGEMENT = (
+        "i give up",
+        "i don't care",
+        "this is pointless",
+        "i quit",
+        "forget it",
+    )
+    # Filler words that also appear in engaged reasoning ("...heat and whatever, but...").
+    # Only count them when they ARE the message (a short dismissive turn), not as
+    # mid-sentence filler — otherwise a fluent student is killed off spuriously.
+    _AMBIGUOUS_DISENGAGEMENT = ("whatever", "never mind", "nevermind")
+
     def _check_disengagement(self, text: str) -> bool:
-        """Heuristic check for student disengagement signals."""
-        disengagement_phrases = [
-            "i give up",
-            "i don't care",
-            "this is pointless",
-            "whatever",
-            "i quit",
-            "forget it",
-            "never mind",
-        ]
+        """Heuristic check for student disengagement signals.
+
+        Strong quit-phrases trigger on a word-boundary match anywhere. The
+        ambiguous filler words ("whatever", "never mind") trigger only when the
+        whole (short) message is dominated by them — guarding against fluent
+        students who use them conversationally while still engaged.
+        """
         text_lower = text.lower().strip()
-        return any(phrase in text_lower for phrase in disengagement_phrases)
+        if any(re.search(rf"\b{re.escape(p)}\b", text_lower)
+               for p in self._STRONG_DISENGAGEMENT):
+            return True
+        # Strip surrounding punctuation/whitespace for the standalone test.
+        stripped = text_lower.strip(" .!?,…\"'")
+        if stripped in self._AMBIGUOUS_DISENGAGEMENT:
+            return True
+        # A short, dismissive turn that leads or ends with the filler word
+        # (e.g. "ugh, whatever." / "whatever, i'm done") — but not long reasoning.
+        if len(text_lower) <= 30:
+            for p in self._AMBIGUOUS_DISENGAGEMENT:
+                if re.search(rf"\b{re.escape(p)}\b", text_lower):
+                    return True
+        return False
 
 
 def save_conversation(record: ConversationRecord, output_dir: str | Path) -> Path:

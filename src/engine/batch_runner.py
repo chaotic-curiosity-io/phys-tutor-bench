@@ -86,6 +86,7 @@ def run_benchmark(
     max_turns: int = 15,
     student_model: str = "claude-sonnet-4-20250514",
     student_temperature: float = 0.7,
+    transfer_injection_offset: int = 2,
     cost_limit: float = 50.0,
     api_base: str | None = None,
     api_key: str | None = None,
@@ -143,6 +144,7 @@ def run_benchmark(
         "student_model": student_model,
         "student_temperature": student_temperature,
         "max_turns": max_turns,
+        "transfer_injection_offset": transfer_injection_offset,
         "n_scenarios": len(scenarios),
         "timestamp": timestamp,
         "concurrency": concurrency,
@@ -172,6 +174,7 @@ def run_benchmark(
                     student_model=student_model,
                     student_temperature=student_temperature,
                     max_turns=max_turns,
+                    transfer_injection_offset=transfer_injection_offset,
                     api_base=api_base,
                     api_key=api_key,
                 )

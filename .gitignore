@@ -7,6 +7,9 @@ build/
 .eggs/
 *.egg
 .env
+.env.local
+.secrets.local
+loadenv.sh
 .venv
 venv/
 results/

@@ -17,10 +17,11 @@ pytest tests/test_scoring.py::TestRubric::test_composite_score -v   # one test
 
 # Pipeline (each stage feeds the next; `phystutor` entry point = src.cli:cli)
 phystutor generate-scenarios --topic mechanics --count 3   # taxonomy -> data/scenarios/<topic>/*.json
-phystutor run-single --scenario <id-or-path> --model claude-sonnet-4-20250514   # debug one conversation
-phystutor run-benchmark --model <model> --concurrency 5     # -> results/<model_slug>/<timestamp>/conversations/
-phystutor score --results-dir results/<model_slug>/<timestamp>/   # -> .../scores/*_score.json
+phystutor run-single --scenario <id-or-path> --model claude-opus-4-8   # debug one conversation
+phystutor run-benchmark --model <model> [--student-model M] [--transfer-injection-offset N] --concurrency 5  # -> results/<slug>/<ts>/conversations/
+phystutor score --results-dir <run-or-base> --judge-model <model> [--output <dir>]   # -> <dir>/*_score.json (per-judge dir for dual-judge runs)
 phystutor scorecard --results-dir results/ --compare modelA,modelB   # tables + PNGs + scorecard.json
+python compare_judges.py --a <scoresA> --b <scoresB>   # inter-judge kappa/alpha across two judges' score dirs
 phystutor annotate --conversations <dir>    # Streamlit human-annotation UI -> SQLite
 phystutor validate --annotations <db> --results-dir <dir> [--run-discriminant]
 ```
@@ -29,7 +30,9 @@ No linter/formatter is configured (despite `.ruff_cache`/`.mypy_cache` in `.giti
 
 ## API keys
 
-`generate-scenarios`, `run-benchmark`, `score`, and `validate` make real API calls and need `ANTHROPIC_API_KEY` (and `OPENAI_API_KEY` to evaluate GPT models as the tutor). Most unit tests inject `MagicMock` clients and need no network — **every API-calling class takes a `client=` parameter, which is the seam for testing** (`StudentSimulator`, `AnthropicTutor`, `OpenAITutor`, `LLMJudge`). A few tests that construct a real backend still require the key env var to be *present* (any value) even though they make no call.
+`generate-scenarios`, `run-benchmark`, `score`, and `validate` make real API calls and need `ANTHROPIC_API_KEY` (and `OPENAI_API_KEY` to use a GPT model as the **tutor or judge**). Most unit tests inject `MagicMock` clients and need no network — **every API-calling class takes a `client=` parameter, which is the seam for testing** (`StudentSimulator`, `AnthropicTutor`, `OpenAITutor`, `LLMJudge`, `OpenAIJudge`). A few tests that construct a real backend still require the key env var to be *present* (any value) even though they make no call.
+
+**Newer frontier models reject `temperature`** (Opus 4.8/4.7, Fable/Mythos 5; OpenAI o-series & GPT-5.x). `src/engine/model_compat.py` builds per-model request kwargs (drops `temperature`, uses `max_completion_tokens` for OpenAI reasoning models) and is the single place all four backends go through — so any role can use any of these models without a 400. Models like `claude-sonnet-4-6`, `claude-haiku-4-5`, and `gpt-4o` still take `temperature`.
 
 ## Architecture: a four-stage file-based pipeline
 
@@ -42,7 +45,7 @@ taxonomy ──generate──> Scenario JSON ──run──> ConversationRecord
 
 1. **Scenarios** (`src/scenarios/`): `taxonomy.py` loads the 65+ misconception taxonomy (the "backbone" — every scenario traces to a PER instrument). `generate_scenarios.py` prompts an LLM to author `Scenario` objects per misconception, allocating counts to hit per-topic targets (`TOPIC_TARGETS`).
 2. **Engine** (`src/engine/`): `conversation_loop.py` runs one tutoring dialogue. `student_simulator.py` is a **controlled variable** — fixed model/prompt/temperature; changing it invalidates prior results. `tutor_runner.py` is the model-under-test, selected by `create_tutor_backend()` (a factory dispatching on model-name prefix). `batch_runner.py` fans scenarios across a `ThreadPoolExecutor` with a pre-flight cost estimate/abort.
-3. **Scoring** (`src/scoring/`): `rubric.py` holds the six dimensions as structured data + composite weights. `judge.py` is the `Judge` ABC; `llm_judge.py` is the working implementation (frontier model, temp 0, JSON output); `reward_model_judge.py` is an intentional stub for a future trained model. `scorecard.py` aggregates and plots.
+3. **Scoring** (`src/scoring/`): `rubric.py` holds the six dimensions as structured data + composite weights. `judge.py` is the `Judge` ABC **plus the `create_judge(model)` factory** (dispatches on model prefix, mirroring `create_tutor_backend`); `llm_judge.py` is the Anthropic implementation and `openai_judge.py` is the OpenAI one (both reuse the same rubric prompt + JSON parsing); `reward_model_judge.py` is an intentional stub for a future trained model. `scorecard.py` aggregates and plots. Root `compare_judges.py` computes inter-judge agreement (κ/α) for dual-judge runs, reusing `validation/agreement_analysis.py`.
 4. **Validation** (`src/validation/`): `agreement_analysis.py` (Cohen's/weighted kappa, Krippendorff's alpha vs. human SQLite annotations), `construct_validity.py`, and `discriminant_validity.py` (generates gold/foil tutor conversations and asserts the rubric ranks `expert > pseudo_socratic > answer_dumper > wrong_physics`). `human_annotation_interface.py` is the Streamlit app.
 
 ### The six dimensions (defined once in `rubric.py`)
@@ -52,7 +55,8 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 ## Conventions and gotchas that span files
 
 - **Run from the repo root.** The package is named `src` and everything imports as `from src.…`; there's no installed package alias.
-- **Config is mostly not wired in.** The CLI reads only `config.student_simulator`. The `judge`, `conversation` (incl. `tutor_system_prompt`, `transfer_injection_offset`), `batch`, and `scoring_weights` sections of `config/default.yaml` are **not** consumed — those defaults live as Click option defaults and module constants (`DEFAULT_TUTOR_SYSTEM_PROMPT`, `rubric.DEFAULT_WEIGHTS`). Editing the YAML's weights or prompts will not change behavior until you thread them through.
+- **Config is mostly not wired in.** The CLI reads only `config.student_simulator`. The `judge`, `conversation` (incl. `tutor_system_prompt`), `batch`, and `scoring_weights` sections of `config/default.yaml` are **not** consumed — those defaults live as Click option defaults and module constants (`DEFAULT_TUTOR_SYSTEM_PROMPT`, `rubric.DEFAULT_WEIGHTS`). Editing the YAML's weights or prompts will not change behavior until you thread them through. (`run-benchmark` now exposes `--student-model` and `--transfer-injection-offset` as CLI overrides.)
+- **Disengagement detection is intent-not-substring.** `conversation_loop._check_disengagement` ends a dialogue on strong quit-phrases (word-boundary match) but treats filler words ("whatever", "never mind") as disengagement *only* when they dominate a short message — a bare substring match falsely killed ~⅔ of conversations with a fluent frontier student before the transfer turn.
 - **Filenames are the contract between stages.** Scores are written as `{conversation_id}_score.json`; `score` treats every other `*.json` (except `run_metadata.json`/`run_summary.json`) as a conversation, and `load_scores` globs `*_score.json`. Don't rename these.
 - **Scenario IDs encode topic.** `_make_scenario_id` produces `mech-/em-/thwv-/modq-` prefixes, and `Scorecard._infer_topic` parses that prefix for per-topic breakdowns. Keep the prefix scheme consistent.
 - **Conversation loop keeps two role-swapped histories.** From the tutor's view student=`user`/tutor=`assistant`; from the student's view it's reversed. The tutor always gets the last word at `max_turns`.

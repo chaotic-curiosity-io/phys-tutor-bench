@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench — Frontier models as physics tutors (dual-judge rerun)</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html">
+<meta name="description" content="A frontier-model rerun of PhysTutorBench: Claude Opus 4.8, Sonnet 4.6, Haiku 4.5 and GPT-4o tutoring 12 PER scenarios, scored by two independent frontier judges (Claude Opus 4.8 + GPT-5.5). Includes an inter-judge agreement analysis that exposes a same-family self-preference effect.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Frontier models as physics tutors — a dual-judge rerun of PhysTutorBench">
+<meta property="og:description" content="Opus 4.8 / Sonnet 4.6 / Haiku 4.5 / GPT-4o judged by two frontier judges. Every frontier tutor beats the best local model; answer-disclosure restraint stays the weak spot; and the Claude judge rates Claude tutors at the ceiling.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/frontier-comparison-opus48.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Frontier models as physics tutors — a dual-judge rerun of PhysTutorBench">
+<meta name="twitter:description" content="Frontier tutors vs. the v1 local models, scored by two independent judges. Ranking is robust; the same-family judge shows a ceiling effect.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/frontier-comparison-opus48.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .small{font-size:.85rem;color:var(--muted)}
+  figure{margin:1.4em 0;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--rule);border-radius:4px;background:#fff}
+  figcaption{font-size:.82rem;color:var(--muted);margin-top:.5em}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  .win{color:var(--ok);font-weight:700}
+  .lose{color:var(--bad);font-weight:700}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="v3-plan.html">v3 plan</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a></p>
+
+<h1>Frontier models as physics tutors</h1>
+<p class="subtitle">A dual-judge rerun of the v1 benchmark — Claude Opus 4.8, Sonnet 4.6, Haiku 4.5 and GPT-4o tutoring the same 12 PER scenarios, scored independently by Claude Opus 4.8 <em>and</em> GPT-5.5.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> empirical rerun &nbsp;·&nbsp; <b>Builds on:</b> <a href="index.html">v1 (local Ollama models)</a> &nbsp;·&nbsp; <b>Tutors:</b> 4 frontier &nbsp;·&nbsp; <b>Judges:</b> 2 (cross-family) &nbsp;·&nbsp; <b>Conversations:</b> 48 &nbsp;·&nbsp; <b>Judge scores:</b> 96
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The one-paragraph result</div>
+<p>We reran v1's protocol with four frontier tutors against a fixed frontier student (Claude Sonnet 4.6), and scored every conversation with <b>two independent frontier judges</b> — Claude Opus 4.8 and GPT-5.5 — to check whether the verdict survives a change of judge. Three findings: <b>(1)</b> every frontier tutor outscores the best v1 local model on pedagogical quality; <b>(2)</b> <b>answer-disclosure restraint</b> remains the universal weak spot — and GPT-4o is the clear laggard, lecturing the answer far more than the Claude models; <b>(3)</b> the two judges <b>agree on the ranking</b> (composite Spearman ρ = 0.72) but the <b>same-family Claude judge rates Claude tutors at the ceiling</b> (a perfect 4.00/4.00 for the Opus tutor), while the cross-family GPT-5.5 judge is systematically stricter. A single same-family judge would have reported a misleadingly saturated result; the dual-judge design is what makes that visible.</p>
+</div>
+
+<div class="toc">
+<a href="#setup">1. What was run</a><br>
+<a href="#results">2. Results</a><br>
+<a href="#cross">3. Cross-cutting findings</a><br>
+<a href="#agreement">4. Do the two judges agree?</a><br>
+<a href="#threats">5. Threats to validity</a><br>
+<a href="#repro">6. Reproduce</a>
+</div>
+
+<h2 id="setup">1. What was run</h2>
+<p>Identical methodology to the <a href="index.html">v1 report</a> — the same 12 PER-grounded scenarios (3 each across mechanics, E&amp;M, thermal/waves, modern/quantum), each a student exhibiting a misconception catalogued by a validated instrument (FCI, CSEM, DIRECT, TCS, MWCS, QMCS) — with the model roles swapped from local to frontier:</p>
+<table>
+<thead><tr><th>Role</th><th>v1 (local)</th><th>This rerun (frontier)</th></tr></thead>
+<tbody>
+<tr><td>Tutors (under test)</td><td>llama3.1:8b, llama3.2:3b, qwen2.5:7b, qwen3:8b</td><td>claude-opus-4-8, claude-sonnet-4-6, claude-haiku-4-5, gpt-4o</td></tr>
+<tr><td>Student (fixed control)</td><td>qwen2.5:7b @ 0.7</td><td>claude-sonnet-4-6 @ 0.7</td></tr>
+<tr><td>Judge</td><td>single</td><td><b>dual</b>: claude-opus-4-8 + gpt-5.5</td></tr>
+</tbody>
+</table>
+<p>Held constant: <code>max_turns = 10</code>, transfer problem injected 3 turns before the end, the six 0–4 dimensions and weighting, and the rubric prompt. All 48 conversations ran the full length and reached the transfer problem. Each was scored twice (once per judge), giving 96 score records.</p>
+
+<h2 id="results">2. Results</h2>
+<p>Composite is the weighted mean of the six dimensions (MD = misconception diagnosis, SS = scaffolding, ADR = answer-disclosure restraint, CMB = conceptual model building, TS = transfer success, PHA = pedagogical harm avoidance). Both judges' tables are shown — the differences between them are the subject of §4.</p>
+
+<h4>Judge A — Claude Opus 4.8</h4>
+<table>
+<thead><tr><th>Tutor</th><th class="num">MD</th><th class="num">SS</th><th class="num">ADR</th><th class="num">CMB</th><th class="num">TS</th><th class="num">PHA</th><th class="num">Composite</th></tr></thead>
+<tbody>
+<tr><td>🥇 claude-opus-4-8</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">4.00</td><td class="num"><b>4.00</b></td></tr>
+<tr><td>🥈 claude-sonnet-4-6</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">3.83</td><td class="num">4.00</td><td class="num">3.67</td><td class="num">3.92</td><td class="num"><b>3.92</b></td></tr>
+<tr><td>🥉 claude-haiku-4-5</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">3.08</td><td class="num">4.00</td><td class="num">3.83</td><td class="num">4.00</td><td class="num"><b>3.84</b></td></tr>
+<tr><td>4. gpt-4o</td><td class="num">3.25</td><td class="num">2.50</td><td class="num">1.75</td><td class="num">3.50</td><td class="num">3.42</td><td class="num">3.33</td><td class="num"><b>2.96</b></td></tr>
+</tbody>
+</table>
+
+<h4>Judge B — GPT-5.5</h4>
+<table>
+<thead><tr><th>Tutor</th><th class="num">MD</th><th class="num">SS</th><th class="num">ADR</th><th class="num">CMB</th><th class="num">TS</th><th class="num">PHA</th><th class="num">Composite</th></tr></thead>
+<tbody>
+<tr><td>🥇 claude-opus-4-8</td><td class="num">4.00</td><td class="num">4.00</td><td class="num">3.25</td><td class="num">3.92</td><td class="num">3.17</td><td class="num">3.50</td><td class="num"><b>3.70</b></td></tr>
+<tr><td>🥈 claude-sonnet-4-6</td><td class="num">4.00</td><td class="num">3.83</td><td class="num">3.25</td><td class="num">3.75</td><td class="num">3.33</td><td class="num">3.75</td><td class="num"><b>3.68</b></td></tr>
+<tr><td>🥉 claude-haiku-4-5</td><td class="num">3.92</td><td class="num">3.75</td><td class="num">2.33</td><td class="num">3.58</td><td class="num">3.50</td><td class="num">3.25</td><td class="num"><b>3.45</b></td></tr>
+<tr><td>4. gpt-4o</td><td class="num">3.50</td><td class="num">2.75</td><td class="num">1.25</td><td class="num">3.42</td><td class="num">2.83</td><td class="num">3.50</td><td class="num"><b>2.90</b></td></tr>
+</tbody>
+</table>
+
+<figure>
+<img src="assets/frontier-comparison-opus48.png" alt="Per-dimension comparison of the four frontier tutors, Claude Opus 4.8 judge">
+<figcaption>Per-dimension means, Claude Opus 4.8 judge. The Claude tutors saturate most dimensions; GPT-4o trails on scaffolding and answer-disclosure restraint.</figcaption>
+</figure>
+
+<p><b>Both judges produce the same ordering:</b> the three Claude tutors cluster at the top (Opus ≈ Sonnet &gt; Haiku) and <b>GPT-4o is last by a clear margin</b>. Sonnet 4.6 tutors almost as well as Opus 4.8 — notable given it is also the (fixed) student in every conversation.</p>
+
+<h2 id="cross">3. Cross-cutting findings</h2>
+<h3>3.1 Every frontier tutor beats the best local model</h3>
+<p>v1's best local tutor (qwen3:8b) scored a 2.38 composite; its weakest (llama3.2:3b) 1.01. Here the <em>weakest</em> frontier tutor — GPT-4o — scores ~2.9 under both judges, above v1's best, and the Claude tutors land between 3.45 and 4.00. The jump from open-weight 7–8B models to frontier models is large on teaching quality, not just on problem-solving. <span class="small">(This is a magnitude observation, not a like-for-like comparison — see §5 on the student change.)</span></p>
+
+<h3>3.2 Answer-disclosure restraint is still the weak spot</h3>
+<p>Just as in v1, <b>ADR is the lowest dimension</b> for almost every tutor under both judges — models still tend to lecture the answer rather than sustain productive struggle. The effect is starkest for GPT-4o (ADR 1.75 / 1.25), which routinely hands over the key idea; the Claude tutors restrain markedly better (Opus 4.00 / 3.25), with Haiku the weakest Claude on restraint.</p>
+
+<h3>3.3 GPT-4o's gap is scaffolding, not diagnosis</h3>
+<p>GPT-4o diagnoses misconceptions reasonably (MD 3.25 / 3.50) but scores lowest on <b>scaffolding</b> (SS 2.50 / 2.75) and restraint — it understands what's wrong but jumps to telling rather than guiding. The Claude models scaffold interactively (SS 3.75–4.00).</p>
+
+<h2 id="agreement">4. Do the two judges agree?</h2>
+<p>The point of scoring every conversation twice, with judges from <em>different</em> model families, is to ask whether the leaderboard is a property of the tutors or of the judge. Inter-judge agreement across all 48 conversations:</p>
+<table>
+<thead><tr><th>Dimension</th><th class="num">Weighted κ</th><th class="num">Krippendorff α</th><th class="num">Spearman ρ</th><th class="num">Exact</th><th class="num">Within 1</th></tr></thead>
+<tbody>
+<tr><td>Misconception diagnosis</td><td class="num">0.74 <span class="win">good</span></td><td class="num">0.74</td><td class="num">0.91</td><td class="num">92%</td><td class="num">100%</td></tr>
+<tr><td>Scaffolding strategy</td><td class="num">0.81 <span class="win">good</span></td><td class="num">0.82</td><td class="num">0.85</td><td class="num">83%</td><td class="num">100%</td></tr>
+<tr><td>Answer-disclosure restraint</td><td class="num">0.66 <span class="win">good</span></td><td class="num">0.63</td><td class="num">0.81</td><td class="num">40%</td><td class="num">92%</td></tr>
+<tr><td>Conceptual model building</td><td class="num">0.40 <span class="lose">poor</span></td><td class="num">0.37</td><td class="num">0.76</td><td class="num">81%</td><td class="num">98%</td></tr>
+<tr><td>Transfer success</td><td class="num">0.49 fair</td><td class="num">0.44</td><td class="num">0.65</td><td class="num">35%</td><td class="num">96%</td></tr>
+<tr><td>Pedagogical harm avoidance</td><td class="num">0.25 <span class="lose">poor</span></td><td class="num">0.23</td><td class="num">0.73</td><td class="num">75%</td><td class="num">94%</td></tr>
+</tbody>
+</table>
+<p class="small">Composite: Spearman ρ = 0.72; the Opus judge is ~0.25 points more generous on average (mean composite 3.68 vs. 3.43).</p>
+
+<div class="callout bad"><b>The self-preference flag.</b> The Claude Opus 4.8 judge awards the Claude <em>Opus</em> tutor a perfect 4.00/4.00 and every Claude tutor ≥ 3.84 — a saturated ceiling. The cross-family GPT-5.5 judge pulls those same conversations down (Opus 4.00 → 3.70; restraint 4.00 → 3.25) yet <em>still</em> ranks GPT-4o last (2.90), so this is not pro-OpenAI bias — GPT-5.5 is simply a stricter grader, especially on restraint and transfer. The risk a single same-family judge poses is real: alone, Opus 4.8 would have reported a near-saturated, low-resolution leaderboard.</div>
+
+<p>Agreement is strong precisely where behavior is observable and concrete — diagnosis, scaffolding, restraint (weighted κ 0.66–0.81, ρ up to 0.91). It weakens on the more interpretive dimensions — conceptual model building, harm avoidance (κ 0.25–0.40), where the high "within-1" rates (94–98%) show the judges rarely differ by more than a point but disagree on the exact level. The encouraging headline: <b>the tutor ranking is judge-robust even though the absolute scores are not.</b></p>
+
+<h2 id="threats">5. Threats to validity</h2>
+<ul>
+<li><b>Not directly comparable to v1's numbers.</b> The student simulator — a controlled variable — changed from qwen2.5:7b to Claude Sonnet 4.6. A different student produces different conversations, so the frontier scores are comparable <em>to each other</em>, not 1:1 to the v1 local-model scores. The "frontier &gt; local" claim in §3.1 is a magnitude observation across that change, not a controlled contrast.</li>
+<li><b>Same-family judge ceiling (§4).</b> Treat the Opus-judge absolute scores as an upper bound for Claude tutors; the GPT-5.5 column and the agreement stats are the corrective.</li>
+<li><b>Sonnet is both a tutor and the student.</b> In one cell, Sonnet 4.6 tutors a Sonnet 4.6 student — a self-pairing. It still ranks below/near Opus, so this does not appear to inflate it, but it is noted.</li>
+<li><b>Small scenario N.</b> 12 scenarios × 4 tutors = 48 conversations. Dimension means rest on 12 conversations per tutor; treat fine-grained gaps cautiously.</li>
+<li><b>A fixed engine bug was corrected for this run.</b> The disengagement detector matched the substring "whatever"; a fluent frontier student uses it as filler, which truncated ~⅔ of conversations before the transfer turn in a pilot. The detector was tightened (word-boundary quit-phrases; filler words only when they dominate a short message) so all 48 conversations ran to length. This affects only conversation length, not scoring, but is a deviation from the exact v1 engine.</li>
+</ul>
+
+<h2 id="repro">6. Reproduce</h2>
+<pre>$ for m in claude-haiku-4-5 gpt-4o claude-sonnet-4-6 claude-opus-4-8; do
+    phystutor run-benchmark --model "$m" --student-model claude-sonnet-4-6 \
+      --max-turns 10 --transfer-injection-offset 3 --concurrency 6 --output results/frontier
+  done
+$ phystutor score --results-dir results/frontier --judge-model claude-opus-4-8 --output results/frontier/_scores/opus-4-8
+$ phystutor score --results-dir results/frontier --judge-model gpt-5.5         --output results/frontier/_scores/gpt-5.5
+$ phystutor scorecard --results-dir results/frontier/_scores/opus-4-8 --compare claude-opus-4-8,claude-sonnet-4-6,claude-haiku-4-5,gpt-4o
+$ python compare_judges.py --a results/frontier/_scores/opus-4-8 --b results/frontier/_scores/gpt-5.5</pre>
+<p class="small">Frontier models that reject the <code>temperature</code> parameter (Opus 4.8/4.7, Fable 5, OpenAI o-series &amp; GPT-5.x) are handled automatically by <code>src/engine/model_compat.py</code>; the GPT-5.5 judge runs through the new <code>OpenAIJudge</code> backend.</p>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="#top">top ↑</a></p>
+<p class="small">Empirical rerun, 48 conversations × 2 judges. Absolute scores are judge-dependent (see §4); the tutor ranking is judge-robust. Dimension definitions and weighting follow the <a href="index.html">v1 report</a>.</p>
+
+</div>
+</body>
+</html>
