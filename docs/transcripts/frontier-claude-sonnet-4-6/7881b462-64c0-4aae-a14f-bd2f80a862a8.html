@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>claude-sonnet-4-6 · thwv-th1-001</title><style>
+:root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--tutor:#1f5673;--student:#7a1f2b}
+*{box-sizing:border-box}
+html{font-size:17px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:48px 28px 110px}
+h1,h2,h3,h4,.sans,table,.meta,.tag,.crumb,figcaption{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;line-height:1.2;margin:0 0 .3em;letter-spacing:-.01em}
+h2{font-size:1.3rem;margin:2em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+h3{font-size:1.08rem;margin:1.5em 0 .35em;color:var(--accent)}
+p{margin:.5em 0;font-family:Georgia,serif}
+a{color:var(--accent)}
+.crumb{font-size:.85rem;color:var(--muted);margin-bottom:1.2em}
+.meta{font-size:.86rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:10px 0;margin:0 0 1.4em}
+.meta b{color:var(--ink)}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.84rem}
+th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eef1f3;font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.sc{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:14px 18px;margin:1.2em 0;font-size:.92rem}
+.sc p{margin:.35em 0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.sc .k{font-weight:700;color:var(--accent)}
+.turn{margin:.7em 0;padding:10px 14px;border-radius:6px;border:1px solid var(--rule);white-space:pre-wrap;font-family:Georgia,serif;font-size:.93rem}
+.turn .who{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:.35em}
+.tutor{background:#eef4f7;border-left:4px solid var(--tutor)} .tutor .who{color:var(--tutor)}
+.student{background:#faf0f1;border-left:4px solid var(--student)} .student .who{color:var(--student)}
+.transfer{outline:2px dashed #9a6a00;outline-offset:2px}
+.judge{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:6px 16px 14px;margin:1em 0}
+.just{font-size:.86rem;color:#333}
+.tag{display:inline-block;font-size:.66rem;font-weight:700;padding:1px 7px;border-radius:10px;background:#e9eef4;color:var(--accent);border:1px solid #c2d2e0;vertical-align:middle}
+.tag.v1{background:#f3efe6;color:#7a5b1f;border-color:#d8c79f}
+.small{font-size:.84rem;color:var(--muted)}
+.runcard{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:6px 18px 14px;margin:1.1em 0}
+hr{border:none;border-top:1px solid var(--rule);margin:2em 0}
+@media(max-width:620px){html{font-size:16px}.wrap{padding:32px 16px 80px}}
+</style></head><body><div class="wrap"><p class="crumb"><a href="../../index.html">PhysTutorBench</a> · <a href="../../transcripts/index.html">all transcripts</a></p><h1>claude-sonnet-4-6 &nbsp;<span class="tag">frontier</span></h1><div class="meta"><b>Scenario:</b> thwv-th1-001 &nbsp;·&nbsp; <b>Student:</b> claude-sonnet-4-6 @ 0.7 &nbsp;·&nbsp; <b>Turns:</b> 10 &nbsp;·&nbsp; <b>End:</b> max_turns</div><div class="sc"><p><span class="k">Topic.</span> thermal_waves / temperature_heat</p><p><span class="k">Misconception (TCS).</span> Student conflates temperature and heat, using them interchangeably. Believes temperature measures the amount of heat in an object. <span class="small">[TH1_temperature_heat_conflation]</span></p><p><span class="k">Problem.</span> A 200 g block of aluminum and a 200 g block of copper are both pulled from the same oven, where they have been sitting long enough to reach the oven&#x27;s temperature of 150 C. The teacher asks: which block contains more heat, and how do their temperatures compare right when they come out?</p><p><span class="k">Student opens with.</span> The aluminum has more heat. They&#x27;re at the same temperature, but aluminum heats up faster, so it must hold more heat to get that hot. More heat means hotter, basically the same thing.</p><p><span class="k">Student profile.</span> level=intro_algebra, affect=confident_but_wrong, style=terse_answerer</p><p><span class="k">Transfer problem.</span> A lit birthday candle has a flame at about 1000 C. A bathtub full of warm water is at 40 C. Which one would transfer more energy to a block of ice dropped into it, and which one is at a higher temperature? <span class="small">(success: Student separates the two ideas: the candle flame is at a far higher temperature, but the large mass of warm water can deliver much more thermal energy (heat) to the ice because heat transferred depends on mass and specific heat, not just temperature. A correct answer identifies the flame as hotter yet recognizes the bathtub as the larger reservoir of transferable energy.)</span></p><p><span class="k">Expert reference.</span> TH1 — the student uses &#x27;heat&#x27; and &#x27;temperature&#x27; as synonyms, treating temperature as a readout of how much heat an object stores. Root cause is everyday language (&#x27;how much heat is in it&#x27;) colliding with the physics distinction between an intensive property (temperature) and an energy transfer (heat). — socratic_questioning with an anchoring_conception</p></div><h2>Conversation</h2><div class="turn student"><span class="who">Turn 0 · STUDENT</span>The aluminum has more heat. They&#x27;re at the same temperature, but aluminum heats up faster, so it must hold more heat to get that hot. More heat means hotter, basically the same thing.</div><div class="turn tutor"><span class="who">Turn 1 · TUTOR</span>Your temperature reasoning is exactly right — nice work there! Both blocks came out of the same oven and had time to fully reach that temperature, so they&#x27;re both at 150°C. That&#x27;s solid thinking.
+
+Now I want to gently push back on the heat part, because there&#x27;s something really interesting hiding here. You said &quot;more heat means hotter, basically the same thing.&quot; Let&#x27;s test that idea with a thought experiment.
+
+Imagine you have a tiny cup of boiling water (100°C) and a huge bathtub of warm water (40°C). Which one is hotter? Which one contains more heat energy?
+
+Take a moment with that — what do you think?</div><div class="turn student"><span class="who">Turn 1 · STUDENT</span>The cup is hotter, obviously. 100 degrees beats 40 degrees.
+
+But... I mean, they both have heat in them. The cup has more heat because it&#x27;s hotter.</div><div class="turn tutor"><span class="who">Turn 2 · TUTOR</span>You&#x27;re right that the cup is hotter! But let&#x27;s really pressure-test that second part.
+
+Here&#x27;s a concrete scenario: imagine you&#x27;re freezing cold and you need to warm up. Would you rather jump into the bathtub of 40°C water, or have the cup of boiling water poured on you?
+
+What do you think would actually warm you up more?</div><div class="turn student"><span class="who">Turn 2 · STUDENT</span>Okay the bathtub obviously, I don&#x27;t want to get burned.
+
+But that&#x27;s just because there&#x27;s more water. That&#x27;s a different thing.</div><div class="turn tutor"><span class="who">Turn 3 · TUTOR</span>That&#x27;s a really sharp observation — and you&#x27;re actually onto something crucial without realizing it yet!
+
+You said &quot;that&#x27;s just because there&#x27;s more water.&quot; But think about what that&#x27;s actually saying. The bathtub transfers more energy to you even though it&#x27;s at a lower temperature. Where did all that extra energy come from?
+
+It came from having more *stuff*, right? More water molecules, each carrying a little energy, adds up to a LOT of total energy — even at a lower temperature.
+
+So here&#x27;s the key question this raises: if the *amount* of stuff matters, what about the *type* of stuff? 
+
+Go back to your aluminum and copper blocks. They have the same mass (200g) and the same temperature (150°C). But they&#x27;re different materials. Do you think different materials might store different amounts of energy per gram, kind of like how having more water molecules stored more energy?
+
+What&#x27;s your instinct?</div><div class="turn student"><span class="who">Turn 3 · STUDENT</span>I mean... maybe? But they&#x27;re both at 150 degrees. Same temperature means same heat, doesn&#x27;t it? That&#x27;s what temperature measures - how much heat something has.
+
+If one had more heat it would be hotter. That&#x27;s just how it works.</div><div class="turn tutor"><span class="who">Turn 4 · TUTOR</span>This is such a common and understandable idea — and it&#x27;s exactly the thing worth getting really clear on, because it trips up a lot of people.
+
+Let me challenge it directly with your own bathtub example. You just agreed that the bathtub has more heat energy than the cup, even though the cup is hotter. So we already have a case where &quot;more heat&quot; does NOT mean &quot;hotter.&quot;
+
+So if temperature doesn&#x27;t measure total heat energy... what DO you think temperature is actually measuring?
+
+Think about what&#x27;s different between a hot object and a cold object at the microscopic level — what are the atoms doing?</div><div class="turn student"><span class="who">Turn 4 · STUDENT</span>I mean... the atoms are moving faster when it&#x27;s hot? I remember that from class.
+
+But I still don&#x27;t really see how that changes things. If the atoms are all moving at the same speed - same temperature - then they have the same heat. The aluminum and copper atoms are both moving at the same speed at 150 degrees, so same heat.</div><div class="turn tutor"><span class="who">Turn 5 · TUTOR</span>You&#x27;re so close to cracking this open! The atoms-moving-faster idea is exactly right, and that&#x27;s the key.
+
+But here&#x27;s the thing — aluminum and copper atoms are not the same size. Copper atoms are actually much heavier than aluminum atoms. Like, roughly twice the mass.
+
+So here&#x27;s a thought experiment. Imagine two cars on a highway, both going the same speed. One is a small sedan, one is a massive truck. Which one has more kinetic energy?</div><div class="turn student"><span class="who">Turn 5 · STUDENT</span>The truck, because it&#x27;s heavier. KE = ½mv², same v but bigger m.
+
+...oh.
+
+So the copper atoms are heavier, so even at the same speed - same temperature - they have more... wait, but there&#x27;s the same number of grams. So there&#x27;s fewer copper atoms because each one is heavier.
+
+I&#x27;m getting confused. Which one wins?</div><div class="turn tutor"><span class="who">Turn 6 · TUTOR</span>This is GREAT reasoning — you just independently discovered exactly the right complication! That &quot;wait, but...&quot; moment is real physics thinking. You should feel good about that.
+
+So you&#x27;ve identified the two competing factors:
+- Heavier atoms → more energy per atom
+- But fewer atoms in 200g → fewer atoms to carry that energy
+
+This is actually a genuinely tricky question, and the answer isn&#x27;t obvious from first principles alone. This is exactly why physicists had to go measure it experimentally — and they gave the result a name: **specific heat capacity**. It&#x27;s basically &quot;how much energy does one gram of this material store per degree of temperature?&quot;
+
+Here&#x27;s the measured values:
+- Aluminum: 0.900 J/g°C
+- Copper: 0.385 J/g°C
+
+So given that, and given both blocks are 200g at 150°C... which block do you think contains more heat energy? Can you set up the calculation?</div><div class="turn student"><span class="who">Turn 6 · STUDENT</span>Okay so aluminum stores more energy per gram... so for the same mass aluminum wins.
+
+200 times 0.900 versus 200 times 0.385... aluminum is way bigger.
+
+So aluminum has more heat energy. Which is what I said at the start!
+
+But wait... for a different reason than I thought. It&#x27;s not because it&#x27;s hotter. They&#x27;re both at 150. It&#x27;s because... aluminum just holds more energy per gram even at the same temperature.
+
+So temperature and heat aren&#x27;t the same thing?</div><div class="turn tutor"><span class="who">Turn 7 · TUTOR</span>Yes. That&#x27;s exactly it. You just built the insight yourself — I want you to really sit with that.
+
+Temperature tells you how fast the atoms are moving. Heat energy tells you the total energy stored. Same temperature can mean very different amounts of stored energy depending on the material and the mass.
+
+Your original conclusion was right — aluminum has more heat. But you now know *why*, and that&#x27;s completely different from where you started. You thought &quot;more heat means hotter.&quot; Now you can see that&#x27;s not right — two things can have the same temperature but very different amounts of stored energy.
+
+Here&#x27;s a good way to test whether this has really clicked: go back to the oven. Both blocks sat in the 150°C oven until they reached 150°C. Which block do you think had to *absorb more energy* from the oven to get to that temperature?</div><div class="turn student transfer"><span class="who">Turn 7 · STUDENT</span>Okay, I think I&#x27;m starting to get it. But what about this — A lit birthday candle has a flame at about 1000 C. A bathtub full of warm water is at 40 C. Which one would transfer more energy to a block of ice dropped into it, and which one is at a higher temperature?</div><div class="turn tutor"><span class="who">Turn 8 · TUTOR</span>Nice — you&#x27;re testing your own understanding now. That&#x27;s exactly what a physicist does.
+
+So go ahead and answer it yourself. You&#x27;ve got all the tools. What do you think?</div><div class="turn student transfer"><span class="who">Turn 8 · STUDENT</span>Okay...
+
+The candle flame is hotter. Way higher temperature. So the atoms in the flame are moving faster.
+
+But the bathtub has way more stuff. So even at lower temperature, there&#x27;s way more total energy stored.
+
+So the bathtub transfers more energy to the ice. But the candle is at a higher temperature.
+
+Same temperature doesn&#x27;t mean same heat. Same heat doesn&#x27;t mean same temperature.
+
+...I think I actually get it now. They&#x27;re just different things.</div><div class="turn tutor"><span class="who">Turn 9 · TUTOR</span>That&#x27;s it. That&#x27;s the whole insight.
+
+You just stated something that takes some people years to really internalize: **temperature and heat are different physical quantities.** They&#x27;re related, but they&#x27;re not the same thing.
+
+- **Temperature** — how fast the atoms are moving (average kinetic energy per particle)
+- **Heat energy** — the total energy stored, which depends on temperature AND mass AND the material
+
+And you didn&#x27;t just memorize that distinction — you built it yourself, starting from cars on a highway and bathtubs and birthday candles.
+
+One last thing worth noticing: look at how your answer to the original question changed. You got the *conclusion* right at the start — aluminum has more heat. But your *reasoning* was wrong — you thought it was because aluminum was hotter, and that heat and temperature were the same thing.
+
+In physics, getting the right answer for the wrong reason is actually a problem, because it won&#x27;t help you on the next question. Now you have reasoning that will transfer.
+
+What would you say now if someone asked you: why does aluminum have more heat energy than copper, even though they&#x27;re at the same temperature?</div><div class="turn student transfer"><span class="who">Turn 9 · STUDENT</span>Because aluminum has a higher specific heat capacity. It stores more energy per gram. So even with the same mass and same temperature, aluminum absorbed more energy from the oven to get there, and it&#x27;s holding onto more total energy.
+
+It&#x27;s not about which one is hotter. They&#x27;re both at 150. It&#x27;s about how much energy is packed in there per gram.
+
+...honestly I&#x27;m still a little weirded out that same temperature can mean different heat. That feels wrong to me still. But I can see it with the numbers so I guess that&#x27;s just how it is.</div><div class="turn tutor"><span class="who">Turn 10 · TUTOR</span>That feeling of &quot;this is weird but the numbers show it&quot; is actually really healthy scientific thinking. You&#x27;re not just accepting it blindly, but you&#x27;re also not rejecting it because it feels strange. That&#x27;s exactly the right relationship to have with a result that surprises you.
+
+And honestly? The fact that it still feels a little weird means you&#x27;re taking it seriously. If it felt totally obvious, you probably hadn&#x27;t really confronted the idea.
+
+Here&#x27;s something that might help with the weirdness. Temperature is about the *average* energy per particle — it&#x27;s an intensity measure, like pressure. Heat energy is a *total* — like volume. 
+
+A swimming pool and a drinking glass can be at the same pressure. But they hold very different amounts of water. Does that analogy help at all, or does it still feel strange?</div><h2>Scores</h2><div class="judge"><h3>Judge: claude-opus-4-8 &nbsp;·&nbsp; composite 4.00/4</h3><table><thead><tr><th>Dimension</th><th class="num">Score</th><th>Justification</th></tr></thead><tbody><tr><td><b>MD</b> Misconception Diagnosis</td><td class="num">4</td><td class="just">The tutor precisely identifies the TH1 temperature-heat conflation. At Turn 4 the tutor names it: &#x27;This is such a common and understandable idea&#x27; and directly challenges &#x27;more heat means hotter.&#x27; Throughout, the tutor distinguishes the student&#x27;s correct conclusion (aluminum has more heat) from the wrong reasoning (&#x27;you thought it was because aluminum was hotter&#x27;). At Turn 9 the tutor explicitly validates the natural reasoning while correcting it: &#x27;getting the right answer for the wrong reason is actually a problem.&#x27; This is expert-level diagnosis that surfaces the exact conflation and explains why it&#x27;s natural.</td></tr><tr><td><b>SS</b> Scaffolding Strategy</td><td class="num">4</td><td class="just">The tutor uses adaptive bridging from anchoring conceptions excellently. Started with the cup/bathtub anchor (Turn 1), then &#x27;pour boiling water vs jump in bathtub&#x27; (Turn 2), then the cars-on-highway KE analogy (Turn 5) to bridge to per-atom energy. When the student got confused at Turn 5 (&#x27;I&#x27;m getting confused. Which one wins?&#x27;), the tutor adapted by introducing specific heat empirically rather than forcing first-principles derivation. Each move was calibrated to the student&#x27;s exact response. The water-level/volume analogy at Turn 10 directly matched the expert&#x27;s recommended anchor.</td></tr><tr><td><b>ADR</b> Answer-Disclosure Restraint</td><td class="num">4</td><td class="just">The tutor maintained productive struggle throughout. Rather than declaring &#x27;heat and temperature differ,&#x27; the tutor let the student build the insight via thought experiments. At Turn 6 it provided specific heat values (necessary empirical data, not a giveaway) and asked the student to set up the calculation. The student arrived at &#x27;So temperature and heat aren&#x27;t the same thing?&#x27; (Turn 6) entirely through their own reasoning. When the student posed the transfer problem at Turn 7, the tutor at Turn 8 said &#x27;go ahead and answer it yourself&#x27; rather than answering. Minimal nudging, student-constructed understanding.</td></tr><tr><td><b>CMB</b> Conceptual Model Building</td><td class="num">4</td><td class="just">The tutor built a transferable model connected to existing knowledge (KE = ½mv², which the student already knew). It explicitly distinguished intensive vs extensive quantities, connected temperature to average kinetic energy per particle and heat to total energy depending on mass, material, and temperature. At Turn 10 it added the pressure/volume analogy for boundary understanding. Crucially, at Turn 9 it emphasized &#x27;Now you have reasoning that will transfer&#x27; — explicitly framing the model as generalizable beyond this problem.</td></tr><tr><td><b>TS</b> Transfer Success</td><td class="num">4</td><td class="just">The student independently introduced and solved the transfer problem (the candle vs bathtub) — which happens to be the designated transfer problem. At Turn 8 the student correctly stated: &#x27;The candle flame is hotter... But the bathtub has way more stuff... So the bathtub transfers more energy to the ice. But the candle is at a higher temperature.&#x27; This fully meets the transfer criteria of separating temperature (flame hotter) from transferable energy (bathtub larger reservoir), done with no prompting from the tutor.</td></tr><tr><td><b>PHA</b> Pedagogical Harm Avoidance</td><td class="num">4</td><td class="just">The tutor consistently validated the student&#x27;s correct reasoning (&#x27;Your temperature reasoning is exactly right&#x27;), praised productive struggle (&#x27;That &quot;wait, but...&quot; moment is real physics thinking&#x27;), and used no shaming. Physics was accurate throughout (specific heat values correct, KE analogy sound). At Turn 10, when the student admitted residual discomfort, the tutor reframed it positively: &#x27;That feeling... is actually really healthy scientific thinking,&#x27; maintaining motivation and a safe environment while offering further support.</td></tr></tbody></table></div><div class="judge"><h3>Judge: gpt-5.5 &nbsp;·&nbsp; composite 3.55/4</h3><table><thead><tr><th>Dimension</th><th class="num">Score</th><th>Justification</th></tr></thead><tbody><tr><td><b>MD</b> Misconception Diagnosis</td><td class="num">4</td><td class="just">The tutor explicitly identifies the student&#x27;s specific heat-temperature conflation. It quotes the student&#x27;s claim (&#x27;more heat means hotter, basically the same thing&#x27;) and directly challenges that idea using the boiling cup vs warm bathtub contrast. In Turn 4, the tutor names the misconception as common and understandable: &#x27;This is such a common and understandable idea...&#x27; and explains that the student is treating temperature as measuring total heat energy. The tutor validates the correct part of the student&#x27;s reasoning first: both blocks are at 150°C.</td></tr><tr><td><b>SS</b> Scaffolding Strategy</td><td class="num">4</td><td class="just">The tutor uses adaptive scaffolding with anchoring conceptions. It begins from the student&#x27;s correct idea that both blocks are at the oven temperature, then uses a familiar anchor: a tiny cup of boiling water versus a bathtub of warm water. When the student says the bathtub warms more &#x27;because there&#x27;s more water,&#x27; the tutor adapts and uses that as a bridge to mass and total energy. Later, when the student notices the complication that copper atoms are heavier but fewer in number, the tutor validates that reasoning and introduces specific heat capacity as the needed concept. The tutor consistently responds to the student&#x27;s actual answers rather than following a rigid script.</td></tr><tr><td><b>ADR</b> Answer-Disclosure Restraint</td><td class="num">3</td><td class="just">The tutor generally guides rather than immediately giving the answer. It does not simply state at the start that aluminum has more thermal energy because of higher specific heat; instead it asks the student to reason through the cup/bathtub comparison and then the material comparison. However, the tutor does provide substantial explanation and eventually supplies the specific heat values for aluminum and copper in Turn 6, making the calculation fairly direct. The student still performs the key reasoning step: &#x27;aluminum stores more energy per gram... so for the same mass aluminum wins.&#x27;</td></tr><tr><td><b>CMB</b> Conceptual Model Building</td><td class="num">3</td><td class="just">The tutor helps build a generalizable distinction between temperature and total thermal energy, using multiple contexts: oven blocks, boiling cup vs bathtub, cars/trucks, and the birthday candle vs bathtub transfer problem. The student eventually states, &#x27;Same temperature doesn&#x27;t mean same heat. Same heat doesn&#x27;t mean same temperature.&#x27; The model is transferable, but it is somewhat weakened by imprecise language such as &#x27;contains more heat energy&#x27; and &#x27;temperature tells you how fast the atoms are moving,&#x27; without clearly distinguishing heat as energy transfer versus internal thermal energy. Boundary conditions are only partly addressed.</td></tr><tr><td><b>TS</b> Transfer Success</td><td class="num">4</td><td class="just">The student independently succeeds on the transfer problem. When presented with the candle flame and bathtub problem, the tutor simply says, &#x27;Go ahead and answer it yourself. You&#x27;ve got all the tools.&#x27; The student correctly identifies that the candle flame is at the higher temperature, while the bathtub transfers more energy to the ice because it has far more material/total energy available: &#x27;The candle flame is hotter... But the bathtub has way more stuff... So the bathtub transfers more energy to the ice.&#x27;</td></tr><tr><td><b>PHA</b> Pedagogical Harm Avoidance</td><td class="num">3</td><td class="just">The tutor is consistently supportive and confidence-building, repeatedly validating productive reasoning: &#x27;Your temperature reasoning is exactly right,&#x27; &#x27;That&#x27;s a really sharp observation,&#x27; and &#x27;This is GREAT reasoning.&#x27; It avoids shaming and maintains engagement. However, there are some potentially misleading physics simplifications, especially the car/truck analogy implying same temperature means same particle speed for different atoms, and the repeated phrase &#x27;stored heat energy&#x27; rather than carefully distinguishing heat from internal thermal energy. These issues prevent a top score, but the interaction is broadly safe and motivating.</td></tr></tbody></table></div></div></body></html>
