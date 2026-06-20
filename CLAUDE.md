@@ -68,11 +68,15 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 ## Published papers & docs (GitHub Pages)
 
 `docs/` is served as a static site by **GitHub Pages — source: `main` branch, `/docs` path** → https://chaotic-curiosity-io.github.io/phys-tutor-bench/. The research write-ups live there as styled, self-contained HTML:
-- `index.html` — v1 empirical report
+- `index.html` — v1 empirical report (local Ollama models)
+- `frontier.html` — frontier-model dual-judge rerun (Opus 4.8 / Sonnet 4.6 / Haiku 4.5 / GPT-4o; judges Opus 4.8 + GPT-5.5); includes a worked example + a cost breakdown
 - `methodology.html` — v2 PER-grounded methodology (§6 = the ten future research directions)
 - `v3-plan.html` — v3 validity-bridge implementation plan
 - `concept-paper.html` — fundable concept paper / prospectus for PER groups & funders
+- `transcripts/` — every saved conversation rendered to HTML (scenario context, dialogue, per-judge scores + justifications). **Generated** by `python build_transcripts.py` from `results/` + `data/scenarios/`. Because `results/` is gitignored, the rendered HTML under `docs/transcripts/` is the committed/published artifact — re-run the script and commit it whenever new runs are added.
 - `research_corpus.json` — primary-source-verified evidence base behind the papers
+
+Helper scripts (root): `build_transcripts.py` (render transcripts → `docs/transcripts/`) and `estimate_cost.py` (estimate a run's API cost from saved transcripts, no new calls; list prices, used for `frontier.html` §6).
 
 **Publishing a new paper (standing rule):** add it to `docs/` as styled HTML (model new ones on `v3-plan.html` / `concept-paper.html` — shared CSS, nav backlinks top and bottom, `og:`/`twitter:` link-preview meta), cross-link it into the other papers' nav **and** the root `README.md`, then **commit to `main`** — Pages auto-builds; a feature branch would NOT deploy. Verify the live URL after the build settles.
 

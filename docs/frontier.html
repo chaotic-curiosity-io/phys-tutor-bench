@@ -78,11 +78,13 @@
 
 <div class="toc">
 <a href="#setup">1. What was run</a><br>
+<a href="#example">&nbsp;&nbsp;&#8627; a worked example: one scenario, four tutors</a><br>
 <a href="#results">2. Results</a><br>
 <a href="#cross">3. Cross-cutting findings</a><br>
 <a href="#agreement">4. Do the two judges agree?</a><br>
 <a href="#threats">5. Threats to validity</a><br>
-<a href="#repro">6. Reproduce</a>
+<a href="#cost">6. What it cost</a><br>
+<a href="#repro">7. Reproduce</a>
 </div>
 
 <h2 id="setup">1. What was run</h2>
@@ -96,6 +98,22 @@
 </tbody>
 </table>
 <p>Held constant: <code>max_turns = 10</code>, transfer problem injected 3 turns before the end, the six 0–4 dimensions and weighting, and the rubric prompt. All 48 conversations ran the full length and reached the transfer problem. Each was scored twice (once per judge), giving 96 score records.</p>
+
+<h3 id="example">A worked example — one scenario, four tutors</h3>
+<p>To make the measurement concrete, here is a single scenario carried by four tutors — two frontier (this run) and two local (v1) — all facing the <em>same</em> simulated student and graded by the <em>same</em> judge (Claude Opus 4.8). This is what one cell of the benchmark actually is.</p>
+<div class="abstract">
+<p><b>Scenario <code>thwv-th1-001</code></b> (Thermal Concepts Survey) — the student conflates <em>heat</em> with <em>temperature</em> and opens with: <em>“The aluminum has more heat. They're at the same temperature, but aluminum heats up faster, so it must hold more heat to get that hot. More heat means hotter, basically the same thing.”</em> The tutor must repair this without simply asserting the answer; then the student meets a <b>transfer problem</b> — a 1000&nbsp;°C candle flame versus a 40&nbsp;°C bathtub: which transfers more energy to a dropped ice block, and which is at the higher temperature?</p>
+</div>
+<table>
+<thead><tr><th>Tutor</th><th>Run</th><th class="num">Composite /4</th><th class="num">Restraint</th></tr></thead>
+<tbody>
+<tr><td>claude-opus-4-8</td><td>frontier</td><td class="num"><b>4.00</b></td><td class="num">4</td></tr>
+<tr><td>gpt-4o</td><td>frontier</td><td class="num"><b>1.80</b></td><td class="num">1</td></tr>
+<tr><td>qwen3:8b</td><td>v1 · local</td><td class="num"><b>2.00</b></td><td class="num">1</td></tr>
+<tr><td>llama3.2:3b</td><td>v1 · local</td><td class="num"><b>0.50</b></td><td class="num">1</td></tr>
+</tbody>
+</table>
+<p>The spread is the point. <b>Opus 4.8</b> withheld the answer and led the student to the heat-vs-temperature distinction (restraint 4/4). <b>GPT-4o</b> confirmed the misconception outright — the judge quotes it telling the student <em>“aluminum does contain more heat… Well done!”</em> — failing restraint (1/4) and pedagogical-harm-avoidance together. The local models did worse; <b>llama3.2:3b</b> (0.5/4) actively reinforced the error. Read the full dialogues — <a href="transcripts/frontier-claude-opus-4-8/5ee6e8e7-a95d-473f-be43-dfa111c4bbcd.html">Opus&nbsp;4.8</a>, <a href="transcripts/frontier-gpt-4o/1b11dd72-d385-439d-ab42-c9a825b4ee3f.html">GPT-4o</a>, <a href="transcripts/v1-qwen3_8b/e63f8a43-fb2e-4ac1-a806-db130135bfa4.html">qwen3:8b</a>, <a href="transcripts/v1-llama3.2_3b/3bfe9d19-a287-4291-87af-cf9f68769510.html">llama3.2:3b</a> — or browse <a href="transcripts/index.html"><b>all 96 transcripts →</b></a></p>
 
 <h2 id="results">2. Results</h2>
 <p>Composite is the weighted mean of the six dimensions (MD = misconception diagnosis, SS = scaffolding, ADR = answer-disclosure restraint, CMB = conceptual model building, TS = transfer success, PHA = pedagogical harm avoidance). Both judges' tables are shown — the differences between them are the subject of §4.</p>
@@ -167,7 +185,24 @@
 <li><b>A fixed engine bug was corrected for this run.</b> The disengagement detector matched the substring "whatever"; a fluent frontier student uses it as filler, which truncated ~⅔ of conversations before the transfer turn in a pilot. The detector was tightened (word-boundary quit-phrases; filler words only when they dominate a short message) so all 48 conversations ran to length. This affects only conversation length, not scoring, but is a deviation from the exact v1 engine.</li>
 </ul>
 
-<h2 id="repro">6. Reproduce</h2>
+<h2 id="cost">6. What it cost</h2>
+<p>The entire frontier run — 48 conversations plus 96 judge scorings — cost an estimated <b>~$18</b> at list prices. v1 cost essentially nothing: local Ollama tutors <em>and</em> a local Ollama student (no API tokens), judged on a Claude Code subscription.</p>
+<table>
+<thead><tr><th>Phase / model</th><th class="num">Input tok</th><th class="num">Output tok</th><th class="num">$ (est)</th></tr></thead>
+<tbody>
+<tr><td>Tutor — claude-opus-4-8</td><td class="num">426,617</td><td class="num">35,060</td><td class="num">3.01</td></tr>
+<tr><td>Tutor — claude-sonnet-4-6</td><td class="num">298,451</td><td class="num">27,184</td><td class="num">1.30</td></tr>
+<tr><td>Tutor — claude-haiku-4-5</td><td class="num">382,814</td><td class="num">42,096</td><td class="num">0.59</td></tr>
+<tr><td>Tutor — gpt-4o</td><td class="num">322,664</td><td class="num">44,991</td><td class="num">1.26</td></tr>
+<tr><td>Student — claude-sonnet-4-6 (all 48)</td><td class="num">1,152,382</td><td class="num">126,814</td><td class="num">5.36</td></tr>
+<tr><td>Judge — claude-opus-4-8</td><td class="num">402,042</td><td class="num">50,977</td><td class="num">3.28</td></tr>
+<tr><td>Judge — gpt-5.5 <sup>*</sup></td><td class="num">402,042</td><td class="num">51,653</td><td class="num">3.56</td></tr>
+<tr><td><b>Total (frontier run)</b></td><td class="num"></td><td class="num"></td><td class="num"><b>18.37</b></td></tr>
+</tbody>
+</table>
+<p class="small"><sup>*</sup> GPT-5.5's hidden reasoning tokens are not metered, so its judge line — and the total — is a <b>lower bound</b>; the true figure is somewhat higher. <b>Method:</b> per-call token totals are exact (provider-reported, saved on each message); the input/output split is reconstructed by re-tokenizing message text at ~4 chars/token, and judge tokens from the exact judge prompt + score JSON. <b>List prices</b> (per 1M, input/output): Opus 4.8 $5/$25, Sonnet 4.6 $3/$15, Haiku 4.5 $1/$5, GPT-4o $2.50/$10, GPT-5.5 $5/$30. Reproduce with <code>python estimate_cost.py</code>.</p>
+
+<h2 id="repro">7. Reproduce</h2>
 <pre>$ for m in claude-haiku-4-5 gpt-4o claude-sonnet-4-6 claude-opus-4-8; do
     phystutor run-benchmark --model "$m" --student-model claude-sonnet-4-6 \
       --max-turns 10 --transfer-injection-offset 3 --concurrency 6 --output results/frontier

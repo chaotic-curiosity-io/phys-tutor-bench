@@ -168,6 +168,10 @@
 <h3>3.4 Models evaluated</h3>
 <p>Four tutors, all run locally via Ollama: <code>llama3.1:8b</code>, <code>llama3.2:3b</code>, <code>qwen2.5:7b</code>, and <code>qwen3:8b</code> (a reasoning-capable model whose hidden reasoning is stripped by the endpoint). Each tutored all 12 scenarios → <strong>48 conversations</strong>, each scored on all 6 dimensions → 288 dimension-level judgments.</p>
 
+<h3>3.5 A worked example — and the full transcripts</h3>
+<p>To <em>see</em> the benchmark rather than just describe it, take scenario <code>thwv-th1-001</code> (Thermal Concepts Survey), where the student conflates <em>heat</em> with <em>temperature</em>: <em>“The aluminum has more heat… more heat means hotter, basically the same thing.”</em> A good tutor repairs this without asserting the answer, then poses a transfer problem (a 1000&nbsp;°C candle flame vs. a 40&nbsp;°C bathtub — which transfers more energy to an ice block, which is hotter?). On this scenario the best local tutor (qwen3:8b) managed only <b>2.00/4</b>, and the weakest (llama3.2:3b) scored <b>0.50/4</b> — it confirmed the misconception outright (harm-avoidance 0/4).</p>
+<p><b>Every conversation in this study is now published in full</b> — scenario context, the turn-by-turn dialogue, and the judge's per-dimension scores with justifications. Read <a href="transcripts/v1-qwen3_8b/e63f8a43-fb2e-4ac1-a806-db130135bfa4.html">qwen3:8b</a> or <a href="transcripts/v1-llama3.2_3b/3bfe9d19-a287-4291-87af-cf9f68769510.html">llama3.2:3b</a> on this scenario, or browse <a href="transcripts/index.html"><b>all 96 transcripts →</b></a> (this study's 48 plus the <a href="frontier.html">frontier rerun</a>'s 48).</p>
+
 <h2 id="results">4. Results</h2>
 
 <h3>4.1 Overall ranking</h3>

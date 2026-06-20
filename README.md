@@ -12,6 +12,7 @@ All published via GitHub Pages at [`chaotic-curiosity-io.github.io/phys-tutor-be
 |:--:|-------|------------|
 | **v1** | [**Local LLMs as physics tutors**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/) | Empirical report — 4 local Ollama models × 12 PER scenarios scored on six pedagogical dimensions; judge κ = 0.73 |
 | **★** | [**Frontier models as tutors (dual-judge rerun)**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html) | Opus 4.8 / Sonnet 4.6 / Haiku 4.5 / GPT-4o × the same 12 scenarios, scored by **two** frontier judges (Opus 4.8 + GPT-5.5). Every frontier tutor beats the best local model; cross-judge ρ = 0.72 but the same-family judge shows a ceiling effect |
+| **📁** | [**All 96 transcripts**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/transcripts/) | Every conversation from both studies, rendered in full: scenario context, turn-by-turn dialogue, and each judge's six scores with justifications |
 | **v2** | [**PER-grounded methodology**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html) | Validity critique of v1 + tiered methodology (process → measured learning gains) + annotated literature corpus + instantiable study kit |
 | **v3** | [**Validity-bridge implementation plan**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html) | Preregisterable protocol — *does any automated tutoring score predict real learning?* Two bridge estimators, decision gates, phased roadmap |
 | **📄** | [**Concept paper / prospectus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html) | Fundable, PER-publication-grade prospectus for the validity-bridge study; honest novelty vs. recent AI-tutor RCTs; phased funding case |
@@ -47,7 +48,9 @@ The same protocol with frontier models in every role: **Claude Opus 4.8, Sonnet 
 | 🥉 claude-haiku-4-5 | 3.84 | 3.45 |
 | 4 · gpt-4o | 2.96 | 2.90 |
 
-**Headlines:** every frontier tutor beats v1's best local model (qwen3:8b, 2.38); **answer-disclosure restraint stays the universal weak spot** (GPT-4o worst, 1.75 / 1.25); GPT-4o's gap is *scaffolding*, not diagnosis. The two judges agree on the **ranking** (composite Spearman ρ = 0.72) but the same-family Opus judge rates Claude tutors at the **ceiling** (a perfect 4.00 for the Opus tutor) while cross-family GPT-5.5 is stricter — a self-preference signal the dual-judge design exists to catch. Full tables, figures, inter-judge agreement, and threats-to-validity in the report.
+**Headlines:** every frontier tutor beats v1's best local model (qwen3:8b, 2.38); **answer-disclosure restraint stays the universal weak spot** (GPT-4o worst, 1.75 / 1.25); GPT-4o's gap is *scaffolding*, not diagnosis. The two judges agree on the **ranking** (composite Spearman ρ = 0.72) but the same-family Opus judge rates Claude tutors at the **ceiling** (a perfect 4.00 for the Opus tutor) while cross-family GPT-5.5 is stricter — a self-preference signal the dual-judge design exists to catch. Full tables, figures, a worked example, inter-judge agreement, and threats-to-validity in the report.
+
+All 96 conversations (this run's 48 + v1's 48) are **published as full transcripts** → [browse them](https://chaotic-curiosity-io.github.io/phys-tutor-bench/transcripts/). The frontier run cost **~$18** in API usage (estimated, list prices; v1 was ~$0 — local models + a Claude Code subscription).
 
 ### 🧪 Companion: **[PhysTutorBench v2 — a PER-grounded methodology](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html)**
 
@@ -116,6 +119,12 @@ phystutor scorecard --results-dir results/frontier/_scores/opus-4-8 --compare cl
 
 # Inter-judge agreement when two judges scored the same conversations
 python compare_judges.py --a results/frontier/_scores/opus-4-8 --b results/frontier/_scores/gpt-5.5
+
+# Publish: render every saved conversation to browsable HTML (docs/transcripts/)
+python build_transcripts.py
+
+# Estimate API cost of a run from saved transcripts (no new calls)
+python estimate_cost.py
 
 # Launch human annotation interface
 phystutor annotate --conversations results/sample/
