@@ -1,0 +1,102 @@
+{
+  "primary_cross_judge_frontier": {
+    "direction_1": {
+      "predictor_judge": "claude-opus-4-8",
+      "outcome_judge": "gpt-5.5",
+      "n": 48,
+      "pearson": 0.35166686252481655,
+      "spearman": 0.45389166304819806,
+      "predictor_std": 0.5323482016905263,
+      "outcome_std": 0.7347996703561832
+    },
+    "direction_2": {
+      "predictor_judge": "gpt-5.5",
+      "outcome_judge": "claude-opus-4-8",
+      "n": 48,
+      "pearson": 0.39641993971925826,
+      "spearman": 0.5800586191923578,
+      "predictor_std": 0.5172192950884968,
+      "outcome_std": 0.8351542605344769
+    },
+    "mean_pearson": 0.3740434011220374,
+    "mean_spearman": 0.5169751411202779
+  },
+  "bracketing": {
+    "note": "Lower bound: circularity-broken but range-restricted. Upper bound: full-range but single-judge. A range-restriction correction of the lower bound should approach the upper bound if both estimate the same underlying relationship.",
+    "cross_judge_mean_pearson_restricted": 0.3740434011220374,
+    "wide_range_within_judge_pearson": 0.7496283643569044,
+    "cross_judge_pearson_range_corrected": 0.6818703332209327,
+    "restricted_process_sd": 0.5323482016905263,
+    "unrestricted_process_sd": 1.2304092452527888
+  },
+  "per_dimension_cross_judge": {
+    "misconception_diagnosis": {
+      "mean_pearson": 0.26659981816514655,
+      "n": 48
+    },
+    "scaffolding_strategy": {
+      "mean_pearson": 0.34459799079773573,
+      "n": 48
+    },
+    "answer_disclosure_restraint": {
+      "mean_pearson": 0.33450708612189517,
+      "n": 48
+    },
+    "conceptual_model_building": {
+      "mean_pearson": 0.30117831532429373,
+      "n": 48
+    },
+    "pedagogical_harm_avoidance": {
+      "mean_pearson": 0.32522818131351666,
+      "n": 48
+    }
+  },
+  "within_judge": {
+    "frontier_opus_judge_narrow": {
+      "n": 48,
+      "range": "frontier",
+      "pearson": 0.36350452509415926,
+      "spearman": 0.6255699088145896,
+      "predictor_std": 0.5323482016905263,
+      "outcome_std": 0.8351542605344769
+    },
+    "frontier_gpt_judge_narrow": {
+      "n": 48,
+      "range": "frontier",
+      "pearson": 0.3682679838713287,
+      "spearman": 0.48252279635258355,
+      "predictor_std": 0.5172192950884968,
+      "outcome_std": 0.7347996703561832
+    },
+    "local_manual_judge_wide": {
+      "n": 48,
+      "range": "local",
+      "pearson": 0.5075924049692904,
+      "spearman": 0.5076530612244898,
+      "predictor_std": 0.8032300648638065,
+      "outcome_std": 1.0793194872490515
+    },
+    "opus_family_full_range": {
+      "n": 96,
+      "range": "full (local+frontier), distinct convs",
+      "pearson": 0.7496283643569044,
+      "spearman": 0.8081219479110147,
+      "predictor_std": 1.2304092452527888,
+      "outcome_std": 1.3096447116807417
+    }
+  },
+  "descriptive": {
+    "ts_distribution_all": {
+      "0": 5,
+      "1": 17,
+      "2": 19,
+      "3": 40,
+      "4": 63
+    },
+    "ts_zeros_all": 5,
+    "process_std_frontier_opus_narrow": 0.5323482016905263,
+    "process_std_opus_family_full_range": 1.2304092452527888,
+    "n_panel_rows": 144,
+    "n_distinct_conversations": 96
+  }
+}
