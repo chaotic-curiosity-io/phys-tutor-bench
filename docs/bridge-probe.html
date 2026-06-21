@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench — In-silico bridge probe: does tutoring process predict transfer?</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/bridge-probe.html">
+<meta name="description" content="A zero-cost in-silico dry run of PhysTutorBench's keystone question. Using 144 already-scored conversations, we test whether the five tutoring-process dimensions predict simulated Transfer Success. With the judge-circularity broken (one judge's process vs the other judge's transfer) and corrected for range restriction, process predicts transfer at r ≈ 0.68–0.75. A precursor that motivates — not replaces — the real validity-bridge study.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Does tutoring process predict transfer? An in-silico bridge probe">
+<meta property="og:description" content="144 scored conversations, no new API calls. Circularity-broken cross-judge analysis + range-restriction correction: tutoring-process quality predicts simulated transfer at r ≈ 0.7. A cheap dry run of the validity-bridge keystone.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/bridge_scatter.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/bridge-probe.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Does tutoring process predict transfer? (in-silico bridge probe)">
+<meta name="twitter:description" content="Circularity-broken cross-judge analysis on 144 scored conversations: process quality predicts simulated transfer at r ≈ 0.7. The cheap precursor to the real validity-bridge study.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/bridge_scatter.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .small{font-size:.85rem;color:var(--muted)}
+  figure{margin:1.4em 0;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--rule);border-radius:4px;background:#fff}
+  figcaption{font-size:.8rem;color:var(--muted);margin-top:.5em}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  .q{color:var(--muted);font-style:italic}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="v3-plan.html">v3 plan</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a></p>
+
+<h1>Does tutoring <em>process</em> predict <em>transfer</em>? An in-silico bridge probe</h1>
+<p class="subtitle">The cheapest possible dry run of the keystone validity question — using 144 conversations already scored, no new API calls — and what it says about whether the bridge study is worth running.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> empirical note / methods probe &nbsp;·&nbsp; <b>Data:</b> the <a href="frontier.html">frontier dual-judge run</a> + the <a href="index.html">v1 local run</a> (144 scored conversations) &nbsp;·&nbsp; <b>Reproduce:</b> <code>python bridge_probe.py</code> &nbsp;·&nbsp; <b>Motivates:</b> <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a>
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The result in one paragraph</div>
+<p>PhysTutorBench's entire funding case rests on one unproven claim: that an automated <b>process</b> score predicts real <b>learning</b>. The real test needs human pre/post inventory gains — the <a href="concept-paper.html">validity-bridge study</a>. But the benchmark already contains a <em>simulated</em> outcome — <b>Transfer Success (TS)</b>, whether the student then applies the concept to a novel problem — so we can run the bridge's logic in-silico for free. Across 144 already-scored conversations we ask whether the five process dimensions predict TS. The naive version is circular: one judge scores both process <em>and</em> transfer from the same transcript. We break that by regressing <b>one judge's process composite against the <em>other</em> judge's transfer score</b>. Circularity-broken and under heavy range restriction (all frontier tutors are strong), process still predicts transfer at <b>r = 0.37, ρ = 0.52</b> (n = 48). Correcting that estimate for range restriction gives <b>r ≈ 0.68</b>; an independent wide-range estimate puts it at <b>r = 0.75</b> — two methods with <em>different</em> weaknesses converging on <b>r ≈ 0.7</b>. The probe is honest about what it is not: TS is a simulated outcome, not measured human learning, so this <b>motivates</b> the bridge study rather than substituting for it. But it does change the prior: process quality here is not merely stylistic — it tracks the outcome, across independent raters.</p>
+</div>
+
+<div class="toc">
+<a href="#why">1. Why this probe exists</a><br>
+<a href="#design">2. Design &amp; the circularity trap</a><br>
+<a href="#primary">3. Primary result (circularity-broken)</a><br>
+<a href="#bracket">4. Bracketing the true value</a><br>
+<a href="#dims">5. Which dimension predicts transfer?</a><br>
+<a href="#threats">6. Threats to validity</a><br>
+<a href="#repro">7. Reproduce it</a><br>
+<a href="#bridge">8. What it means for v3</a>
+</div>
+
+<h2 id="why">1. Why this probe exists</h2>
+<p>Every leaderboard PhysTutorBench produces — <a href="index.html">v1</a>, the <a href="frontier.html">frontier rerun</a> — ranks tutors by a <em>process</em> composite: misconception diagnosis (MD), scaffolding (SS), answer-disclosure restraint (ADR), conceptual model building (CMB), pedagogical harm avoidance (PHA). The <a href="concept-paper.html">concept paper</a> concedes the field's foundational gap: <b>no one has shown that such a score predicts how much a student actually learns.</b> The definitive answer requires real learners and a validated inventory. That study is expensive and slow.</p>
+<p>The benchmark, though, already scores a sixth dimension that is an <em>outcome</em>, not a process: <b>Transfer Success</b> — the student, answering from their <em>current</em> understanding, attempts a novel transfer problem near the end of the dialogue. If "good tutoring" is real and not just stylistic, then process quality should predict transfer. That is the bridge hypothesis, run in-silico — with simulated transfer standing in for human learning gains. It costs nothing: the scores are already on disk.</p>
+
+<h2 id="design">2. Design &amp; the circularity trap</h2>
+<p><b>Predictor.</b> The <em>process composite</em>: the weighted mean of the five process dimensions, <b>excluding TS</b>, with the rubric weights renormalized over the five so it stays on the 0–4 scale. (Excluding TS is essential — including the outcome in the predictor would be circular by construction.)</p>
+<p><b>Outcome.</b> The TS score (0–4).</p>
+<p><b>The trap.</b> One judge reads one transcript and assigns <em>both</em> the process scores and TS. A naive process↔TS correlation is therefore inflated by <b>shared-method variance</b> — one rater, one reading, one halo. It would look predictive even if the two were independent.</p>
+<div class="callout ok"><b>The fix, for free.</b> The <a href="frontier.html">frontier run</a> scored all 48 conversations with <em>two independent judges</em> (Claude Opus 4.8 and GPT-5.5). So we regress <b>Judge A's process composite against Judge B's transfer score</b>, and vice versa. A cross-rater correlation cannot be a same-reading artifact — the predictor and the outcome were produced by different models reading independently.</div>
+
+<h2 id="primary">3. Primary result — circularity-broken</h2>
+<p>On the 48 frontier conversations, with predictor and outcome drawn from <em>different</em> judges:</p>
+<table>
+<thead><tr><th>Direction</th><th class="num">n</th><th class="num">Pearson r</th><th class="num">Spearman ρ</th><th class="num">process SD</th><th class="num">TS SD</th></tr></thead>
+<tbody>
+<tr><td>Opus process → GPT-5.5 transfer</td><td class="num">48</td><td class="num">0.35</td><td class="num">0.45</td><td class="num">0.53</td><td class="num">0.73</td></tr>
+<tr><td>GPT-5.5 process → Opus transfer</td><td class="num">48</td><td class="num">0.40</td><td class="num">0.58</td><td class="num">0.52</td><td class="num">0.84</td></tr>
+<tr><td><b>Mean</b></td><td class="num">48</td><td class="num"><b>0.37</b></td><td class="num"><b>0.52</b></td><td class="num"></td><td class="num"></td></tr>
+</tbody>
+</table>
+<p>A moderate, statistically meaningful relationship survives the rater split. And it is <em>not</em> an artifact of shared method: on the same 48 conversations, the inflated <em>within</em>-judge estimates are <b>r = 0.36</b> (Opus) and <b>r = 0.37</b> (GPT) — essentially identical to the cross-judge 0.37. In Pearson terms, breaking the circularity barely moves the number, which means the process→transfer link here is carried by signal, not by one judge's halo. (Spearman shows mild method inflation: within-Opus ρ = 0.63 vs cross 0.52.)</p>
+
+<h2 id="bracket">4. Bracketing the true value</h2>
+<p>The cross-judge estimate has a known weakness in the <em>other</em> direction: the frontier tutors are all strong, so the predictor barely varies (process SD ≈ 0.53). Range restriction attenuates correlations. Two corrections bracket the truth:</p>
+<table>
+<thead><tr><th>Estimate</th><th>Strength</th><th>Weakness</th><th class="num">Pearson r</th></tr></thead>
+<tbody>
+<tr><td><b>Lower</b> — cross-judge, frontier</td><td>Circularity broken</td><td>Range-restricted (process SD 0.53)</td><td class="num">0.37</td></tr>
+<tr><td>↳ corrected for range restriction<sup>†</sup></td><td>Disattenuated</td><td>Approximate (Thorndike Case II)</td><td class="num">0.68</td></tr>
+<tr><td><b>Upper</b> — full-range, within-judge</td><td>Wide tutor range (SD 1.23, n = 96 distinct)</td><td>Single-judge (method-inflated)</td><td class="num">0.75</td></tr>
+</tbody>
+</table>
+<p>The lower bound breaks circularity but is squeezed by range; the upper bound has full range but shares method. They fail in opposite ways — yet the range-corrected lower bound (<b>0.68</b>) lands right next to the wide-range upper bound (<b>0.75</b>). When two estimators with <em>different</em> biases converge, the convergent value is credible: <b>process quality predicts simulated transfer at roughly r ≈ 0.7.</b></p>
+<p class="small"><sup>†</sup> Thorndike Case II direct-restriction correction using the frontier process SD (0.53) and the full-range process SD (1.23); assumes linearity and homoscedasticity, so treat 0.68 as indicative, not exact. Computed in <code>predictive_validity.range_restriction_correct</code>.</p>
+
+<figure>
+<img src="assets/bridge_scatter.png" alt="Scatter of tutoring process composite (predictor judge) versus Transfer Success (outcome judge), both directions, showing an upward trend concentrated in the 2.9–4.0 process range.">
+<figcaption>Cross-judge process → transfer, both directions (circularity-broken). The predictor clusters at 2.9–4.0 — the range restriction that attenuates the raw r — yet the upward trend is visible. Note the judge asymmetry: GPT-5.5 (red) assigns more 4s on transfer than Opus (blue), the same self-/cross-family pattern the <a href="frontier.html">frontier report</a> flagged.</figcaption>
+</figure>
+
+<h2 id="dims">5. Which process dimension predicts transfer?</h2>
+<p>Mean cross-judge Pearson of each single dimension against the <em>other</em> judge's transfer score (n = 48):</p>
+<table>
+<thead><tr><th>Dimension</th><th class="num">r → transfer</th></tr></thead>
+<tbody>
+<tr><td>SS · Scaffolding strategy</td><td class="num">0.34</td></tr>
+<tr><td>ADR · Answer-disclosure restraint</td><td class="num">0.33</td></tr>
+<tr><td>PHA · Pedagogical harm avoidance</td><td class="num">0.33</td></tr>
+<tr><td>CMB · Conceptual model building</td><td class="num">0.30</td></tr>
+<tr><td>MD · Misconception diagnosis</td><td class="num">0.27</td></tr>
+</tbody>
+</table>
+<p>The spread is narrow, so this is a soft observation, not a ranking to bank on. But the <em>direction</em> is suggestive: the interactive behaviors — scaffolding and keeping the student in productive struggle (restraint) — track transfer slightly more than <em>diagnosing</em> the misconception does. Naming the bug matters less, here, than how you make the student do the work. That is a hypothesis the real bridge study can test with a criterion that actually means something.</p>
+
+<h2 id="threats">6. Threats to validity — what this is not</h2>
+<ul>
+<li><b>Simulated transfer ≠ human learning.</b> TS is an LLM judge's read of an LLM student's answer. A process→TS link is encouraging, but it could reflect a shared <em>model</em> prior about "what good tutoring looks like" rather than a fact about learning. This probe <b>cannot</b> license automated evaluation; only the <a href="concept-paper.html">human bridge study</a> can. It raises the prior that the bridge is worth running.</li>
+<li><b>Range restriction is severe in the clean set.</b> The circularity-broken estimate lives entirely on strong frontier tutors. The correction to 0.68 helps but is approximate; the honest statement is a <em>range</em>, r ≈ 0.37 (observed) to ≈ 0.7 (corrected / wide-range).</li>
+<li><b>Small N, single domain.</b> 48 conversations for the clean estimate, 96 distinct for the wide one, intro physics only. Confidence intervals are wide; treat magnitudes as indicative.</li>
+<li><b>Transfer is judged from the same transcript turn the process is.</b> Even across judges, both raters saw the <em>same</em> transfer exchange. The bridge study's outcome (an independent post-test) removes this; the in-silico proxy cannot.</li>
+<li><b>Outcome floor is small but real.</b> TS = 0 conflates "transfer not reached" with "failed"; only 5 of 144 scores (3.5%) are zeros — the <a href="index.html">disengagement-heuristic fix</a> kept conversations alive to the transfer turn — so floor contamination is minor here.</li>
+</ul>
+
+<h2 id="repro">7. Reproduce it</h2>
+<p>No new API calls — it reads the scores already on disk.</p>
+<pre>python bridge_probe.py
+# -&gt; prints the tables above
+# -&gt; writes docs/bridge_probe.json (every figure) + docs/assets/bridge_scatter.png</pre>
+<p>The logic lives in <code>src/validation/predictive_validity.py</code> (alongside <code>construct_validity.py</code> and <code>discriminant_validity.py</code> — this is criterion validity), with unit tests in <code>tests/test_predictive_validity.py</code> pinning the transfer-excluded composite, the cross-judge alignment, the no-dedupe within-judge estimator, and the range-restriction correction.</p>
+
+<h2 id="bridge">8. What it means for v3</h2>
+<p>The <a href="v3-plan.html">v3 plan</a> and <a href="concept-paper.html">concept paper</a> argue the bridge study is the field's keystone — and worth a grant. A reasonable skeptic could counter: <em>what if process scores are pure style, uncorrelated with any outcome even in simulation?</em> If that were true, the in-silico process→transfer correlation would be ~0. It is not: circularity-broken, it is 0.37; range-corrected and wide-range, ~0.7. That doesn't prove the proxy is valid against <em>human</em> learning — but it removes the cheapest disconfirmation and sharpens the case for spending real money on the real test. It also hands the bridge study a pre-registered prediction (process predicts transfer, scaffolding/restraint slightly more than diagnosis) and a method (cross-rater regression to break judge circularity) it can carry straight over to human data.</p>
+<div class="callout"><b>Bottom line.</b> The benchmark's process score is not noise. Across independent judges and a 2.3× range correction, it tracks the simulated outcome at r ≈ 0.7. The keystone question — does it track <em>real</em> learning? — is now better motivated, not yet answered.</div>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="#top">top ↑</a></p>
+<p class="small">In-silico methods probe. Transfer Success is a simulated outcome scored by an LLM judge, not a measured human learning gain; all correlations are within-benchmark and intended to motivate, not substitute for, the human validity-bridge study. Magnitudes are indicative given n = 48–96 and a single domain. Every figure is reproducible from the saved scores via <code>python bridge_probe.py</code>.</p>
+
+</div>
+</body>
+</html>
