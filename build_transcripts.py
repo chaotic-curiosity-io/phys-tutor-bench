@@ -116,13 +116,21 @@ def load_scores() -> dict:
     return by_conv
 
 
-def run_slug(conv_path: Path) -> tuple[str, str, bool]:
-    """Return (slug, model_dir, is_frontier) for the run dir of a conversation."""
+def run_slug(conv_path: Path) -> tuple[str, str, str]:
+    """Return (slug, model_dir, kind) for the run dir of a conversation.
+
+    kind is one of: 'frontier' (dual-judged cloud rerun), 'crossed' (the de-confounding
+    crossed-panel run, also dual-judged), or 'v1' (local Ollama, single judge).
+    """
     run_dir = conv_path.parent.parent           # <slug>/<ts>
     model_dir = run_dir.parent.name             # model slug
-    is_frontier = "frontier" in conv_path.parts
-    slug = f"{'frontier' if is_frontier else 'v1'}-{model_dir}"
-    return slug, model_dir, is_frontier
+    if "crossed" in conv_path.parts:
+        kind = "crossed"
+    elif "frontier" in conv_path.parts:
+        kind = "frontier"
+    else:
+        kind = "v1"
+    return f"{kind}-{model_dir}", model_dir, kind
 
 
 def fmt_scores(score: dict) -> str:
@@ -144,10 +152,13 @@ def fmt_scores(score: dict) -> str:
     )
 
 
-def render_conversation(conv: dict, scen: dict, scores: list, slug: str, is_frontier: bool) -> str:
+def render_conversation(conv: dict, scen: dict, scores: list, slug: str, kind: str) -> str:
     sid = conv.get("scenario_id", "?")
     model = conv.get("model_under_test", "?")
-    gen = '<span class="tag">frontier</span>' if is_frontier else '<span class="tag v1">v1 · local</span>'
+    tags = {"frontier": '<span class="tag">frontier</span>',
+            "crossed": '<span class="tag">crossed panel</span>',
+            "v1": '<span class="tag v1">v1 · local</span>'}
+    gen = tags.get(kind, tags["v1"])
     body = [f"<h1>{esc(model)} &nbsp;{gen}</h1>"]
     body.append(
         f'<div class="meta"><b>Scenario:</b> {esc(sid)} &nbsp;·&nbsp; '
@@ -220,8 +231,8 @@ def main() -> None:
             conv = json.loads(cp.read_text(encoding="utf-8"))
         except Exception:
             continue
-        slug, model_dir, is_frontier = run_slug(cp)
-        runs[slug].append((conv, cp, is_frontier, model_dir))
+        slug, model_dir, kind = run_slug(cp)
+        runs[slug].append((conv, cp, kind, model_dir))
 
     OUT.mkdir(parents=True, exist_ok=True)
     n_pages = 0
@@ -230,16 +241,16 @@ def main() -> None:
     run_meta = {}  # slug -> dict(model, is_frontier, items=[(sid, comp_str, href)])
     for slug, items in runs.items():
         items.sort(key=lambda t: t[0].get("scenario_id", ""))
-        is_frontier = items[0][2]
+        kind = items[0][2]
         model = items[0][0].get("model_under_test", slug)
-        rec = {"model": model, "is_frontier": is_frontier, "items": []}
+        rec = {"model": model, "kind": kind, "items": []}
         (OUT / slug).mkdir(parents=True, exist_ok=True)
-        for conv, cp, isf, model_dir in items:
+        for conv, cp, k, model_dir in items:
             cid = conv.get("id", cp.stem)
             scores = score_map.get(cid, [])
             scen = scen_map.get(conv.get("scenario_id"))
             (OUT / slug / f"{cid}.html").write_text(
-                render_conversation(conv, scen, scores, slug, isf), encoding="utf-8"
+                render_conversation(conv, scen, scores, slug, k), encoding="utf-8"
             )
             n_pages += 1
             rec["items"].append({
@@ -250,8 +261,9 @@ def main() -> None:
         run_meta[slug] = rec
 
     # Index page.
-    frontier = sorted([s for s in run_meta if run_meta[s]["is_frontier"]], key=lambda s: run_meta[s]["model"])
-    v1 = sorted([s for s in run_meta if not run_meta[s]["is_frontier"]], key=lambda s: run_meta[s]["model"])
+    frontier = sorted([s for s in run_meta if run_meta[s]["kind"] == "frontier"], key=lambda s: run_meta[s]["model"])
+    crossed = sorted([s for s in run_meta if run_meta[s]["kind"] == "crossed"], key=lambda s: run_meta[s]["model"])
+    v1 = sorted([s for s in run_meta if run_meta[s]["kind"] == "v1"], key=lambda s: run_meta[s]["model"])
 
     def group_html(slugs, heading, note):
         out = [f"<h2>{esc(heading)}</h2><p class='small'>{esc(note)}</p>"]
@@ -279,6 +291,7 @@ def main() -> None:
         '<p class="small"><a href="../index.html">← v1 report</a> · '
         '<a href="../frontier.html">frontier rerun</a></p>',
         group_html(frontier, "Frontier rerun", "Tutors scored by two judges (Claude Opus 4.8 + GPT-5.5); fixed Claude Sonnet 4.6 student."),
+        group_html(crossed, "Crossed panel", "De-confounding run: a strong OpenAI tutor (gpt-5.5) + a weak-prompt Anthropic tutor (claude-haiku-4-5-weak), dual-judged. See the crossed-panel report."),
         group_html(v1, "v1 — local Ollama models", "Tutors scored by a single judge (Claude Opus 4.8 via Claude Code); fixed qwen2.5:7b student."),
     ]
     (OUT / "index.html").write_text(page("PhysTutorBench transcripts", "".join(body), depth=1), encoding="utf-8")

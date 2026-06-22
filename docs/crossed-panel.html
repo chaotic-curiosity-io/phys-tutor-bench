@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench — The crossed panel: is judge self-preference real, or quality leniency?</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/crossed-panel.html">
+<meta name="description" content="A de-confounding follow-up to PhysTutorBench's judge self-preference study. The frontier panel confounded tutor family with quality, so the apparent +0.25 own-family inflation could have been leniency toward strong tutors. Adding a strong OpenAI tutor (gpt-5.5) and a weak Anthropic one yields a family x tier 2x2 over 70 conversations: controlling for tier, the composite family effect is -0.04 (p=0.71) — it does not survive. But the bias localizes: of six dimensions only pedagogical-harm-avoidance retains own-family inflation (+0.36), the same dimension found least reliable across judges. A worked case of a confounded finding corrected by a better design.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The crossed panel: judge self-preference, corrected">
+<meta property="og:description" content="Controlling for tutor quality, the apparent own-family judge bias does not survive (-0.04, p=0.71). It was largely a ceiling/quality interaction. What survives is PHA-specific (+0.36): bias concentrates in the least-reliable, most-subjective dimension.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/crossed_panel.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/crossed-panel.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The crossed panel: judge self-preference, corrected">
+<meta name="twitter:description" content="Control for tutor quality and the own-family judge bias vanishes (-0.04, p=0.71) — except on PHA (+0.36), the least-reliable dimension. A confounded finding corrected by design.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/crossed_panel.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .small{font-size:.85rem;color:var(--muted)}
+  figure{margin:1.4em 0;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--rule);border-radius:4px;background:#fff}
+  figcaption{font-size:.8rem;color:var(--muted);margin-top:.5em}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  .pos{color:var(--bad);font-weight:600}
+  .zero{color:var(--ok);font-weight:600}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="judge-bias.html">judge self-preference</a> &nbsp;·&nbsp; <a href="construct-validity.html">construct validity</a></p>
+
+<h1>The crossed panel: is judge self-preference real, or quality leniency?</h1>
+<p class="subtitle">A de-confounding follow-up that overturns its own prior result — and localizes what's left to a single dimension.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> empirical note / correction &nbsp;·&nbsp; <b>Corrects:</b> <a href="judge-bias.html">judge self-preference</a> &nbsp;·&nbsp; <b>Data:</b> 70 conversations (frontier 48 + crossed 22), dual-judged &nbsp;·&nbsp; <b>Reproduce:</b> <code>python run_crossed.py</code> → <code>python crossed_panel.py</code> &nbsp;·&nbsp; <b>Transcripts:</b> <a href="transcripts/index.html">all 118</a>
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The result in one paragraph</div>
+<p>The <a href="judge-bias.html">judge self-preference study</a> reported that, on the frontier run, the Claude Opus judge inflates Anthropic tutors by <b>+0.25</b> composite points relative to the GPT-5.5 judge (p = 0.025). But that panel had a confound it flagged itself: every <em>strong</em> tutor was Anthropic and the one <em>weak</em> tutor was OpenAI, so the effect could equally be the Opus judge being lenient at the top of the scale. This study runs the fix — a crossed panel with both families in both quality tiers, adding a strong OpenAI tutor (gpt-5.5) and a weak Anthropic one (a real Claude driven by a deliberately bad answer-dumper prompt). Over 70 conversations, <b>controlling for tier the composite family effect is −0.04 (stratified permutation p = 0.71)</b> — indistinguishable from zero. The original +0.25 was largely a <b>tier × judge ceiling interaction</b>; in fact the Opus judge is <em>harsher</em> than GPT on the weak Anthropic tutor (−0.20). Yet the bias did not vanish — it <b>localized</b>: of the six dimensions, only <b>pedagogical-harm-avoidance (PHA) survives tier control (+0.36)</b>, the same dimension the <a href="construct-validity.html">construct-validity audit</a> found <em>least reliable</em> across judges (0.30). The headline is two results at once: a plausible finding corrected by a stronger design, and a sharper claim — own-family bias concentrates in the most subjective, least-reliable dimension.</p>
+</div>
+
+<div class="toc">
+<a href="#confound">1. The confound</a><br>
+<a href="#design">2. The crossed design</a><br>
+<a href="#result">3. The composite effect does not survive</a><br>
+<a href="#local">4. But it localizes to PHA</a><br>
+<a href="#converge">5. The convergence</a><br>
+<a href="#threats">6. Threats &amp; caveats</a><br>
+<a href="#means">7. What it means</a><br>
+<a href="#repro">8. Reproduce &amp; transcripts</a>
+</div>
+
+<h2 id="confound">1. The confound</h2>
+<p>The <a href="judge-bias.html">self-preference study</a> took the within-conversation score difference (Opus judge − GPT judge) and showed it was larger for Anthropic tutors — a difference-in-differences of +0.25, with the Opus judge awarding the maximum 4 to 93.5% of its own family's dimension ratings. The design caught what it was built to catch. But the frontier panel had only one OpenAI tutor (gpt-4o), and it was also the weakest, while all three Anthropic tutors were strong. <b>Family was confounded with quality.</b> So "the Opus judge favors Anthropic" was observationally identical to "the Opus judge is lenient toward strong tutors, which happen to be Anthropic." You cannot separate them without putting both families at both quality levels.</p>
+
+<h2 id="design">2. The crossed design</h2>
+<p>We added the two missing cells, reusing the exact frontier settings (fixed Sonnet-4.6 student, max-turns 10, transfer-offset 3) so the new conversations slot directly alongside the existing four tutors:</p>
+<ul>
+<li><b>gpt-5.5</b> — a <em>strong</em> OpenAI tutor, default tutoring prompt (identical to the frontier tutors).</li>
+<li><b>claude-haiku-4-5-weak</b> — a <em>weak</em> Anthropic tutor: a real <code>claude-haiku-4-5</code> driven by a deliberately bad "answer-dumper" prompt (immediately give the full solution; no scaffolding), then relabeled so it does not collide with the strong haiku. No current Claude is weak by capability on this account, so the weak-Anthropic cell is induced by prompt.</li>
+</ul>
+<p>Both new tutors were scored by the same two judges, yielding a <b>family × tier 2×2</b> over 70 conversations. Honest asymmetry: weak-OpenAI (gpt-4o) is weak by capability, weak-Anthropic by prompt — the manipulation differs, but quality is crossed with family either way. The estimand is the family effect on the Opus−GPT delta, <em>holding tier constant</em> (the equal-weight average of the within-strong and within-weak family contrasts), tested by shuffling family labels <em>within</em> each tier.</p>
+
+<h2 id="result">3. The composite effect does not survive</h2>
+<figure>
+<img src="assets/crossed_panel.png" alt="Left: composite by judge and tutor for six tutors; the Opus lean holds for strong Anthropic tutors, reverses on the weak Anthropic tutor, and nearly vanishes on both OpenAI tutors. Right: the Anthropic-favoring delta is +0.09 naive, +0.18 within-strong, -0.26 within-weak, averaging to -0.04 tier-controlled.">
+<figcaption>Left: the Opus lean (blue &gt; red) holds for the three strong Anthropic tutors but <b>reverses</b> on the weak Anthropic tutor (haiku-weak) and nearly vanishes on both OpenAI tutors. Right: within-strong (+0.18) and within-weak (−0.26) family contrasts cancel to a tier-controlled <b>−0.04</b> (stratified permutation p = 0.71).</figcaption>
+</figure>
+<table>
+<thead><tr><th>Cell (family / tier)</th><th class="num">n</th><th class="num">mean delta (Opus − GPT)</th></tr></thead>
+<tbody>
+<tr><td>Anthropic / strong</td><td class="num">36</td><td class="num">+0.31</td></tr>
+<tr><td>Anthropic / weak</td><td class="num">12</td><td class="num">−0.20</td></tr>
+<tr><td>OpenAI / strong (gpt-5.5)</td><td class="num">10</td><td class="num">+0.13</td></tr>
+<tr><td>OpenAI / weak (gpt-4o)</td><td class="num">12</td><td class="num">+0.06</td></tr>
+</tbody>
+</table>
+<p>The naive (uncontrolled) family DiD on the crossed panel is already down to +0.09 — adding the weak Anthropic cell, with its <em>negative</em> delta, halves the original effect by itself. Controlling for tier, it is <b>−0.04 (p = 0.71)</b>. The original +0.25 was a ceiling artifact: the Opus judge diverges from GPT most at the top of the scale, and because every strong tutor was Anthropic, that read as family favoritism. The cleanest tell is the weak Anthropic tutor — if the Opus judge simply liked its own kind, it should be <em>easier</em> on it; instead it is <b>harsher</b> than the cross-family judge (−0.20).</p>
+
+<h2 id="local">4. But it localizes to PHA</h2>
+<p>A null composite would be the end of the story if the effect were uniform. It is not. Decomposed by dimension, exactly one survives tier control:</p>
+<table>
+<thead><tr><th>Dimension</th><th class="num">naive family DiD</th><th class="num">within-strong</th><th class="num">tier-controlled</th></tr></thead>
+<tbody>
+<tr><td>MD · diagnosis</td><td class="num">+0.02</td><td class="num">+0.13</td><td class="num">−0.19</td></tr>
+<tr><td>SS · scaffolding</td><td class="num">+0.21</td><td class="num">+0.44</td><td class="num">+0.01</td></tr>
+<tr><td>ADR · restraint</td><td class="num">−0.15</td><td class="num">−0.41</td><td class="num">−0.24</td></tr>
+<tr><td>CMB · model building</td><td class="num">+0.10</td><td class="num">+0.25</td><td class="num">0.00</td></tr>
+<tr><td>TS · transfer</td><td class="num">+0.00</td><td class="num">+0.20</td><td class="num">−0.03</td></tr>
+<tr><td><b>PHA · harm avoidance</b></td><td class="num">+0.47</td><td class="num">+0.47</td><td class="num pos">+0.36</td></tr>
+</tbody>
+</table>
+<p>Every objective dimension collapses to ~0 (or negative) once tier is controlled — except <b>PHA, which holds at +0.36.</b> The own-family bias is not a general phenomenon; it is concentrated in the single most holistic, benefit-of-the-doubt judgment in the rubric — exactly where a rater has the most room to read provenance into the score.</p>
+
+<h2 id="converge">5. The convergence</h2>
+<div class="callout"><b>Two independent analyses, one dimension.</b> The <a href="construct-validity.html">construct-validity audit</a> found PHA the <em>least reliable</em> dimension — two strong judges barely agree on whether a tutor avoided pedagogical harm (cross-judge r = 0.30). This study finds PHA the <em>only</em> dimension where own-family bias survives a crossed panel (+0.36). Subjective, unreliable, and bias-prone turn out to be the same dimension. That is not a coincidence: the more discretionary the judgment, the more room for both disagreement and favoritism. PHA is where the rubric's measurement is weakest <em>and</em> where what bias remains concentrates.</div>
+
+<h2 id="threats">6. Threats &amp; caveats</h2>
+<ul>
+<li><b>gpt-5.5 was both a tutor and a judge.</b> Judge B (GPT-5.5) scored the gpt-5.5 tutor, so those scores are partly self-judged. If GPT favored its own tutor, that would <em>lower</em> the gpt-5.5 delta and thus <em>inflate</em> the apparent within-strong Anthropic lean — so the true family effect is, if anything, even smaller than −0.04.</li>
+<li><b>Weak-Anthropic is weak by prompt, not capability.</b> The answer-dumper produces a distinctive failure mode; the Opus judge's harshness on it (−0.20) could partly reflect that, not pure cross-family treatment. The weak-OpenAI tutor (gpt-4o) is weak by capability — the manipulation is not symmetric.</li>
+<li><b>Small, uneven cells.</b> 70 conversations; cells are 36 / 12 / 10 / 12, and gpt-5.5 completed only 10/12 scenarios (two dropped on an empty-content API error). Single domain. Magnitudes are indicative; the sign and the per-dimension localization are the durable findings.</li>
+<li><b>Relative, not absolute.</b> Everything is measured as one judge against the other, with no human ground truth. We can say the Opus judge is no more generous to its family than GPT once tier is held fixed — except on PHA — not which judge is "correct."</li>
+</ul>
+
+<h2 id="means">7. What it means</h2>
+<ul>
+<li><b>A correction, published in place.</b> The frontier-only "+0.25 own-family inflation" overstated a real but narrower effect. We kept the original analysis visible (with a correction banner) and report the de-confounded result rather than quietly revising the number — the point of the dual-judge program is to catch exactly this kind of confound, including in our own findings.</li>
+<li><b>Distrust same-family judges on the <em>subjective</em> dimensions.</b> The practical rule from the original study stands but is sharper: a same-family judge is not globally inflating, but it cannot be trusted on a dimension two judges can't agree on. Never rank same-family tutors on PHA from a single same-family judge.</li>
+<li><b>Down-weight or rebuild PHA.</b> It is the least reliable and the most bias-prone dimension. The <a href="construct-validity.html">construct-validity</a> recommendation — sharper behavioral anchors, or down-weighting — is reinforced here.</li>
+<li><b>Method, reusable.</b> The cross-judge delta plus a tier-controlled, stratified-permutation test is a cheap, general recipe for separating provenance bias from quality leniency in any LLM-judge leaderboard with ≥2 judges and crossed conditions.</li>
+</ul>
+
+<h2 id="repro">8. Reproduce &amp; transcripts</h2>
+<pre>python run_crossed.py      # PAID: adds gpt-5.5 + a weak-prompt haiku tutor -> results/crossed/
+#                          then score with both judges (phystutor score ... --judge-model ...)
+python crossed_panel.py    # tier-controlled 2x2 -> docs/crossed_panel.json + assets/crossed_panel.png
+python build_transcripts.py  # render every conversation (incl. the 22 crossed) -> docs/transcripts/</pre>
+<p>Every conversation behind this report is browsable in full — scenario context, turn-by-turn dialogue, and both judges' six-dimension scores with justifications. The 22 crossed-panel dialogues appear under the <b>“Crossed panel”</b> group in the <a href="transcripts/index.html">transcript index</a> (all 118 conversations), where you can read the weak-Anthropic answer-dumper beside strong gpt-5.5 on the same scenario.</p>
+<p>Logic lives in <code>src/validation/judge_bias.py</code> (<code>tier_of</code>, <code>tier_controlled_family_effect</code>, the stratified permutation test, and per-dimension decomposition); tests in <code>tests/test_judge_bias.py</code> pin the tier mapping, the controlled effect, the confound-collapse case, and permutation determinism.</p>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="judge-bias.html">judge self-preference</a> · <a href="construct-validity.html">construct validity</a> · <a href="methodology.html">v2 methodology</a> · <a href="concept-paper.html">concept paper</a> · <a href="transcripts/index.html">transcripts</a> · <a href="#top">top ↑</a></p>
+<p class="small">Empirical correction. Family × tier difference-in-differences on paired within-conversation deltas (Opus judge − GPT-5.5 judge); the tier-controlled effect is the equal-weight average of the within-strong and within-weak family contrasts, with significance from a 10,000-iteration stratified label-permutation null (family shuffled within tier; seeded, deterministic). 70 conversations (48 frontier + 22 crossed); weak-Anthropic is induced by prompt and gpt-5.5 served as both a tutor and a judge — see §6. Reproducible from saved scores via <code>python run_crossed.py</code> → <code>python crossed_panel.py</code>.</p>
+
+</div>
+</body>
+</html>
