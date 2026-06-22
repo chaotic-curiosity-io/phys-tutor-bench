@@ -62,7 +62,7 @@
 <body>
 <div class="wrap">
 
-<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a></p>
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a> &nbsp;·&nbsp; <a href="construct-validity.html">construct validity →</a></p>
 
 <h1>Does an LLM judge favor its own family?</h1>
 <p class="subtitle">Measuring self-preference in PhysTutorBench's dual-judge run — and an internal control that says the bias is real tutor-directed favoritism, not just generosity.</p>
@@ -158,7 +158,7 @@
 <p>It also tightens the <a href="bridge-probe.html">bridge probe</a> and the <a href="concept-paper.html">validity-bridge program</a>: if automated scores are to stand in for learning, the judge producing them must not quietly reward provenance. Measuring that bias is part of validating the metric, not a footnote to it.</p>
 
 <hr>
-<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="#top">top ↑</a></p>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="construct-validity.html">construct validity</a> · <a href="#top">top ↑</a></p>
 <p class="small" id="refs">Methods note. Difference-in-differences on paired within-conversation score deltas; significance by 10,000-permutation label-shuffle null; uncertainty by 10,000-sample paired percentile bootstrap (seeded, deterministic). Self-preference framing follows the LLM-evaluator literature on judges recognizing and favoring their own generations (e.g., Panickssery et al. 2024; Zheng et al. 2023). All scores are LLM-judge ratings of 48 conversations; family is confounded with tutor quality in this panel, so magnitudes are indicative and the estimate is one-sided (Anthropic-judge side). Reproducible from saved scores via <code>python judge_bias.py</code>.</p>
 
 </div>

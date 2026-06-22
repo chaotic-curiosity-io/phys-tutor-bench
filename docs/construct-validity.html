@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench — Are the six dimensions really six? Construct validity &amp; redundancy</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/construct-validity.html">
+<meta name="description" content="A construct-validity and redundancy audit of PhysTutorBench's six-dimension rubric. Within a single judge the rubric looks nearly unidimensional (Cronbach alpha 0.94, first component 79% of variance). But a cross-judge multitrait-multimethod analysis removes single-rater halo: inter-dimension correlation drops 0.62->0.43, the dominant factor 79%->54%, and same-dimension cross-judge agreement beats cross-dimension on 52/60 comparisons. Scaffolding, restraint, and diagnosis are reliable and distinct (0.76-0.82); pedagogical-harm-avoidance fails to replicate across judges (0.30) — the same dimension that carried the most self-preference bias.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Are the six tutoring dimensions really six? A construct-validity audit">
+<meta property="og:description" content="Within one judge the rubric looks like a single 'good tutoring' factor (alpha 0.94). Cross-judge MTMM removes halo and reveals ~3 reliable, distinct behavioral dimensions plus a harm-avoidance dimension judges can't reproduce (0.30) — the same one most prone to self-preference bias.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/construct_validity.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/construct-validity.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Are the six tutoring dimensions really six?">
+<meta name="twitter:description" content="Cross-judge MTMM construct-validity audit: ~3 reliable, distinct behavioral dimensions plus a harm-avoidance dimension judges can't reproduce (r=0.30) — also the most bias-prone.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/construct_validity.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .small{font-size:.85rem;color:var(--muted)}
+  figure{margin:1.4em 0;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--rule);border-radius:4px;background:#fff}
+  figcaption{font-size:.8rem;color:var(--muted);margin-top:.5em}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  .good{color:var(--ok);font-weight:600}
+  .bad{color:var(--bad);font-weight:600}
+  .mid{color:var(--warn);font-weight:600}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="judge-bias.html">judge self-preference</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology →</a></p>
+
+<h1>Are the six dimensions really six?</h1>
+<p class="subtitle">A construct-validity audit of the rubric — and the cross-judge method that separates a real second factor from single-rater halo.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> empirical note / methods probe &nbsp;·&nbsp; <b>Data:</b> 144 scored conversations; cross-judge on the <a href="frontier.html">frontier dual-judge run</a> (48) &nbsp;·&nbsp; <b>Reproduce:</b> <code>python construct_probe.py</code> &nbsp;·&nbsp; <b>Series:</b> <a href="bridge-probe.html">bridge probe</a> · <a href="judge-bias.html">judge self-preference</a>
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The result in one paragraph</div>
+<p>PhysTutorBench scores tutors on six dimensions and combines them with fixed weights. If the six are really one thing, those weights are decoration. Within a single judge, that fear looks justified: the dimensions show a mean inter-correlation of <b>0.74</b>, a Cronbach's α of <b>0.94</b>, a first principal component explaining <b>79%</b> of variance, and six dimension-pairs above r = 0.8 (MD–CMB = 0.93). By that view the rubric is nearly unidimensional. <b>But a single judge rating all six dimensions from one transcript manufactures halo</b> — one overall impression bleeding across the ratings. Removing it with a cross-judge multitrait-multimethod matrix (correlate one judge's dimension against the <em>other</em> judge's) tells a different story: on the same conversations, mean inter-dimension correlation falls <b>0.62 → 0.43</b>, the dominant factor falls <b>79% → 54%</b>, and same-dimension cross-judge agreement beats cross-dimension agreement on <b>52 of 60</b> Campbell–Fiske comparisons. The rubric carries real multidimensional signal — but unevenly: scaffolding, answer-restraint, and diagnosis are reliable and distinct (cross-judge r = 0.76–0.82), while <b>pedagogical-harm-avoidance does not replicate across judges (0.30)</b> — the very dimension that carried the largest <a href="judge-bias.html">self-preference inflation</a>. The practical read: trust ~three behavioral dimensions, fix or down-weight harm-avoidance and conceptual-model-building, and stop letting the composite double-count a general "good tutoring" factor.</p>
+</div>
+
+<div class="toc">
+<a href="#q">1. The redundancy question</a><br>
+<a href="#halo">2. The halo trap &amp; the MTMM fix</a><br>
+<a href="#within">3. Within-judge: looks like one factor</a><br>
+<a href="#cross">4. Cross-judge: halo removed</a><br>
+<a href="#reliab">5. Per-dimension reliability</a><br>
+<a href="#pha">6. The harm-avoidance through-line</a><br>
+<a href="#threats">7. Threats to validity</a><br>
+<a href="#impl">8. Implications &amp; reproduce</a>
+</div>
+
+<h2 id="q">1. The redundancy question</h2>
+<p>A six-dimension rubric makes a claim: that misconception diagnosis (MD), scaffolding (SS), answer-disclosure restraint (ADR), conceptual model building (CMB), transfer success (TS), and pedagogical harm avoidance (PHA) are <em>distinguishable</em> aspects of tutoring worth scoring and weighting separately. If instead they are six noisy readings of a single latent "this tutor is good," then the rubric is over-specified, the composite weights are arbitrary, and reporting six numbers oversells the instrument's resolution. Construct validity is the test of that claim.</p>
+
+<h2 id="halo">2. The halo trap, and the cross-judge fix</h2>
+<p>The naive test — correlate the six dimensions across conversations — is biased toward finding redundancy, because <b>one judge assigns all six scores after one reading.</b> A favorable overall impression lifts every dimension together; an unfavorable one lowers them together. That shared-rater variance (halo) inflates inter-dimension correlations whether or not the underlying constructs are distinct.</p>
+<div class="callout ok"><b>The instrument:</b> a cross-judge <b>multitrait–multimethod</b> matrix, with the two independent judges (Opus 4.8, GPT-5.5) as the two "methods." Correlate judge A's dimension <i>i</i> against judge B's dimension <i>j</i>. The <b>diagonal</b> (A's MD vs B's MD) is each dimension's <em>convergent</em> cross-judge reliability; the <b>off-diagonal</b> is the inter-dimension correlation with halo removed, because the two scores now come from different readers. Campbell &amp; Fiske: a dimension is distinct if its diagonal exceeds its off-diagonal entries.</div>
+
+<h2 id="within">3. Within-judge: the rubric looks like one factor</h2>
+<table>
+<thead><tr><th>Within-judge statistic (pooled, n = 144)</th><th class="num">value</th><th>reading</th></tr></thead>
+<tbody>
+<tr><td>Mean |inter-dimension correlation|</td><td class="num">0.74</td><td>very high</td></tr>
+<tr><td>Cronbach's α (six dimensions as one scale)</td><td class="num">0.94</td><td>near-redundant internal consistency</td></tr>
+<tr><td>First principal component (variance share)</td><td class="num">79%</td><td>one dominant factor</td></tr>
+<tr><td>Eigenvalues</td><td class="num">4.73, 0.55, 0.45, …</td><td>Kaiser keeps 1 factor</td></tr>
+<tr><td>Pairs with r ≥ 0.8</td><td class="num">6</td><td>MD–CMB 0.93, CMB–PHA 0.92, MD–PHA 0.87, MD–SS 0.86, …</td></tr>
+</tbody>
+</table>
+<p>Taken at face value, this is a one-factor instrument. A measurement reviewer would (rightly) ask why six weighted numbers are reported when α = 0.94 and a single component absorbs four-fifths of the variance.</p>
+
+<h2 id="cross">4. Cross-judge: removing halo restores dimensionality</h2>
+<figure>
+<img src="assets/construct_validity.png" alt="Two correlation heatmaps. Left, within-judge pooled: uniformly dark red, off-diagonals 0.6 to 0.93. Right, cross-judge MTMM: lighter overall, with a visible diagonal for MD/SS/ADR (0.76/0.82/0.79) but a pale PHA diagonal (0.30) and pale PHA row and column.">
+<figcaption>Left: within-judge (one rater) — everything correlates with everything (off-diagonals 0.6–0.93). Right: cross-judge MTMM (Opus rows × GPT columns) — once the two ratings come from different judges, the matrix lightens, the diagonal (reliability) stands out for MD/SS/ADR, and the <b>PHA</b> diagonal (0.30) all but vanishes into its row.</figcaption>
+</figure>
+<p>On the same 48 frontier conversations, switching from one rater to two changes the picture:</p>
+<table>
+<thead><tr><th>Quantity</th><th class="num">within-judge</th><th class="num">cross-judge</th></tr></thead>
+<tbody>
+<tr><td>Mean inter-dimension correlation (heterotrait)</td><td class="num">0.62</td><td class="num">0.43</td></tr>
+<tr><td>First principal component (variance share)</td><td class="num">79%</td><td class="num">54%</td></tr>
+</tbody>
+</table>
+<p>The drop of <b>0.19</b> in mean inter-dimension correlation is single-rater halo — roughly a third of the apparent redundancy is a method artifact. And the dominant factor shrinks from 79% to 54% of variance: there is a real second (and likely third) dimension that the within-judge matrix hides. Crucially, <b>mean convergent reliability (0.63) exceeds mean heterotrait correlation (0.43)</b>, and <b>52 of 60</b> Campbell–Fiske comparisons pass (a dimension agreeing with itself across judges more than with other dimensions). The dimensions are not interchangeable — they carry distinct, judge-reproducible signal.</p>
+
+<h2 id="reliab">5. Per-dimension reliability — and where it fails</h2>
+<p>The cross-judge convergent diagonal is each dimension's reliability: how well two independent frontier judges reproduce that score. It is strikingly uneven.</p>
+<table>
+<thead><tr><th>Dimension</th><th class="num">cross-judge reliability</th><th>verdict</th></tr></thead>
+<tbody>
+<tr><td>SS · Scaffolding strategy</td><td class="num good">0.82</td><td>reliable &amp; distinct</td></tr>
+<tr><td>ADR · Answer-disclosure restraint</td><td class="num good">0.79</td><td>reliable &amp; distinct</td></tr>
+<tr><td>MD · Misconception diagnosis</td><td class="num good">0.76</td><td>reliable &amp; distinct</td></tr>
+<tr><td>TS · Transfer success</td><td class="num mid">0.60</td><td>moderate (and the most <em>distinct</em> — see the pale TS row)</td></tr>
+<tr><td>CMB · Conceptual model building</td><td class="num mid">0.49</td><td>weak; tangled with MD (within-judge r = 0.93)</td></tr>
+<tr><td>PHA · Pedagogical harm avoidance</td><td class="num bad">0.30</td><td>fails — below even the mean heterotrait (0.43)</td></tr>
+</tbody>
+</table>
+<p>The three concrete behavioral moves a tutor makes — how it scaffolds, whether it withholds the answer, whether it diagnoses the misconception — are reliable and discriminable. The two most <em>interpretive</em> dimensions are not: CMB blurs into diagnosis, and <b>PHA's reliability of 0.30 means two strong judges barely agree on whether a tutor avoided pedagogical harm</b> — its convergent value is lower than its correlation with other dimensions, the textbook Campbell–Fiske failure, and the source of most of the 8 violations.</p>
+
+<h2 id="pha">6. The harm-avoidance through-line</h2>
+<div class="callout"><b>Two independent analyses indict the same dimension.</b> This audit finds PHA the <em>least reliable</em> dimension (cross-judge 0.30). The <a href="judge-bias.html">self-preference study</a> found PHA the <em>most biased</em> dimension (own-family inflation +0.64, the largest of the six). Both point the same way: pedagogical-harm-avoidance is the most holistic, benefit-of-the-doubt judgment in the rubric, and that subjectivity shows up as low inter-judge agreement <em>and</em> high susceptibility to provenance bias. The most "soft" dimension is where the measurement is weakest and the bias is largest — a coherent story across the series, not two coincidences.</div>
+
+<h2 id="threats">7. Threats to validity</h2>
+<ul>
+<li><b>Cross-judge reliabilities are attenuated by range restriction.</b> They are computed on frontier tutors, which cluster at the top of the scale; less score variance means lower correlations. So 0.30 for PHA is a <em>lower bound</em> on its reliability — but the <em>relative</em> ordering (PHA and CMB worst, SS/ADR/MD best) is the durable result, and it converges with the bias finding.</li>
+<li><b>The pooled within-judge α/PCA mixes judges and double-counts.</b> The 144-row pool contains each frontier conversation twice (once per judge) plus the local run; α = 0.94 is inflated by both halo and that non-independence. It is reported as the upper-bound "looks unidimensional" view; the cross-judge analysis is the clean instrument.</li>
+<li><b>Two methods is the minimum MTMM.</b> With only two judges, "method" is thinly sampled; a third independent judge would sharpen the halo estimate. n = 48 cross-judge, single domain — magnitudes indicative.</li>
+<li><b>Halo is not all bias.</b> Some shared variance across dimensions is a <em>real</em> general tutoring-quality factor, not just rater error. The cross-judge off-diagonal (0.43) is the honest estimate of how much the constructs genuinely co-vary.</li>
+</ul>
+
+<h2 id="impl">8. Implications &amp; reproduce</h2>
+<ul>
+<li><b>Trust three, fix two, watch one.</b> SS, ADR, MD are sound. CMB and especially PHA need rubric revision (sharper, more behavioral anchors) or should be down-weighted and reported as low-confidence. TS is distinct and moderately reliable — appropriate as the outcome it is in the <a href="bridge-probe.html">bridge probe</a>.</li>
+<li><b>The composite double-counts.</b> MD, CMB, SS, and PHA share a large general factor; weighting them as independent over-credits whatever that factor is. A defensible composite would weight by cross-judge reliability, or collapse the tangled trio.</li>
+<li><b>Report cross-judge reliability per dimension</b> as a standing part of the scorecard — a dimension no two judges agree on should not silently enter a leaderboard.</li>
+</ul>
+<pre>python construct_probe.py
+# -&gt; prints the within-judge stats, cross-judge MTMM, and halo isolation
+# -&gt; writes docs/construct_probe.json + docs/assets/construct_validity.png</pre>
+<p>Logic in <code>src/validation/dimensionality.py</code> (Cronbach α, eigenvalue summary, cross-judge MTMM, Campbell–Fiske, redundancy flags — reusing <code>construct_validity</code>'s Pearson/matrix helpers and <code>judge_bias</code>'s cross-judge alignment); tests in <code>tests/test_dimensionality.py</code>.</p>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="judge-bias.html">judge self-preference</a> · <a href="methodology.html">v2 methodology</a> · <a href="concept-paper.html">concept paper</a> · <a href="#top">top ↑</a></p>
+<p class="small">Methods note. Within-judge: Pearson correlation matrix, Cronbach's α, and eigen-decomposition over the pooled 144 scores (halo- and pooling-inflated; an upper bound on unidimensionality). Cross-judge: multitrait–multimethod matrix over the 48 dual-scored frontier conversations, diagonal = same-dimension convergent reliability (range-restricted; a lower bound). All values are LLM-judge ratings; reproducible from saved scores via <code>python construct_probe.py</code>.</p>
+
+</div>
+</body>
+</html>
