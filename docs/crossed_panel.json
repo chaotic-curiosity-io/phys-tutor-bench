@@ -1,0 +1,116 @@
+{
+  "judges": {
+    "a": "claude-opus-4-8",
+    "a_family": "anthropic",
+    "b": "gpt-5.5",
+    "b_family": "openai"
+  },
+  "n_conversations": 70,
+  "naive_family_did": 0.09015151515151512,
+  "tier_controlled_family_effect": -0.03930555555555555,
+  "per_tier_contrast": {
+    "strong": 0.17972222222222237,
+    "weak": -0.25833333333333347
+  },
+  "stratified_permutation_p": 0.7076,
+  "cell_delta_means": {
+    "anthropic/strong": {
+      "mean": 0.3097222222222222,
+      "n": 36
+    },
+    "openai/weak": {
+      "mean": 0.06250000000000018,
+      "n": 12
+    },
+    "anthropic/weak": {
+      "mean": -0.1958333333333333,
+      "n": 12
+    },
+    "openai/strong": {
+      "mean": 0.1299999999999998,
+      "n": 10
+    }
+  },
+  "per_tutor": {
+    "claude-opus-4-8": {
+      "a_mean": 4.0,
+      "b_mean": 3.695833333333333,
+      "delta": 0.30416666666666686,
+      "family": "anthropic",
+      "tier": "strong",
+      "n": 12
+    },
+    "claude-sonnet-4-6": {
+      "a_mean": 3.9166666666666665,
+      "b_mean": 3.679166666666667,
+      "delta": 0.2374999999999999,
+      "family": "anthropic",
+      "tier": "strong",
+      "n": 12
+    },
+    "claude-haiku-4-5": {
+      "a_mean": 3.8375000000000004,
+      "b_mean": 3.4499999999999997,
+      "delta": 0.38749999999999973,
+      "family": "anthropic",
+      "tier": "strong",
+      "n": 12
+    },
+    "gpt-4o": {
+      "a_mean": 2.958333333333334,
+      "b_mean": 2.8958333333333335,
+      "delta": 0.06250000000000018,
+      "family": "openai",
+      "tier": "weak",
+      "n": 12
+    },
+    "claude-haiku-4-5-weak": {
+      "a_mean": 2.3166666666666664,
+      "b_mean": 2.5125,
+      "delta": -0.1958333333333333,
+      "family": "anthropic",
+      "tier": "weak",
+      "n": 12
+    },
+    "gpt-5.5": {
+      "a_mean": 3.14,
+      "b_mean": 3.0100000000000002,
+      "delta": 0.1299999999999998,
+      "family": "openai",
+      "tier": "strong",
+      "n": 10
+    }
+  },
+  "per_dimension_tier_controlled": {
+    "MD": {
+      "naive": 0.015151515151515166,
+      "within_strong": 0.12777777777777777,
+      "tier_controlled": -0.18611111111111112
+    },
+    "SS": {
+      "naive": 0.2102272727272727,
+      "within_strong": 0.4388888888888889,
+      "tier_controlled": 0.011111111111111127
+    },
+    "ADR": {
+      "naive": -0.1477272727272727,
+      "within_strong": -0.40555555555555567,
+      "tier_controlled": -0.2444444444444445
+    },
+    "CMB": {
+      "naive": 0.10037878787878789,
+      "within_strong": 0.25,
+      "tier_controlled": 0.0
+    },
+    "TS": {
+      "naive": 0.0037878787878787845,
+      "within_strong": 0.2,
+      "tier_controlled": -0.025000000000000022
+    },
+    "PHA": {
+      "naive": 0.46590909090909094,
+      "within_strong": 0.4722222222222222,
+      "tier_controlled": 0.3611111111111111
+    }
+  }
+}

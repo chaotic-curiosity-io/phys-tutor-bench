@@ -73,8 +73,10 @@
 
 <div class="abstract">
 <div class="label" style="color:var(--accent)">The result in one paragraph</div>
-<p>The <a href="frontier.html">frontier run</a> scored every conversation with two independent judges — Claude Opus 4.8 (Anthropic) and GPT-5.5 (OpenAI) — precisely to catch a judge favoring its own kind. It did. Because both judges scored the <em>same</em> conversations, we take the within-conversation score difference (Opus − GPT), which cancels conversation difficulty and overall leniency, and ask whether that difference is larger for one family of tutors. It is: <b>relative to the GPT-5.5 judge, the Opus judge inflates Anthropic tutors by +0.31 composite points but the lone OpenAI tutor by only +0.06</b> — a difference-in-differences of <b>+0.25 points</b> (permutation <b>p = 0.025</b>, 95% CI [+0.05, +0.46]). The mechanism is a ceiling: the Opus judge awards the maximum score of 4 to <b>93.5%</b> of its own family's dimension ratings (vs 66.7% for the GPT judge), and hands the Opus <em>tutor</em> a literally perfect 4.000. The cleanest evidence that this is genuine favoritism and not mere generosity comes from an internal control: of the six dimensions, five judge the <em>tutor</em> and one — Transfer Success — judges the <em>student</em>, who is a fixed model identical across all tutors. The five tutor-directed dimensions show +0.17 to +0.64 own-family inflation; the student-directed one shows <b>−0.08, none</b>. Honest limit: in this panel family is confounded with quality (all Anthropic tutors are strong, the one OpenAI tutor is weak), so the magnitude is an upper bound and the reciprocal GPT-favors-GPT effect is not established here. The design recommendation is unambiguous: <b>never accept a same-family LLM judge's verdict on its own family without a cross-family check.</b></p>
+<p>The <a href="frontier.html">frontier run</a> scored every conversation with two independent judges — Claude Opus 4.8 (Anthropic) and GPT-5.5 (OpenAI) — precisely to catch a judge favoring its own kind. It did. Because both judges scored the <em>same</em> conversations, we take the within-conversation score difference (Opus − GPT), which cancels conversation difficulty and overall leniency, and ask whether that difference is larger for one family of tutors. It is: <b>relative to the GPT-5.5 judge, the Opus judge inflates Anthropic tutors by +0.31 composite points but the lone OpenAI tutor by only +0.06</b> — a difference-in-differences of <b>+0.25 points</b> (permutation <b>p = 0.025</b>, 95% CI [+0.05, +0.46]). The mechanism is a ceiling: the Opus judge awards the maximum score of 4 to <b>93.5%</b> of its own family's dimension ratings (vs 66.7% for the GPT judge), and hands the Opus <em>tutor</em> a literally perfect 4.000. The cleanest evidence that this is genuine favoritism and not mere generosity comes from an internal control: of the six dimensions, five judge the <em>tutor</em> and one — Transfer Success — judges the <em>student</em>, who is a fixed model identical across all tutors. The five tutor-directed dimensions show +0.17 to +0.64 own-family inflation; the student-directed one shows <b>−0.08, none</b>. Honest limit: in this panel family is confounded with quality (all Anthropic tutors are strong, the one OpenAI tutor is weak), so the magnitude is an upper bound and the reciprocal GPT-favors-GPT effect is not established here. The design recommendation is unambiguous: <b>never accept a same-family LLM judge's verdict on its own family without a cross-family check.</b> <b>Update — we ran the crossed panel this called for (§9):</b> the composite-level effect above does <em>not</em> survive controlling for tutor quality (tier-controlled <b>−0.04, p = 0.71</b>). The bias is real but <em>localized</em> — of the six dimensions, only <b>PHA</b> still shows own-family inflation after tier control (<b>+0.36</b>). Read §3–§6 as the frontier-only, quality-confounded estimate, corrected in §9.</p>
 </div>
+
+<div class="callout bad"><b>Read this first.</b> The headline numbers in §3–§5 (DiD +0.25, p = 0.025) are the original <em>frontier-only</em> analysis, in which tutor family was confounded with tutor quality. A later <a href="#crossed">crossed-panel run (§9)</a> de-confounds them: the composite self-preference effect <b>does not survive</b> (tier-controlled −0.04, p = 0.71) — it was largely a ceiling/quality interaction. What <em>does</em> survive is a single-dimension effect on PHA. The original analysis is kept below for transparency; <a href="#crossed">§9</a> is the corrected conclusion.</div>
 
 <div class="toc">
 <a href="#why">1. Why dual judges</a><br>
@@ -84,7 +86,8 @@
 <a href="#ceiling">5. The ceiling mechanism</a><br>
 <a href="#threats">6. The confound &amp; what this can't say</a><br>
 <a href="#repro">7. Reproduce it</a><br>
-<a href="#impl">8. Implications</a>
+<a href="#impl">8. Implications</a><br>
+<a href="#crossed">9. Crossed-panel update (the correction)</a>
 </div>
 
 <h2 id="why">1. Why dual judges in the first place</h2>
@@ -136,7 +139,7 @@
 
 <h2 id="threats">6. The confound, and what this cannot say</h2>
 <ul>
-<li><b>Family is confounded with quality.</b> All three Anthropic tutors are strong; the one OpenAI tutor (gpt-4o) is the weakest. So a positive DiD is consistent with self-preference <em>or</em> with a judge-specific leniency at the top of the scale. The <a href="#control">TS internal control</a> and the within-family pattern (the <em>weakest</em> Anthropic tutor, haiku, shows the <em>largest</em> delta, +0.39 — the opposite of what pure top-end ceiling-compression predicts) both push against the pure-leniency explanation, but cannot eliminate it. <b>The clean test needs a crossed panel: strong and weak tutors in both families.</b></li>
+<li><b>Family is confounded with quality.</b> All three Anthropic tutors are strong; the one OpenAI tutor (gpt-4o) is the weakest. So a positive DiD is consistent with self-preference <em>or</em> with a judge-specific leniency at the top of the scale. The <a href="#control">TS internal control</a> and the within-family pattern (the <em>weakest</em> Anthropic tutor, haiku, shows the <em>largest</em> delta, +0.39 — the opposite of what pure top-end ceiling-compression predicts) both push against the pure-leniency explanation, but cannot eliminate it. <b>The clean test needs a crossed panel: strong and weak tutors in both families — which we ran (<a href="#crossed">§9</a>), and it overturns the composite effect.</b></li>
 <li><b>The effect is one-sided in this data.</b> We establish that the Opus judge inflates Anthropic tutors relative to the GPT judge. We do <em>not</em> establish the reciprocal — GPT favoring OpenAI — because there is exactly one OpenAI tutor and it is weak, and both judges agree on it. "Both judges are biased" is <em>not</em> shown; "the Anthropic judge over-rewards Anthropic tutors" is.</li>
 <li><b>Small N, wide interval.</b> 48 conversations, 36/12 family split, single domain. The CI [+0.05, +0.46] is honest about the imprecision; the sign and the ceiling pattern are the durable findings.</li>
 <li><b>Relative, not absolute.</b> The delta measures the two judges against <em>each other</em>, with no human ground truth. We can say the Opus judge is more generous to its family than the GPT judge is; we cannot say which judge is "correct."</li>
@@ -153,13 +156,50 @@
 <ul>
 <li><b>Always report a cross-family judge alongside an in-family one.</b> Where they diverge, the in-family number is the suspect.</li>
 <li><b>Prefer a cross-family or panel judge for any same-family comparison</b> — and treat a 90%+ ceiling rate as a red flag that the judge has lost resolution.</li>
-<li><b>The next run should cross the panel:</b> add a strong OpenAI (or other-family) tutor and a deliberately weak Anthropic one, so quality and family are no longer confounded and the self-preference estimate becomes clean and two-sided.</li>
+<li><b>We crossed the panel (<a href="#crossed">§9</a>):</b> adding a strong OpenAI tutor (gpt-5.5) and a weak Anthropic one de-confounded quality from family — and the composite self-preference effect <em>did not survive</em>. The durable bias is localized to the most subjective dimension (PHA). The rule stands, but its basis is narrower than the frontier-only number implied.</li>
 </ul>
 <p>It also tightens the <a href="bridge-probe.html">bridge probe</a> and the <a href="concept-paper.html">validity-bridge program</a>: if automated scores are to stand in for learning, the judge producing them must not quietly reward provenance. Measuring that bias is part of validating the metric, not a footnote to it.</p>
 
+<h2 id="crossed">9. Crossed-panel update — the correction</h2>
+<p>§6 named the fix: family was confounded with quality (every strong tutor was Anthropic, the one weak tutor OpenAI), so the +0.25 "self-preference" could equally be the Opus judge being lenient at the <em>top</em> of the scale. We ran the crossed panel to separate them, adding two tutors so each family appears in both tiers:</p>
+<ul>
+<li><b>gpt-5.5</b> — a <em>strong</em> OpenAI tutor (default prompt, like the frontier tutors).</li>
+<li><b>claude-haiku-4-5-weak</b> — a <em>weak</em> Anthropic tutor: a real Claude model driven by a deliberately bad "answer-dumper" prompt (no current Claude is weak by capability on this account). Honest asymmetry: weak-OpenAI (gpt-4o) is weak by capability, weak-Anthropic here by prompt.</li>
+</ul>
+<p>Both were scored by the same two judges, giving a family × tier 2×2 over 70 conversations. <b>It overturns the composite-level claim.</b></p>
+<figure>
+<img src="assets/crossed_panel.png" alt="Left: composite by judge and tutor for six tutors; the Opus lean holds for strong Anthropic tutors, reverses on the weak Anthropic tutor, and nearly vanishes on the OpenAI tutors. Right: the Anthropic-favoring delta is +0.09 naive, +0.18 within-strong, -0.26 within-weak, averaging to -0.04 tier-controlled.">
+<figcaption>Left: the Opus lean (blue &gt; red) holds for the three strong Anthropic tutors but <b>reverses</b> on the weak Anthropic tutor (haiku-weak) and nearly vanishes on both OpenAI tutors. Right: within-strong (+0.18) and within-weak (−0.26) family contrasts cancel to a tier-controlled <b>−0.04</b> (stratified permutation p = 0.71).</figcaption>
+</figure>
+<table>
+<thead><tr><th>Cell (family / tier)</th><th class="num">n</th><th class="num">mean delta (Opus − GPT)</th></tr></thead>
+<tbody>
+<tr><td>Anthropic / strong</td><td class="num">36</td><td class="num">+0.31</td></tr>
+<tr><td>Anthropic / weak</td><td class="num">12</td><td class="num">−0.20</td></tr>
+<tr><td>OpenAI / strong (gpt-5.5)</td><td class="num">10</td><td class="num">+0.13</td></tr>
+<tr><td>OpenAI / weak (gpt-4o)</td><td class="num">12</td><td class="num">+0.06</td></tr>
+</tbody>
+</table>
+<p>Controlling for tier, the family effect is <b>−0.04 (p = 0.71)</b> — indistinguishable from zero. The original +0.25 was largely a <b>tier × judge ceiling interaction</b>: the Opus judge diverges from GPT most at the extremes, and because every strong tutor was Anthropic, that read as family favoritism. Tellingly, the Opus judge is actually <em>harsher</em> than GPT on the weak Anthropic tutor (−0.20) — the opposite of simple self-preference.</p>
+<p><b>But the bias did not vanish — it localized.</b> Per dimension, only one survives tier control:</p>
+<table>
+<thead><tr><th>Dimension</th><th class="num">naive family DiD</th><th class="num">within-strong</th><th class="num">tier-controlled</th></tr></thead>
+<tbody>
+<tr><td>MD · diagnosis</td><td class="num">+0.02</td><td class="num">+0.13</td><td class="num">−0.19</td></tr>
+<tr><td>SS · scaffolding</td><td class="num">+0.21</td><td class="num">+0.44</td><td class="num">+0.01</td></tr>
+<tr><td>ADR · restraint</td><td class="num">−0.15</td><td class="num">−0.41</td><td class="num">−0.24</td></tr>
+<tr><td>CMB · model building</td><td class="num">+0.10</td><td class="num">+0.25</td><td class="num">0.00</td></tr>
+<tr><td>TS · transfer</td><td class="num">+0.00</td><td class="num">+0.20</td><td class="num">−0.03</td></tr>
+<tr><td><b>PHA · harm avoidance</b></td><td class="num">+0.47</td><td class="num">+0.47</td><td class="num"><b>+0.36</b></td></tr>
+</tbody>
+</table>
+<p>Every objective dimension collapses to ~0 (or negative) once tier is controlled — except <b>PHA (pedagogical harm avoidance), which holds at +0.36.</b> The own-family bias is not general; it concentrates in the single most subjective, holistic dimension — the same one the <a href="construct-validity.html">construct-validity audit</a> found <em>least reliable</em> across judges (cross-judge r = 0.30). Subjective, unreliable, and bias-prone turn out to be the same dimension.</p>
+<div class="callout ok"><b>Corrected conclusion.</b> The frontier-only "Opus inflates its whole family by +0.25" overstated the effect — it was driven by a quality confound. With the panel crossed, the composite own-family effect is null (−0.04, p = 0.71); the robust, reproducible bias is <b>PHA-specific (+0.36)</b>. The practical rule is unchanged but narrower: distrust a same-family judge most on the <em>subjective</em> dimensions, and never rank same-family tutors on a dimension two judges can't agree on.</div>
+<p class="small">Run-specific caveats: gpt-5.5 served as both a tutor and judge B, so its own-tutor scores are partly self-judged — if anything that <em>inflates</em> the apparent within-strong Anthropic lean, so the true family effect is likely even smaller. gpt-5.5 completed 10/12 scenarios (2 dropped on an empty-content API error); the weak-Anthropic cell is weak by prompt, not capability. n = 70, single domain. Reproduce: <code>python run_crossed.py</code> then <code>python crossed_panel.py</code>.</p>
+
 <hr>
 <p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="construct-validity.html">construct validity</a> · <a href="#top">top ↑</a></p>
-<p class="small" id="refs">Methods note. Difference-in-differences on paired within-conversation score deltas; significance by 10,000-permutation label-shuffle null; uncertainty by 10,000-sample paired percentile bootstrap (seeded, deterministic). Self-preference framing follows the LLM-evaluator literature on judges recognizing and favoring their own generations (e.g., Panickssery et al. 2024; Zheng et al. 2023). All scores are LLM-judge ratings of 48 conversations; family is confounded with tutor quality in this panel, so magnitudes are indicative and the estimate is one-sided (Anthropic-judge side). Reproducible from saved scores via <code>python judge_bias.py</code>.</p>
+<p class="small" id="refs">Methods note. Difference-in-differences on paired within-conversation score deltas; significance by 10,000-permutation label-shuffle null; uncertainty by 10,000-sample paired percentile bootstrap (seeded, deterministic). Self-preference framing follows the LLM-evaluator literature on judges recognizing and favoring their own generations (e.g., Panickssery et al. 2024; Zheng et al. 2023). §3–§5 cover 48 frontier conversations in which family is confounded with tutor quality; §9 adds a crossed panel (70 conversations, family × tier) whose tier-controlled, stratified-permutation analysis is the corrected estimate. Reproducible from saved scores via <code>python judge_bias.py</code> (frontier) and <code>python run_crossed.py</code> → <code>python crossed_panel.py</code> (crossed panel).</p>
 
 </div>
 </body>

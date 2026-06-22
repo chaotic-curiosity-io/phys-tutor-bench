@@ -9,14 +9,19 @@ difficulty cancels; what remains is whether that delta is larger for judge A's o
 
 from __future__ import annotations
 
+import math
+
 from src.scenarios.schema import ConversationScore, DimensionScore
 from src.validation.judge_bias import (
     model_family,
+    tier_of,
     align_judges,
     paired_deltas,
     difference_in_differences,
     permutation_test,
     ceiling_rates,
+    tier_controlled_family_effect,
+    stratified_permutation_test,
 )
 
 DIMS = ["misconception_diagnosis", "scaffolding_strategy", "answer_disclosure_restraint",
@@ -88,3 +93,53 @@ def test_ceiling_rate_counts_max_scores_per_judge_family():
     rates = ceiling_rates(align_judges(a, b))
     assert rates["a"]["anthropic"] == 1.0     # judge A: 6/6 at ceiling
     assert rates["b"]["anthropic"] == 0.0     # judge B: 0/6
+
+
+def test_tier_of_maps_models():
+    assert tier_of("claude-opus-4-8") == "strong"
+    assert tier_of("gpt-5.5") == "strong"
+    assert tier_of("gpt-4o") == "weak"
+    assert tier_of("claude-haiku-4-5-weak") == "weak"
+    assert tier_of("mystery-model") == "unknown"
+
+
+def _row(family, tier, delta, comp_b=3.0):
+    # a row as produced by align_judges; these analyses only read family/tier/a_comp/b_comp.
+    return {"family": family, "tier": tier, "a_comp": comp_b + delta, "b_comp": comp_b,
+            "tutor": f"{family}-{tier}", "conversation_id": "x", "a_dims": {}, "b_dims": {}}
+
+
+def test_tier_controlled_effect_averages_within_tier_contrasts():
+    rows = (
+        [_row("anthropic", "strong", 0.5)] * 2 + [_row("openai", "strong", 0.1)] * 2 +  # strong contrast 0.4
+        [_row("anthropic", "weak", 0.3)] * 2 + [_row("openai", "weak", 0.1)] * 2        # weak contrast 0.2
+    )
+    res = tier_controlled_family_effect(rows, "anthropic", "openai")
+    assert math.isclose(res["per_tier_contrast"]["strong"], 0.4, rel_tol=1e-9)
+    assert math.isclose(res["per_tier_contrast"]["weak"], 0.2, rel_tol=1e-9)
+    assert math.isclose(res["tier_controlled_effect"], 0.3, rel_tol=1e-9)
+
+
+def test_tier_control_collapses_a_pure_quality_confound():
+    # Delta is driven by TIER (strong=0.4, weak=0.0), and family is confounded with tier
+    # (anthropic mostly strong, openai mostly weak). Naive DiD looks positive; controlled = 0.
+    rows = (
+        [_row("anthropic", "strong", 0.4)] * 3 + [_row("openai", "strong", 0.4)] * 1 +
+        [_row("anthropic", "weak", 0.0)] * 1 + [_row("openai", "weak", 0.0)] * 3
+    )
+    naive = difference_in_differences(rows, "anthropic", "openai")
+    controlled = tier_controlled_family_effect(rows, "anthropic", "openai")["tier_controlled_effect"]
+    assert naive > 0.15                          # confounded: looks like a family effect
+    assert math.isclose(controlled, 0.0, abs_tol=1e-9)   # ...but it's entirely tier
+
+
+def test_stratified_permutation_is_deterministic():
+    rows = (
+        [_row("anthropic", "strong", 0.6)] * 6 + [_row("openai", "strong", 0.0)] * 6 +
+        [_row("anthropic", "weak", 0.6)] * 6 + [_row("openai", "weak", 0.0)] * 6
+    )
+    r1 = stratified_permutation_test(rows, "anthropic", "openai", n_perm=2000, seed=0)
+    r2 = stratified_permutation_test(rows, "anthropic", "openai", n_perm=2000, seed=0)
+    assert r1["observed"] == r2["observed"] and r1["p_value"] == r2["p_value"]
+    assert math.isclose(r1["observed"], 0.6, rel_tol=1e-9)
+    assert r1["p_value"] < 0.05
