@@ -62,7 +62,7 @@
 <body>
 <div class="wrap">
 
-<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a> &nbsp;·&nbsp; <a href="construct-validity.html">construct validity →</a></p>
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a> &nbsp;·&nbsp; <a href="construct-validity.html">construct validity →</a> &nbsp;·&nbsp; <a href="crossed-panel.html">crossed panel →</a></p>
 
 <h1>Does an LLM judge favor its own family?</h1>
 <p class="subtitle">Measuring self-preference in PhysTutorBench's dual-judge run — and an internal control that says the bias is real tutor-directed favoritism, not just generosity.</p>
@@ -161,6 +161,7 @@
 <p>It also tightens the <a href="bridge-probe.html">bridge probe</a> and the <a href="concept-paper.html">validity-bridge program</a>: if automated scores are to stand in for learning, the judge producing them must not quietly reward provenance. Measuring that bias is part of validating the metric, not a footnote to it.</p>
 
 <h2 id="crossed">9. Crossed-panel update — the correction</h2>
+<p class="small">Published in full as a standalone report: <a href="crossed-panel.html"><b>The crossed panel: is judge self-preference real, or quality leniency? →</b></a></p>
 <p>§6 named the fix: family was confounded with quality (every strong tutor was Anthropic, the one weak tutor OpenAI), so the +0.25 "self-preference" could equally be the Opus judge being lenient at the <em>top</em> of the scale. We ran the crossed panel to separate them, adding two tutors so each family appears in both tiers:</p>
 <ul>
 <li><b>gpt-5.5</b> — a <em>strong</em> OpenAI tutor (default prompt, like the frontier tutors).</li>
@@ -198,7 +199,7 @@
 <p class="small">Run-specific caveats: gpt-5.5 served as both a tutor and judge B, so its own-tutor scores are partly self-judged — if anything that <em>inflates</em> the apparent within-strong Anthropic lean, so the true family effect is likely even smaller. gpt-5.5 completed 10/12 scenarios (2 dropped on an empty-content API error); the weak-Anthropic cell is weak by prompt, not capability. n = 70, single domain. Reproduce: <code>python run_crossed.py</code> then <code>python crossed_panel.py</code>.</p>
 
 <hr>
-<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="construct-validity.html">construct validity</a> · <a href="#top">top ↑</a></p>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="construct-validity.html">construct validity</a> · <a href="crossed-panel.html">crossed panel</a> · <a href="#top">top ↑</a></p>
 <p class="small" id="refs">Methods note. Difference-in-differences on paired within-conversation score deltas; significance by 10,000-permutation label-shuffle null; uncertainty by 10,000-sample paired percentile bootstrap (seeded, deterministic). Self-preference framing follows the LLM-evaluator literature on judges recognizing and favoring their own generations (e.g., Panickssery et al. 2024; Zheng et al. 2023). §3–§5 cover 48 frontier conversations in which family is confounded with tutor quality; §9 adds a crossed panel (70 conversations, family × tier) whose tier-controlled, stratified-permutation analysis is the corrected estimate. Reproducible from saved scores via <code>python judge_bias.py</code> (frontier) and <code>python run_crossed.py</code> → <code>python crossed_panel.py</code> (crossed panel).</p>
 
 </div>

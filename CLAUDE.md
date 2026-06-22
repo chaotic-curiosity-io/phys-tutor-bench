@@ -88,6 +88,7 @@ MD (misconception diagnosis), SS (scaffolding), ADR (answer-disclosure restraint
 - `bridge-probe.html` — in-silico bridge probe: does tutoring process predict (simulated) transfer? cross-judge + range-restriction; built by `bridge_probe.py` from `docs/bridge_probe.json`
 - `judge-bias.html` — judge self-preference: does an LLM judge favor its own model family? paired DiD on the dual-judge run; built by `judge_bias.py` from `docs/judge_bias.json`
 - `construct-validity.html` — construct validity / redundancy: are the six dimensions distinct? within-judge α/PCA vs cross-judge MTMM; built by `construct_probe.py` from `docs/construct_probe.json`
+- `crossed-panel.html` — the paid crossed-panel correction: controlling for tutor quality (a family×tier 2×2), the judge self-preference effect does NOT survive (−0.04, p=0.71); only PHA retains it (+0.36). Built from `docs/crossed_panel.json`; also summarized as §9 of `judge-bias.html`
 - `transcripts/` — every saved conversation rendered to HTML (scenario context, dialogue, per-judge scores + justifications). **Generated** by `python build_transcripts.py` from `results/` + `data/scenarios/`. Because `results/` is gitignored, the rendered HTML under `docs/transcripts/` is the committed/published artifact — re-run the script and commit it whenever new runs are added.
 - `research_corpus.json` — primary-source-verified evidence base behind the papers
 
