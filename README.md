@@ -14,6 +14,7 @@ All published via GitHub Pages at [`chaotic-curiosity-io.github.io/phys-tutor-be
 | **★** | [**Frontier models as tutors (dual-judge rerun)**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/frontier.html) | Opus 4.8 / Sonnet 4.6 / Haiku 4.5 / GPT-4o × the same 12 scenarios, scored by **two** frontier judges (Opus 4.8 + GPT-5.5). Every frontier tutor beats the best local model; cross-judge ρ = 0.72 but the same-family judge shows a ceiling effect |
 | **📁** | [**All 96 transcripts**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/transcripts/) | Every conversation from both studies, rendered in full: scenario context, turn-by-turn dialogue, and each judge's six scores with justifications |
 | **🌉** | [**In-silico bridge probe**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/bridge-probe.html) | Zero-cost dry run of the keystone question: do the five tutoring-*process* dimensions predict simulated **Transfer Success**? Circularity-broken (one judge's process vs the *other* judge's transfer) + range-restriction correction → process predicts transfer at **r ≈ 0.68–0.75** across 144 already-scored conversations. Motivates the v3 bridge study; does not replace it |
+| **⚖️** | [**Judge self-preference**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html) | Does an LLM judge favor its own model family? Paired difference-in-differences on the dual-judge run: the Opus judge inflates Anthropic tutors by **~0.25** composite points (p = 0.025), scoring **93.5%** of its own family's dimensions at the maximum — and the bias spares the one *student*-directed dimension (a clean internal control). Why same-family judges need a cross-family check |
 | **v2** | [**PER-grounded methodology**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html) | Validity critique of v1 + tiered methodology (process → measured learning gains) + annotated literature corpus + instantiable study kit |
 | **v3** | [**Validity-bridge implementation plan**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html) | Preregisterable protocol — *does any automated tutoring score predict real learning?* Two bridge estimators, decision gates, phased roadmap |
 | **📄** | [**Concept paper / prospectus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html) | Fundable, PER-publication-grade prospectus for the validity-bridge study; honest novelty vs. recent AI-tutor RCTs; phased funding case |
@@ -56,6 +57,10 @@ All 96 conversations (this run's 48 + v1's 48) are **published as full transcrip
 ### 🌉 Companion: **[In-silico bridge probe — does tutoring process predict transfer?](https://chaotic-curiosity-io.github.io/phys-tutor-bench/bridge-probe.html)**
 
 The benchmark's funding case rests on an unproven claim — that an automated *process* score predicts real *learning*. The definitive test needs human pre/post gains (the [v3 bridge study](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html)). But the benchmark already scores a *simulated* outcome — **Transfer Success** — so the bridge's logic can be run in-silico for **$0** on the 144 conversations already scored. The naive process↔transfer correlation is circular (one judge scores both from one transcript); we break it by regressing **one judge's process composite against the *other* judge's transfer score**. Circularity-broken and range-restricted it is **r = 0.37** (ρ = 0.52); corrected for range restriction **≈ 0.68**; an independent wide-range estimate **0.75** — two methods with opposite biases converging on **r ≈ 0.7**. Process quality here is not merely stylistic; it tracks the (simulated) outcome across independent raters. Honest caveat: simulated transfer ≠ measured human learning, so this *motivates* the bridge study, it doesn't substitute for it. Reproduce: `python bridge_probe.py` (no new API calls).
+
+### ⚖️ Companion: **[Judge self-preference — does an LLM judge favor its own family?](https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html)**
+
+The dual-judge design exists to catch a judge over-rewarding its own kind. It does. A paired **difference-in-differences** on the within-conversation score gap (Opus judge − GPT-5.5 judge) cancels conversation difficulty and overall leniency; what remains is family-aligned disagreement. Result: relative to the cross-family GPT judge, the Opus judge inflates **Anthropic** tutors by **+0.31** composite points but the lone OpenAI tutor by only **+0.06** — a DiD of **+0.25** (permutation p = 0.025, 95% CI [+0.05, +0.46]). The mechanism is a ceiling: the Opus judge rates **93.5%** of its own family's dimensions at the maximum 4 and hands the Opus *tutor* a literal 4.000. The cleanest evidence it's genuine favoritism and not generic generosity: of the six dimensions, five judge the *tutor* (DiD +0.17 to +0.64) and one — Transfer Success — judges the *fixed student model* and shows **−0.08, none**. Honest limit: family is confounded with quality in this panel (all Anthropic tutors strong, the one OpenAI tutor weak), so the magnitude is an upper bound and the effect is one-sided; a crossed panel is the fix. Reproduce: `python judge_bias.py` (no new API calls).
 
 ### 🧪 Companion: **[PhysTutorBench v2 — a PER-grounded methodology](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html)**
 
@@ -134,6 +139,9 @@ python estimate_cost.py
 # In-silico validity-bridge probe: does process predict (simulated) transfer? (no new calls)
 python bridge_probe.py
 
+# Judge self-preference: does each judge over-reward its own model family? (no new calls)
+python judge_bias.py
+
 # Launch human annotation interface
 phystutor annotate --conversations results/sample/
 
@@ -157,7 +165,7 @@ phystutor-bench/
 │   ├── scoring/                      # Rubric, LLM judge, scorecard
 │   ├── validation/                   # Annotation interface, agreement, validity
 │   └── cli.py                        # CLI entry point
-├── tests/                            # 111 tests across all subsystems
+├── tests/                            # 117 tests across all subsystems
 └── results/                          # Generated at runtime
 ```
 
