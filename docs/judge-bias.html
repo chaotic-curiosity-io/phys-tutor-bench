@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhysTutorBench — Judge self-preference: does an LLM judge favor its own family?</title>
+<link rel="canonical" href="https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html">
+<meta name="description" content="A paired difference-in-differences analysis of PhysTutorBench's dual-judge frontier run. Relative to the cross-family GPT-5.5 judge, the Claude Opus judge inflates Anthropic tutors by ~0.25 composite points (p=0.025), scoring 93.5% of its own family's dimensions at the maximum. The signal concentrates in the subjective tutor-directed dimensions and vanishes on the objective student-directed one — an internal control that partly rebuts the quality confound. Why same-family LLM judges can't be trusted for same-family leaderboard claims.">
+<meta name="author" content="chaoticcuriosity-io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Does an LLM judge favor its own family? Measuring self-preference in PhysTutorBench">
+<meta property="og:description" content="Paired difference-in-differences on a dual-judge run: the Opus judge inflates Anthropic tutors by ~0.25 points (p=0.025), 93.5% of its own family's scores at ceiling. The bias lives in the subjective dimensions and spares the one objective control.">
+<meta property="og:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/judge_bias.png">
+<meta property="og:url" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html">
+<meta property="og:site_name" content="PhysTutorBench">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Does an LLM judge favor its own family? (self-preference probe)">
+<meta name="twitter:description" content="Dual-judge difference-in-differences: the Opus judge inflates Anthropic tutors ~0.25 pts (p=0.025), 93.5% at ceiling. Bias concentrates in subjective dimensions, spares the objective control.">
+<meta name="twitter:image" content="https://chaotic-curiosity-io.github.io/phys-tutor-bench/assets/judge_bias.png">
+<style>
+  :root{--ink:#1a1a1a;--muted:#5b5b5b;--rule:#d9d9d9;--accent:#1f5673;--accent2:#7a1f2b;--bg:#fbfbf9;--code:#f3f3ef;--ok:#1f6f43;--warn:#9a6a00;--bad:#9a2a2a}
+  *{box-sizing:border-box}
+  html{font-size:17px;scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.62}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 28px 120px}
+  h1,h2,h3,h4,.sans,table,figcaption,.meta,.tag,.toc,.callout,pre{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  h1{font-size:1.95rem;line-height:1.2;margin:0 0 .35em;letter-spacing:-.01em}
+  .subtitle{font-size:1.05rem;color:var(--muted);font-style:italic;margin:0 0 1.3em;font-family:Georgia,serif}
+  .meta{font-size:.88rem;color:var(--muted);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0;margin:0 0 1.6em}
+  .meta b{color:var(--ink)}
+  h2{font-size:1.4rem;margin:2.4em 0 .5em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+  h3{font-size:1.13rem;margin:1.7em 0 .35em;color:var(--accent)}
+  h4{font-size:1rem;margin:1.2em 0 .3em;color:var(--accent2)}
+  p{margin:.55em 0;font-family:Georgia,serif}
+  li{margin:.3em 0;font-family:Georgia,serif}
+  a{color:var(--accent)}
+  table{border-collapse:collapse;width:100%;margin:1.1em 0;font-size:.83rem}
+  th,td{border:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1f3;font-weight:600}
+  tbody tr:nth-child(even){background:#f7f7f3}
+  code,kbd{font-family:"SF Mono",Consolas,Menlo,monospace;font-size:.82em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font-size:.74rem;line-height:1.45;border-radius:4px}
+  .abstract{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--accent);padding:18px 22px;margin:1.4em 0;font-size:.97rem}
+  .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.4em}
+  .callout{background:#fff5e6;border:1px solid #e8c48a;border-radius:4px;padding:12px 16px;font-size:.9rem;margin:1.2em 0}
+  .callout.bad{background:#fdecec;border-color:#e6a6a6}
+  .callout.ok{background:#eaf5ee;border-color:#a9d5ba}
+  .toc{font-size:.9rem;background:#fff;border:1px solid var(--rule);padding:14px 22px;border-radius:4px;columns:2;column-gap:30px}
+  .toc a{text-decoration:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .small{font-size:.85rem;color:var(--muted)}
+  figure{margin:1.4em 0;text-align:center}
+  figure img{max-width:100%;border:1px solid var(--rule);border-radius:4px;background:#fff}
+  figcaption{font-size:.8rem;color:var(--muted);margin-top:.5em}
+  hr{border:none;border-top:1px solid var(--rule);margin:2.4em 0}
+  .backlink{font-size:.85rem}
+  .pos{color:var(--bad);font-weight:600}
+  .zero{color:var(--ok);font-weight:600}
+  @media(max-width:620px){.toc{columns:1}html{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="backlink" id="top"><a href="index.html">← v1 report</a> &nbsp;·&nbsp; <a href="frontier.html">← frontier rerun</a> &nbsp;·&nbsp; <a href="bridge-probe.html">bridge probe</a> &nbsp;·&nbsp; <a href="methodology.html">v2 methodology</a> &nbsp;·&nbsp; <a href="concept-paper.html">concept paper →</a></p>
+
+<h1>Does an LLM judge favor its own family?</h1>
+<p class="subtitle">Measuring self-preference in PhysTutorBench's dual-judge run — and an internal control that says the bias is real tutor-directed favoritism, not just generosity.</p>
+
+<div class="meta">
+<b>Author:</b> chaoticcuriosity-io &nbsp;·&nbsp; <b>Status:</b> empirical note / methods probe &nbsp;·&nbsp; <b>Data:</b> the <a href="frontier.html">frontier dual-judge run</a> (48 conversations × 2 judges) &nbsp;·&nbsp; <b>Reproduce:</b> <code>python judge_bias.py</code> &nbsp;·&nbsp; <b>Companion to:</b> <a href="bridge-probe.html">bridge probe</a>
+</div>
+
+<div class="abstract">
+<div class="label" style="color:var(--accent)">The result in one paragraph</div>
+<p>The <a href="frontier.html">frontier run</a> scored every conversation with two independent judges — Claude Opus 4.8 (Anthropic) and GPT-5.5 (OpenAI) — precisely to catch a judge favoring its own kind. It did. Because both judges scored the <em>same</em> conversations, we take the within-conversation score difference (Opus − GPT), which cancels conversation difficulty and overall leniency, and ask whether that difference is larger for one family of tutors. It is: <b>relative to the GPT-5.5 judge, the Opus judge inflates Anthropic tutors by +0.31 composite points but the lone OpenAI tutor by only +0.06</b> — a difference-in-differences of <b>+0.25 points</b> (permutation <b>p = 0.025</b>, 95% CI [+0.05, +0.46]). The mechanism is a ceiling: the Opus judge awards the maximum score of 4 to <b>93.5%</b> of its own family's dimension ratings (vs 66.7% for the GPT judge), and hands the Opus <em>tutor</em> a literally perfect 4.000. The cleanest evidence that this is genuine favoritism and not mere generosity comes from an internal control: of the six dimensions, five judge the <em>tutor</em> and one — Transfer Success — judges the <em>student</em>, who is a fixed model identical across all tutors. The five tutor-directed dimensions show +0.17 to +0.64 own-family inflation; the student-directed one shows <b>−0.08, none</b>. Honest limit: in this panel family is confounded with quality (all Anthropic tutors are strong, the one OpenAI tutor is weak), so the magnitude is an upper bound and the reciprocal GPT-favors-GPT effect is not established here. The design recommendation is unambiguous: <b>never accept a same-family LLM judge's verdict on its own family without a cross-family check.</b></p>
+</div>
+
+<div class="toc">
+<a href="#why">1. Why dual judges</a><br>
+<a href="#design">2. The difference-in-differences design</a><br>
+<a href="#result">3. The self-preference signal</a><br>
+<a href="#control">4. The internal control (the key result)</a><br>
+<a href="#ceiling">5. The ceiling mechanism</a><br>
+<a href="#threats">6. The confound &amp; what this can't say</a><br>
+<a href="#repro">7. Reproduce it</a><br>
+<a href="#impl">8. Implications</a>
+</div>
+
+<h2 id="why">1. Why dual judges in the first place</h2>
+<p>LLM-as-judge evaluation has a documented failure mode: judges <a href="#refs">recognize and prefer their own generations</a>. PhysTutorBench scores tutors with an LLM judge, and three of its four frontier tutors are Claude models. If the judge is also a Claude model, any leaderboard it produces is suspect by construction. The <a href="frontier.html">frontier run</a> was built to expose exactly this — it scored all 48 conversations <em>twice</em>, once with Claude Opus 4.8 and once with GPT-5.5, so the two readings can be compared. This note runs that comparison.</p>
+
+<h2 id="design">2. The difference-in-differences design</h2>
+<p>The naive approach — "the Opus judge scores Claude tutors high, therefore it's biased" — is worthless, because Claude tutors may simply <em>be</em> better. The paired design fixes this. For each conversation <i>c</i> scored by both judges, define the within-conversation delta:</p>
+<p style="text-align:center"><b>d(c) = score<sub>Opus judge</sub>(c) − score<sub>GPT judge</sub>(c)</b></p>
+<p>Because both judges read the same transcript, <i>d(c)</i> nets out how hard the conversation was and how good the tutor was — those move both judges together. What survives in <i>d</i> is judge <em>disagreement</em>. Self-preference predicts that disagreement is family-aligned: the Opus judge should out-score the GPT judge <em>more</em> on its own family. So the estimand is a difference-in-differences:</p>
+<p style="text-align:center"><b>DiD = mean(d | Anthropic tutor) − mean(d | OpenAI tutor)</b></p>
+<p>DiD &gt; 0 means the Opus judge inflates Anthropic tutors relative to how the GPT judge sees them, beyond any inflation it applies to OpenAI tutors. We test it with a label-permutation null (shuffle the family tags, recompute the DiD 10,000 times) and bound it with a paired bootstrap.</p>
+
+<h2 id="result">3. The self-preference signal</h2>
+<table>
+<thead><tr><th>Tutor</th><th>Family</th><th class="num">Opus judge</th><th class="num">GPT-5.5 judge</th><th class="num">Opus − GPT</th></tr></thead>
+<tbody>
+<tr><td>claude-opus-4-8</td><td>Anthropic</td><td class="num">4.000</td><td class="num">3.696</td><td class="num">+0.304</td></tr>
+<tr><td>claude-sonnet-4-6</td><td>Anthropic</td><td class="num">3.917</td><td class="num">3.679</td><td class="num">+0.237</td></tr>
+<tr><td>claude-haiku-4-5</td><td>Anthropic</td><td class="num">3.838</td><td class="num">3.450</td><td class="num">+0.388</td></tr>
+<tr><td>gpt-4o</td><td>OpenAI</td><td class="num">2.958</td><td class="num">2.896</td><td class="num">+0.063</td></tr>
+</tbody>
+</table>
+<p>Aggregated by family: the Opus judge runs <b>+0.31</b> over the GPT judge on Anthropic tutors (n = 36) but only <b>+0.06</b> on the OpenAI tutor (n = 12).</p>
+<div class="callout"><b>DiD = +0.247 composite points</b> &nbsp;·&nbsp; permutation <b>p = 0.025</b> &nbsp;·&nbsp; bootstrap 95% CI <b>[+0.05, +0.46]</b>. The effect is statistically distinguishable from zero, but the interval is wide — with n = 48 and a 36/12 split, treat the point estimate as indicative and the <em>direction</em> as the robust part.</div>
+<p>Note the two judges <em>agree</em> on the outgroup: both score gpt-4o ≈ 2.9. The divergence is in-group <em>inflation</em>, not outgroup <em>derogation</em> — the Opus judge doesn't punish gpt-4o, it over-rewards its own family.</p>
+
+<h2 id="control">4. The internal control — the part that makes this more than "Opus is generous"</h2>
+<p>The obvious objection: maybe the Opus judge is just a softer grader on these conversations, with nothing to do with family. The per-dimension breakdown refutes the simplest version of that. Five of the six rubric dimensions judge the <b>tutor's</b> behavior. One — Transfer Success — judges the <b>student's</b> answer to a novel problem, and the student is a <b>fixed Claude Sonnet 4.6 model, identical in every conversation regardless of which tutor (or which family) taught it.</b></p>
+<table>
+<thead><tr><th>Dimension</th><th>Judges the…</th><th class="num">own-family DiD</th></tr></thead>
+<tbody>
+<tr><td>PHA · Pedagogical harm avoidance</td><td>tutor</td><td class="num pos">+0.64</td></tr>
+<tr><td>SS · Scaffolding strategy</td><td>tutor</td><td class="num pos">+0.39</td></tr>
+<tr><td>MD · Misconception diagnosis</td><td>tutor</td><td class="num pos">+0.28</td></tr>
+<tr><td>ADR · Answer-disclosure restraint</td><td>tutor</td><td class="num pos">+0.19</td></tr>
+<tr><td>CMB · Conceptual model building</td><td>tutor</td><td class="num pos">+0.17</td></tr>
+<tr><td><b>TS · Transfer success</b></td><td><b>student (fixed model)</b></td><td class="num zero">−0.08</td></tr>
+</tbody>
+</table>
+<p>The bias attaches to judging the tutor and <b>disappears exactly where the judged object is held constant.</b> A pure "Opus is lenient on good conversations" story cannot produce this pattern: Claude-tutored conversations also have high transfer, so generic leniency would inflate TS too — yet TS is the one dimension with no inflation. This is a discriminant-validity argument for the bias being <em>tutor-directed self-preference</em> rather than a conversation-level halo.</p>
+<p>And the gradient within the tutor dimensions is interpretable: the largest inflation is on <b>PHA (+0.64)</b>, the most holistic "is this tutor being good and safe" judgment with the most room for benefit-of-the-doubt, and the smallest is on the more checkable behaviors. Self-preference is largest where judgment is most discretionary.</p>
+
+<h2 id="ceiling">5. The ceiling mechanism</h2>
+<figure>
+<img src="assets/judge_bias.png" alt="Two bar charts. Left: mean composite by judge and tutor; the Opus judge (blue) exceeds the GPT judge (red) for the three Claude tutors but ties on gpt-4o. Right: percentage of dimension scores at the maximum of 4, by judge and family; the Opus judge reaches 93.5% on Anthropic tutors vs 66.7% for GPT, with a small gap on OpenAI.">
+<figcaption>Left: the own-family gap is visible for all three Claude tutors and absent for gpt-4o. Right: the mechanism — the Opus judge rates <b>93.5%</b> of Anthropic-tutor dimensions at the ceiling (4/4), losing the ability to discriminate among its own family; the GPT judge stays more spread out (66.7%). On the OpenAI tutor the two judges nearly agree.</figcaption>
+</figure>
+<p>Self-preference here is not a uniform additive bump — it is <b>ceiling compression</b>. The Opus judge collapses its own family toward a perfect 4, awarding the Opus tutor a flawless 4.000 across all six dimensions on average. That is also why it matters practically: a judge that puts 93% of its own family at the maximum cannot rank Anthropic tutors against each other at all.</p>
+
+<h2 id="threats">6. The confound, and what this cannot say</h2>
+<ul>
+<li><b>Family is confounded with quality.</b> All three Anthropic tutors are strong; the one OpenAI tutor (gpt-4o) is the weakest. So a positive DiD is consistent with self-preference <em>or</em> with a judge-specific leniency at the top of the scale. The <a href="#control">TS internal control</a> and the within-family pattern (the <em>weakest</em> Anthropic tutor, haiku, shows the <em>largest</em> delta, +0.39 — the opposite of what pure top-end ceiling-compression predicts) both push against the pure-leniency explanation, but cannot eliminate it. <b>The clean test needs a crossed panel: strong and weak tutors in both families.</b></li>
+<li><b>The effect is one-sided in this data.</b> We establish that the Opus judge inflates Anthropic tutors relative to the GPT judge. We do <em>not</em> establish the reciprocal — GPT favoring OpenAI — because there is exactly one OpenAI tutor and it is weak, and both judges agree on it. "Both judges are biased" is <em>not</em> shown; "the Anthropic judge over-rewards Anthropic tutors" is.</li>
+<li><b>Small N, wide interval.</b> 48 conversations, 36/12 family split, single domain. The CI [+0.05, +0.46] is honest about the imprecision; the sign and the ceiling pattern are the durable findings.</li>
+<li><b>Relative, not absolute.</b> The delta measures the two judges against <em>each other</em>, with no human ground truth. We can say the Opus judge is more generous to its family than the GPT judge is; we cannot say which judge is "correct."</li>
+</ul>
+
+<h2 id="repro">7. Reproduce it</h2>
+<pre>python judge_bias.py
+# -&gt; prints the tables above
+# -&gt; writes docs/judge_bias.json + docs/assets/judge_bias.png</pre>
+<p>Logic in <code>src/validation/judge_bias.py</code> (family mapping, paired alignment, difference-in-differences, seeded permutation test + bootstrap, ceiling rates); tests in <code>tests/test_judge_bias.py</code> pin the family mapping, the cross-judge join, the DiD sign on synthetic self-preference, permutation determinism, and the ceiling counter.</p>
+
+<h2 id="impl">8. Implications</h2>
+<p>This vindicates the dual-judge design and sharpens its rule of use. The single most load-bearing number in the <a href="frontier.html">frontier report</a> — the Opus tutor's leaderboard-topping composite — is, under its own-family Opus judge, a <b>ceilinged 4.000 that the cross-family GPT judge marks down to 3.70.</b> The lesson is not "the rankings are wrong" (both judges agree on the broad order) but "a same-family judge cannot be trusted for same-family <em>magnitudes</em> or fine-grained ranking." Three concrete carries:</p>
+<ul>
+<li><b>Always report a cross-family judge alongside an in-family one.</b> Where they diverge, the in-family number is the suspect.</li>
+<li><b>Prefer a cross-family or panel judge for any same-family comparison</b> — and treat a 90%+ ceiling rate as a red flag that the judge has lost resolution.</li>
+<li><b>The next run should cross the panel:</b> add a strong OpenAI (or other-family) tutor and a deliberately weak Anthropic one, so quality and family are no longer confounded and the self-preference estimate becomes clean and two-sided.</li>
+</ul>
+<p>It also tightens the <a href="bridge-probe.html">bridge probe</a> and the <a href="concept-paper.html">validity-bridge program</a>: if automated scores are to stand in for learning, the judge producing them must not quietly reward provenance. Measuring that bias is part of validating the metric, not a footnote to it.</p>
+
+<hr>
+<p class="backlink"><a href="index.html">v1 report</a> · <a href="frontier.html">frontier rerun</a> · <a href="bridge-probe.html">bridge probe</a> · <a href="methodology.html">v2 methodology</a> · <a href="v3-plan.html">v3 plan</a> · <a href="concept-paper.html">concept paper</a> · <a href="#top">top ↑</a></p>
+<p class="small" id="refs">Methods note. Difference-in-differences on paired within-conversation score deltas; significance by 10,000-permutation label-shuffle null; uncertainty by 10,000-sample paired percentile bootstrap (seeded, deterministic). Self-preference framing follows the LLM-evaluator literature on judges recognizing and favoring their own generations (e.g., Panickssery et al. 2024; Zheng et al. 2023). All scores are LLM-judge ratings of 48 conversations; family is confounded with tutor quality in this panel, so magnitudes are indicative and the estimate is one-sided (Anthropic-judge side). Reproducible from saved scores via <code>python judge_bias.py</code>.</p>
+
+</div>
+</body>
+</html>
