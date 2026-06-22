@@ -15,6 +15,7 @@ All published via GitHub Pages at [`chaotic-curiosity-io.github.io/phys-tutor-be
 | **📁** | [**All 96 transcripts**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/transcripts/) | Every conversation from both studies, rendered in full: scenario context, turn-by-turn dialogue, and each judge's six scores with justifications |
 | **🌉** | [**In-silico bridge probe**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/bridge-probe.html) | Zero-cost dry run of the keystone question: do the five tutoring-*process* dimensions predict simulated **Transfer Success**? Circularity-broken (one judge's process vs the *other* judge's transfer) + range-restriction correction → process predicts transfer at **r ≈ 0.68–0.75** across 144 already-scored conversations. Motivates the v3 bridge study; does not replace it |
 | **⚖️** | [**Judge self-preference**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html) | Does an LLM judge favor its own model family? Paired difference-in-differences on the dual-judge run: the Opus judge inflates Anthropic tutors by **~0.25** composite points (p = 0.025), scoring **93.5%** of its own family's dimensions at the maximum — and the bias spares the one *student*-directed dimension (a clean internal control). Why same-family judges need a cross-family check |
+| **🔬** | [**Construct validity & redundancy**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/construct-validity.html) | Are the six dimensions really six? Within a judge the rubric looks unidimensional (Cronbach α = **0.94**, PC1 = **79%**); a cross-judge multitrait-multimethod matrix removes halo → mean inter-dimension r drops **0.62 → 0.43**, dominant factor **79% → 54%**. Scaffolding/restraint/diagnosis are reliable & distinct (0.76–0.82); harm-avoidance fails to replicate across judges (**0.30**) — the same dimension most prone to self-preference |
 | **v2** | [**PER-grounded methodology**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html) | Validity critique of v1 + tiered methodology (process → measured learning gains) + annotated literature corpus + instantiable study kit |
 | **v3** | [**Validity-bridge implementation plan**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/v3-plan.html) | Preregisterable protocol — *does any automated tutoring score predict real learning?* Two bridge estimators, decision gates, phased roadmap |
 | **📄** | [**Concept paper / prospectus**](https://chaotic-curiosity-io.github.io/phys-tutor-bench/concept-paper.html) | Fundable, PER-publication-grade prospectus for the validity-bridge study; honest novelty vs. recent AI-tutor RCTs; phased funding case |
@@ -61,6 +62,10 @@ The benchmark's funding case rests on an unproven claim — that an automated *p
 ### ⚖️ Companion: **[Judge self-preference — does an LLM judge favor its own family?](https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html)**
 
 The dual-judge design exists to catch a judge over-rewarding its own kind. It does. A paired **difference-in-differences** on the within-conversation score gap (Opus judge − GPT-5.5 judge) cancels conversation difficulty and overall leniency; what remains is family-aligned disagreement. Result: relative to the cross-family GPT judge, the Opus judge inflates **Anthropic** tutors by **+0.31** composite points but the lone OpenAI tutor by only **+0.06** — a DiD of **+0.25** (permutation p = 0.025, 95% CI [+0.05, +0.46]). The mechanism is a ceiling: the Opus judge rates **93.5%** of its own family's dimensions at the maximum 4 and hands the Opus *tutor* a literal 4.000. The cleanest evidence it's genuine favoritism and not generic generosity: of the six dimensions, five judge the *tutor* (DiD +0.17 to +0.64) and one — Transfer Success — judges the *fixed student model* and shows **−0.08, none**. Honest limit: family is confounded with quality in this panel (all Anthropic tutors strong, the one OpenAI tutor weak), so the magnitude is an upper bound and the effect is one-sided; a crossed panel is the fix. Reproduce: `python judge_bias.py` (no new API calls).
+
+### 🔬 Companion: **[Construct validity — are the six dimensions really six?](https://chaotic-curiosity-io.github.io/phys-tutor-bench/construct-validity.html)**
+
+A redundancy audit of the rubric. Within a single judge the six dimensions look like one factor: Cronbach **α = 0.94**, first principal component **79%** of variance, six dimension-pairs above r = 0.8 (MD–CMB = 0.93). But one judge rating all six from one transcript manufactures **halo**. A cross-judge **multitrait-multimethod** matrix (one judge's dimension vs the *other* judge's) removes it: on the same 48 conversations, mean inter-dimension correlation drops **0.62 → 0.43** and the dominant factor **79% → 54%**, while same-dimension cross-judge agreement beats cross-dimension on **52/60** Campbell–Fiske comparisons. The rubric carries real multidimensional signal — unevenly: SS/ADR/MD are reliable & distinct (cross-judge **0.76–0.82**), CMB is weak (0.49), and **PHA fails to replicate (0.30)** — the very dimension with the largest self-preference inflation in the [judge-bias study](https://chaotic-curiosity-io.github.io/phys-tutor-bench/judge-bias.html). Reproduce: `python construct_probe.py` (no new API calls).
 
 ### 🧪 Companion: **[PhysTutorBench v2 — a PER-grounded methodology](https://chaotic-curiosity-io.github.io/phys-tutor-bench/methodology.html)**
 
@@ -142,6 +147,9 @@ python bridge_probe.py
 # Judge self-preference: does each judge over-reward its own model family? (no new calls)
 python judge_bias.py
 
+# Construct validity / redundancy: are the six dimensions distinct, or one factor? (no new calls)
+python construct_probe.py
+
 # Launch human annotation interface
 phystutor annotate --conversations results/sample/
 
@@ -165,7 +173,7 @@ phystutor-bench/
 │   ├── scoring/                      # Rubric, LLM judge, scorecard
 │   ├── validation/                   # Annotation interface, agreement, validity
 │   └── cli.py                        # CLI entry point
-├── tests/                            # 117 tests across all subsystems
+├── tests/                            # 123 tests across all subsystems
 └── results/                          # Generated at runtime
 ```
 
